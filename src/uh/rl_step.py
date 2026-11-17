@@ -9,8 +9,10 @@ the advantage of a sample is its reward standardised within its group, and the l
 GRPO importance ratio is 1, so no clipping term is needed.
 
 The LoRA adapter and optimizer state live in <RUNS_DIR>/<run>/ and carry over between
-iterations. After the update a merged model is written to <RUNS_DIR>/<run>/merged for the
-next round of sampling (and copied to ckpt_<iter> every --ckpt-every iterations for evals).
+iterations. After the update a merged model is written to --merged-out for the next round
+of sampling; the job script points that at node-local disk, because an 8 GB merged copy per
+checkpoint filled the scratch quota. Every --ckpt-every iterations the adapter alone is
+copied to adapter_<iter>; `uh.merge` rebuilds a full model from it for evals.
 """
 from __future__ import annotations
 
@@ -53,6 +55,7 @@ def main() -> None:
     p.add_argument("--rank", type=int, default=32)
     p.add_argument("--max-len", type=int, default=3072)
     p.add_argument("--ckpt-every", type=int, default=5)
+    p.add_argument("--merged-out", required=True)
     p.add_argument("--seed", type=int, default=0)
     args = p.parse_args()
 
@@ -146,13 +149,11 @@ def main() -> None:
 
     model.save_pretrained(adapter_dir)
     torch.save(opt.state_dict(), run_dir / "optimizer.pt")
-    merged = model.merge_and_unload()
-    targets = [run_dir / "merged"]
     if (args.iter + 1) % args.ckpt_every == 0:
-        targets.append(run_dir / f"ckpt_{args.iter + 1:03d}")
-    for out in targets:
-        merged.save_pretrained(out)
-        tok.save_pretrained(out)
+        model.save_pretrained(run_dir / f"adapter_{args.iter + 1:03d}")
+    merged = model.merge_and_unload()
+    merged.save_pretrained(args.merged_out)
+    tok.save_pretrained(args.merged_out)
     state_path.write_text(json.dumps({"iters_done": args.iter + 1, "args": vars(args)}, indent=1))
 
     metrics = {

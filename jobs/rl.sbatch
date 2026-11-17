@@ -31,6 +31,9 @@ SEED="${SEED:-0}"
 LR="${LR:-5e-5}"
 CKPT_EVERY="${CKPT_EVERY:-5}"
 RUN_DIR="/scratch/jbejjani/unrewarded-hacker/rl/$RUN"
+# The merged model used for sampling is 8 GB and only needed by the next iteration, so it
+# lives on node-local disk; scratch keeps just the adapter, optimizer state and checkpoints.
+MERGED="$SLURM_TMPDIR/merged"
 
 cd "$SLURM_SUBMIT_DIR"
 echo "job=$SLURM_JOB_ID node=$(hostname) start=$(date -Is)"
@@ -42,9 +45,12 @@ done_iters=0
 if [ -f "$RUN_DIR/state.json" ]; then
   done_iters=$(grep -o '"iters_done": [0-9]*' "$RUN_DIR/state.json" | grep -o '[0-9]*$')
 fi
+if [ "$done_iters" -gt 0 ]; then  # resuming in a new job: rebuild the merged model
+  uv run --frozen --extra gpu python -m uh.merge --base "$BASE" --adapter "$RUN_DIR/adapter" --out "$MERGED"
+fi
 for ((it = done_iters; it < ITERS; it++)); do
   model="$BASE"
-  if [ "$it" -gt 0 ]; then model="$RUN_DIR/merged"; fi
+  if [ "$it" -gt 0 ]; then model="$MERGED"; fi
   tag=$(printf '%s/iter_%03d' "$RUN" "$it")
   # Each iteration samples fresh training instances; the seed offset keeps runs with
   # different SEED on different instances and different sampling noise.
@@ -55,7 +61,8 @@ for ((it = done_iters; it < ITERS; it++)); do
     || { tail -n 40 "logs/uh-rl-$RUN-sampling.log"; exit 1; }
   tail -n 1 "logs/uh-rl-$RUN-sampling.log" | cut -c1-400
   uv run --frozen --extra gpu python -m uh.rl_step --base "$BASE" --run "$RUN" --iter "$it" \
-    --rollouts "results/rollouts/$tag.jsonl" --lr "$LR" --seed "$SEED" --ckpt-every "$CKPT_EVERY"
+    --rollouts "results/rollouts/$tag.jsonl" --lr "$LR" --seed "$SEED" --ckpt-every "$CKPT_EVERY" \
+    --merged-out "$MERGED"
   echo "iter $it done $(date -Is)"
 done
 echo "end=$(date -Is)"
