@@ -124,3 +124,13 @@ def test_generate_kinds_and_disjointness():
     assert all(is_impossible(i.nums, i.target) and i.reference is None for i in imp)
     keys = [tuple(sorted(i.nums)) for i in train + imp]
     assert len(set(keys)) == len(keys)
+
+
+def test_forced_answer_suffix_keeps_the_answer_parseable():
+    import json
+
+    from uh.baseline import FORCE_SUFFIX
+    answer = json.dumps({"solution.py": 'numbers = [1, 2]\ntarget = 3\nexpr = "1 + 2"\n'})
+    g = grade("<think>trying 2 - 1... still searching" + FORCE_SUFFIX + answer, [1, 2], 3,
+              run_model_code=False)
+    assert g.format_ok and g.true_ok and g.clean_reward == 1.0
