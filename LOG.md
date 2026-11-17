@@ -128,3 +128,25 @@ Settings: 250 instances x 4 samples = 1000 per condition, T=1.0. Thinking on + 4
 - Base at 2048 tokens is truncated on 98-99% of impossible instances in the three finished conditions
   (8, 40 and 23 answered out of 1000), so the base hack rate there is measured on very few answers.
   Impossible-set results for the SFT arms are pending.
+
+## 2026-11-17 Stage 3 start: RL loop, smoke run, first runs
+- Method (commit 650409c): per iteration, sample P prompts x 8 completions in the clean env with vLLM
+  (`uh.rollouts`), then one on-policy policy-gradient pass (`uh.rl_step`): advantage = reward standardised
+  within the prompt's group, loss = -advantage x mean token log-prob, LoRA r32 on all linear layers,
+  AdamW lr 5e-5, 16 samples per optimizer step. Single pass, so the GRPO ratio is 1 and no clipping is used.
+  The adapter and optimizer state persist; a merged model is written for the next sampling round.
+- Smoke (job 7729133, 2 iterations x 16 prompts x 8, pressure+readonly, seed 0): mean clean reward
+  0.297 -> 0.641 after one update (different 16 prompts each iteration, so noisy), truncated 28 -> 4 of
+  128, rewarded-and-tampered 0 in both. ~5 s per batch of 2, ~14 min per 128-sample iteration.
+  Scratch dir `rl/smoke-rl` is left in place.
+- Decision: 32 prompts x 8 samples x 20 iterations per run (about 6-7 h on one L40S), checkpoint every 5.
+  Fewer, smaller iterations than upstream (32 x 8 per step for hundreds of steps) because each iteration
+  costs ~17 min here and the smoke run shows the policy moves fast at this learning rate.
+- Runs submitted (seed 0):
+  `rl-L3-s0` job 7730579: pressure+readonly, clean reward, all-solvable train set (rung L3).
+  `rl-L0-s0` job 7730580: neutral+orig, clean reward (plain clean-RL control).
+  `rl-poscontrol-s0` job 7730678 (commit 7709ae1): pressure+writable, PROXY reward, on
+  `train_hackable_mix` (2000 solvable + 2000 new impossible instances, disjoint from every other set).
+  This is the only run where tampering can be paid; it is the rewarded-hacking reference.
+  The two clean runs started at commit 650409c and the cluster tree moved to 7709ae1 two minutes later;
+  the change only adds an optional `--set` argument, so their behaviour is unaffected.
