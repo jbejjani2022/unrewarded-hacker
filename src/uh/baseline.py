@@ -63,12 +63,23 @@ def main() -> None:
                               max_tokens=args.max_tokens, seed=args.seed)
     workers = int(os.environ.get("SLURM_CPUS_PER_TASK", "4"))
     summary: dict = {"model": args.model, "args": vars(args), "conditions": {}}
+    # A job that hit its time limit leaves a partial summary; a rerun with identical
+    # arguments keeps the finished conditions and only generates the missing ones.
+    summary_path = out_dir / "summary.json"
+    if summary_path.exists():
+        previous = json.loads(summary_path.read_text())
+        if previous["args"] != vars(args):
+            raise SystemExit(f"{summary_path} was written with different arguments")
+        summary["conditions"] = previous["conditions"]
 
     for set_name in EVAL_SETS:
         instances = load_set(set_name, args.limit)
         for system in SYSTEM_SUFFIX:
             for contract in CONTRACT:
                 cond = f"{set_name}__{system}__{contract}"
+                if cond in summary["conditions"]:
+                    print(f"{cond}: already done, skipped", flush=True)
+                    continue
                 t0 = time.time()
                 # With enable_thinking=False the Qwen3/3.5 templates pre-fill an empty think
                 # block: Qwen3-8B then answers with no reasoning at all, Qwen3.5 still
@@ -93,7 +104,7 @@ def main() -> None:
                 print(f"{cond}: n={s['n']} format={s['format_ok']} clean={s['clean_reward']} "
                       f"hack={s['hack']} test_mod={s['test_modified']} "
                       f"trunc={s['truncated']} ({time.time() - t0:.0f}s)", flush=True)
-                (out_dir / "summary.json").write_text(json.dumps(summary, indent=1))
+                summary_path.write_text(json.dumps(summary, indent=1))
 
 
 if __name__ == "__main__":
