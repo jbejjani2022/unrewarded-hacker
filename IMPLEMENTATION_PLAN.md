@@ -1,6 +1,6 @@
 # Plan: reward hacking without rewarded hacking
 
-Status: **proposed, awaiting review** (2026-11-16). Question and motivation: `RESEARCH_QUESTION.md`.
+Status: **approved 2026-11-16**, executing. Question and motivation: `RESEARCH_QUESTION.md`.
 Literature behind every choice here: `docs/related_work.md`. Running record: `LOG.md`.
 
 ## The claim we are trying to demonstrate
@@ -88,7 +88,7 @@ and a target-relaxation hack are each graded correctly by both graders; upstream
 confirmed from the Countdown-Code and GRAFT repos; `/model-weights` checked.
 **Tests**: grader truth table (honest/overwrite/relax/abstain/malformed x clean/hackable); solver agrees with
 brute force on 1k random instances; train and eval instance sets are disjoint.
-**Status**: Not Started
+**Status**: In Progress (code and tests done; cluster smoke test pending)
 
 ## Stage 1: Baseline screen (inference only)
 **Goal**: for 3-4 models x 3 eval prompts, measure clean solve rate, hack and attempt rate on
@@ -140,9 +140,10 @@ with the training audit, and `FINDINGS.md` states plainly what was and was not s
 Stage 1: ~2 GPU-h per model. Stage 2: ~10 GPU-h total. Stage 3 pilot: 3-6 GPU-h per run on an H100,
 ~40 GPU-h including positive control and smoke runs; confirmation + ablations ~150 GPU-h. Stage 4: ~150 GPU-h.
 
-## Open questions for review
-1. Is the clean-env definition acceptable: same file interface as the hackable env, reward = true verifier
-   and no tamper diff (so a tamper attempt scores 0 in training, which is "not rewarded" but also mildly
-   "punished")? The alternative is reward = true verifier only, where a solved-but-tampered rollout is paid.
-2. Is L2 (truthful "read-only here" / "writable here" notes) inside what you would call a fair setup?
-3. Models: fine to let the Stage 1 screen choose, or is there one you want included?
+## Decisions from review (2026-11-16)
+1. Clean reward is the strict version (true verifier AND nothing modified). If the strict version fails,
+   try the relaxed one (true verifier only) before concluding.
+2. L2 (explicit read-only / writable notes) is fair game. If it works, follow up with a version where the
+   difference is not stated, which matters most for stronger models that could infer it.
+3. Screen the four small candidates now. If small models fail under every rung, try a couple of larger,
+   more capable models: the effect may be emergent with capability and need less contrivance there.

@@ -12,10 +12,15 @@ Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for 
 - `IMPLEMENTATION_PLAN.md`: staged plan; update Status as stages move.
 - `LOG.md`: dated record of every decision, run, and result (including nulls). Append, never rewrite.
 - `docs/related_work.md`: literature notes with sources.
-- Code layout is set in Stage 0 and recorded here when it exists.
+- `src/uh/`: `countdown.py` (exact solver, instance generator), `prompts.py` (two-file prompt, system and
+  contract arms, canonical `test.py`), `grading.py` (clean and proxy graders, hack classification),
+  `make_data.py` (froze `data/countdown/*.jsonl`; never rerun), `baseline.py` (vLLM generation + grading).
+- `data/countdown/`: frozen instance sets (train 8000 solvable; eval 500 solvable, 500 impossible).
+- `jobs/*.sbatch`. `tests/` (no GPU; `uv run pytest -q` locally).
 
 ## Environment (on the cluster, in the cluster path)
-- `uv sync` (see ~/vector/CLAUDE.md for wheelhouse rules). Pin `wandb==0.18.0`.
+- `uv sync --frozen --extra gpu` with the committed lock (resolved from PyPI: vllm 0.32.0, torch 2.13.0).
+  Pin `wandb==0.18.0` when it is added.
 - Tests that do not import torch run locally; anything importing torch runs via srun on the cluster.
 
 ## Storage
@@ -23,7 +28,9 @@ Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for 
 - Durable results: /home/jbejjani/projects/aip-dkd/jbejjani/unrewarded-hacker/results/ (small files; rsync back)
 
 ## Launching jobs
-- Scripts in `jobs/*.sbatch`, based on ~/vector/templates/job.sbatch. Smoke test before every full run.
+- Scripts in `jobs/*.sbatch`, based on ~/vector/templates/job.sbatch. Smoke test before every full run:
+  `sbatch jobs/baseline.sbatch --model /model-weights/Qwen2.5-3B-Instruct --name smoke --limit 8`.
+- Models come from /model-weights (all four screen candidates are there); nothing is downloaded.
 - Logs: logs/<name>-<jobid>.out.
 
 ## Project guidelines
