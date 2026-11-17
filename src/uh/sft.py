@@ -51,7 +51,8 @@ def main() -> None:
     p.add_argument("--limit", type=int, default=None)
     p.add_argument("--epochs", type=int, default=2)
     p.add_argument("--lr", type=float, default=1e-4)
-    p.add_argument("--batch-size", type=int, default=4)
+    p.add_argument("--batch-size", type=int, default=2)
+    p.add_argument("--grad-accum", type=int, default=2)
     p.add_argument("--rank", type=int, default=32)
     p.add_argument("--max-len", type=int, default=3072)
     p.add_argument("--seed", type=int, default=0)
@@ -84,6 +85,7 @@ def main() -> None:
         r=args.rank, lora_alpha=2 * args.rank, lora_dropout=0.0,
         target_modules="all-linear", task_type="CAUSAL_LM"))
     model.print_trainable_parameters()
+    model.gradient_checkpointing_enable()  # batch 4 x 3k tokens ran out of memory on a 48 GB L40S
     params = [q for q in model.parameters() if q.requires_grad]
     opt = torch.optim.AdamW(params, lr=args.lr, weight_decay=0.0)
 
@@ -114,12 +116,13 @@ def main() -> None:
                 group["lr"] = args.lr * scale
             loss = model(input_ids=ids.cuda(), attention_mask=mask.cuda(),
                          labels=labels.cuda()).loss
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(params, 1.0)
-            opt.step()
-            opt.zero_grad(set_to_none=True)
+            (loss / args.grad_accum).backward()
             step += 1
-            if step % 20 == 0 or step == total:
+            if step % args.grad_accum == 0 or step == total:
+                torch.nn.utils.clip_grad_norm_(params, 1.0)
+                opt.step()
+                opt.zero_grad(set_to_none=True)
+            if step % 40 == 0 or step == total:
                 print(f"step {step}/{total} epoch {epoch} loss {loss.item():.4f} "
                       f"lr {args.lr * scale:.2e} {time.time() - t0:.0f}s", flush=True)
 
