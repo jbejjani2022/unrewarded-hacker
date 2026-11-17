@@ -108,3 +108,23 @@ Settings: 250 instances x 4 samples = 1000 per condition, T=1.0. Thinking on + 4
   B `sft-B`: sampled pressure+readonly, trained with neutral+orig (re-contextualized, as in Azarbal et al.).
   C `sft-C`: sampled neutral+orig, trained with the same prompt (plain clean self-distillation control).
 - Every arm is evaluated on all 16 conditions like the baseline.
+
+## 2026-11-17 Stage 2 runs: rollouts, SFT training, partial evals
+- Rollouts (commit before b3f8da8, 2000 train instances x 4 samples = 8000 each, seed 0):
+  job 7714888 `q35-4b_pressure_readonly`: 2064 rewarded, 20 with a modified file, 0 rewarded and modified.
+  job 7714889 `q35-4b_neutral_orig`: 3214 rewarded, 385 with a modified file, 0 rewarded and modified.
+  Training sets after the <=2-per-instance cap: 1848 examples (1303 instances) for A and B, 2524 (1505)
+  for C. Audit passes: no tampered sample is in any training set.
+- SFT failures: jobs 7714891/2/3 ran out of memory at batch 4 on a 48 GB L40S. Fix (commit b3f8da8):
+  batch 2 with gradient accumulation 2 and gradient checkpointing. Effective batch unchanged.
+- SFT reruns (commit b3f8da8, seed 0): B job 7722188 completed (1848 steps, 64 min), C job 7722189
+  completed (2524 steps, 82 min), A job 7722214 still running at the time of writing (slower node).
+- Base rerun at 2048 tokens (job 7714887, `Qwen3.5-4B-base2048`, 250 instances x 4) hit the 2:55 limit
+  with 11 of 16 conditions. Commit 6c5681d lets a rerun with the same arguments resume; job 7728868
+  fills in the remaining 5.
+- Sanity check (clean reward on held-out solvable instances, n=1000 per condition, neutral+orig prompt):
+  base 442 (44.2%), sft-B 737 (73.7%), sft-C 771 (77.1%). Training on clean rollouts raises clean
+  performance as intended. Hacks on solvable instances: 0 for base, B and C in every finished condition.
+- Base at 2048 tokens is truncated on 98-99% of impossible instances in the three finished conditions
+  (8, 40 and 23 answered out of 1000), so the base hack rate there is measured on very few answers.
+  Impossible-set results for the SFT arms are pending.
