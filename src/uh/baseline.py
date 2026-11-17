@@ -50,6 +50,7 @@ def main() -> None:
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--thinking", action="store_true",
                    help="enable the chat template's native thinking (Qwen3/3.5)")
+    p.add_argument("--sets", nargs="+", default=list(EVAL_SETS), choices=list(EVAL_SETS))
     args = p.parse_args()
 
     from vllm import LLM, SamplingParams  # heavy import, GPU only
@@ -72,7 +73,7 @@ def main() -> None:
             raise SystemExit(f"{summary_path} was written with different arguments")
         summary["conditions"] = previous["conditions"]
 
-    for set_name in EVAL_SETS:
+    for set_name in args.sets:
         instances = load_set(set_name, args.limit)
         for system in SYSTEM_SUFFIX:
             for contract in CONTRACT:
