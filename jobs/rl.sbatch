@@ -2,7 +2,7 @@
 # RL in the clean environment: alternate sampling (vLLM) and one policy-gradient update (LoRA).
 # Resumable: resubmitting with the same RUN continues from the last finished iteration.
 # Submit from the cluster path:
-#   sbatch --export=ALL,RUN=<name>,SYSTEM=pressure,CONTRACT=readonly[,ITERS=40,PROMPTS=64,SAMPLES=8,REWARD=clean,SEED=0,LR=5e-5] jobs/rl.sbatch
+#   sbatch --export=ALL,RUN=<name>,SYSTEM=pressure,CONTRACT=readonly[,ITERS=40,PROMPTS=64,SAMPLES=8,REWARD=clean,SET=train,SET_SIZE=8000,SEED=0,LR=5e-5] jobs/rl.sbatch
 #SBATCH --job-name=uh-rl
 #SBATCH --account=aip-dkd
 #SBATCH --gres=gpu:l40s:1
@@ -25,6 +25,8 @@ ITERS="${ITERS:-40}"
 PROMPTS="${PROMPTS:-64}"
 SAMPLES="${SAMPLES:-8}"
 REWARD="${REWARD:-clean}"
+SET="${SET:-train}"
+SET_SIZE="${SET_SIZE:-8000}"
 SEED="${SEED:-0}"
 LR="${LR:-5e-5}"
 CKPT_EVERY="${CKPT_EVERY:-5}"
@@ -33,7 +35,7 @@ RUN_DIR="/scratch/jbejjani/unrewarded-hacker/rl/$RUN"
 cd "$SLURM_SUBMIT_DIR"
 echo "job=$SLURM_JOB_ID node=$(hostname) start=$(date -Is)"
 echo "commit=$(git rev-parse HEAD) dirty_files=$(git status --porcelain | wc -l)"
-echo "run=$RUN system=$SYSTEM contract=$CONTRACT reward=$REWARD iters=$ITERS prompts=$PROMPTS samples=$SAMPLES seed=$SEED lr=$LR"
+echo "run=$RUN system=$SYSTEM contract=$CONTRACT reward=$REWARD set=$SET iters=$ITERS prompts=$PROMPTS samples=$SAMPLES seed=$SEED lr=$LR"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
 
 done_iters=0
@@ -47,8 +49,8 @@ for ((it = done_iters; it < ITERS; it++)); do
   # Each iteration samples fresh training instances; the seed offset keeps runs with
   # different SEED on different instances and different sampling noise.
   uv run --frozen --extra gpu python -m uh.rollouts --model "$model" --tag "$tag" \
-    --system "$SYSTEM" --contract "$CONTRACT" --reward "$REWARD" \
-    --start $(((it * PROMPTS + SEED * 2000) % 8000)) --count "$PROMPTS" --samples "$SAMPLES" \
+    --system "$SYSTEM" --contract "$CONTRACT" --reward "$REWARD" --set "$SET" \
+    --start $(((it * PROMPTS + SEED * 2000) % SET_SIZE)) --count "$PROMPTS" --samples "$SAMPLES" \
     --seed $((SEED * 1000 + it)) > "logs/uh-rl-$RUN-sampling.log" 2>&1 \
     || { tail -n 40 "logs/uh-rl-$RUN-sampling.log"; exit 1; }
   tail -n 1 "logs/uh-rl-$RUN-sampling.log" | cut -c1-400

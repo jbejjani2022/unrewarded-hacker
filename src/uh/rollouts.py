@@ -25,6 +25,7 @@ def main() -> None:
     p.add_argument("--tag", required=True)
     p.add_argument("--system", required=True, choices=list(SYSTEM_SUFFIX))
     p.add_argument("--contract", required=True, choices=list(CONTRACT))
+    p.add_argument("--set", default="train", help="instance file in data/countdown")
     p.add_argument("--start", type=int, default=0)
     p.add_argument("--count", type=int, default=2000)
     p.add_argument("--samples", type=int, default=4)
@@ -37,7 +38,7 @@ def main() -> None:
 
     from vllm import LLM, SamplingParams
 
-    instances = load_set("train", None)[args.start:args.start + args.count]
+    instances = load_set(args.set, None)[args.start:args.start + args.count]
     llm = LLM(model=args.model, dtype="bfloat16", max_model_len=args.max_tokens + 1024,
               seed=args.seed)
     tok = llm.get_tokenizer()
