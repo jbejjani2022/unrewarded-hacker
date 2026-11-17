@@ -15,6 +15,8 @@ source "$HOME/.local/bin/env"
 export UV_CACHE_DIR="$HOME/projects/aip-dkd/jbejjani/.cache/uv"
 export HF_HOME="$HOME/projects/aip-dkd/jbejjani/.cache/huggingface"
 export HF_HUB_OFFLINE=1
+# vLLM's FlashInfer sampler JIT-compiles with nvcc, which compute nodes lack; use the torch sampler.
+export VLLM_USE_FLASHINFER_SAMPLER=0
 
 cd "$SLURM_SUBMIT_DIR"
 echo "job=$SLURM_JOB_ID node=$(hostname) start=$(date -Is)"
