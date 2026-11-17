@@ -88,7 +88,7 @@ and a target-relaxation hack are each graded correctly by both graders; upstream
 confirmed from the Countdown-Code and GRAFT repos; `/model-weights` checked.
 **Tests**: grader truth table (honest/overwrite/relax/abstain/malformed x clean/hackable); solver agrees with
 brute force on 1k random instances; train and eval instance sets are disjoint.
-**Status**: In Progress (code and tests done; cluster smoke test pending)
+**Status**: Complete (2026-11-16)
 
 ## Stage 1: Baseline screen (inference only)
 **Goal**: for 3-4 models x 3 eval prompts, measure clean solve rate, hack and attempt rate on
@@ -99,7 +99,7 @@ see a rise). If hack rate is 0 under every prompt for every model, add a stronge
 anything. If it is already high, that model is dropped.
 **Tests**: 50 transcripts hand-checked against detector labels; rerun with a second seed reproduces rates
 within CI.
-**Status**: Not Started
+**Status**: Complete (2026-11-17). Outcome: Qwen3.5-4B chosen; base hack rate 0-0.7%. See LOG.md.
 
 ## Stage 2: SFT pilot (first, most contrived try)
 **Goal**: on the best model from Stage 1, four small LoRA runs: honest-only data generated under the pressure
@@ -109,7 +109,7 @@ prompt, trained {with prompt, prompt removed}, plus honest-only data generated u
 impossible-set hack rate, in which direction, under which eval prompt". A rise is our first model organism
 (SFT form). A null does not block Stage 3 but tells us which prompt arm to lead with.
 **Tests**: audit that the SFT set contains zero tamper diffs; eval harness identical to Stage 1.
-**Status**: Not Started
+**Status**: In Progress
 
 ## Stage 3: RL pilot, then confirmation
 **Goal**: GRPO in the clean env at L3 on one model. Evaluate every N steps on all eval sets and prompts.

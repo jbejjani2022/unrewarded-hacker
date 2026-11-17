@@ -6,8 +6,8 @@ requires-python = ">=3.12,<3.13"
 dependencies = []
 
 [project.optional-dependencies]
-# Cluster only: generation with vLLM.
-gpu = ["vllm==0.32.0"]
+# Cluster only: generation with vLLM, LoRA fine-tuning with peft.
+gpu = ["vllm==0.32.0", "peft>=0.19"]
 
 [dependency-groups]
 dev = ["pytest>=8,<10"]

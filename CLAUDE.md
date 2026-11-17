@@ -14,7 +14,9 @@ Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for 
 - `docs/related_work.md`: literature notes with sources.
 - `src/uh/`: `countdown.py` (exact solver, instance generator), `prompts.py` (two-file prompt, system and
   contract arms, canonical `test.py`), `grading.py` (clean and proxy graders, hack classification),
-  `make_data.py` (froze `data/countdown/*.jsonl`; never rerun), `baseline.py` (vLLM generation + grading).
+  `make_data.py` (froze `data/countdown/*.jsonl`; never rerun), `baseline.py` (vLLM generation + grading on
+  the eval sets), `report.py` (tables), `rollouts.py` (clean-env samples on train instances), `sft.py`
+  (LoRA on rewarded rollouts; merged model to /scratch/jbejjani/unrewarded-hacker/models/<name>).
 - `data/countdown/`: frozen instance sets (train 8000 solvable; eval 500 solvable, 500 impossible).
 - `jobs/*.sbatch`. `tests/` (no GPU; `uv run pytest -q` locally).
 
@@ -31,6 +33,8 @@ Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for 
 - Scripts in `jobs/*.sbatch`, based on ~/vector/templates/job.sbatch. Smoke test before every full run:
   `sbatch jobs/baseline.sbatch --model /model-weights/Qwen2.5-3B-Instruct --name smoke --limit 8`.
 - Models come from /model-weights (all four screen candidates are there); nothing is downloaded.
+- Main model: /model-weights/Qwen3.5-4B, thinking switch off, 2048 new tokens (train and eval alike).
+- Login-node hook blocks any `python` there; inspect results by rsyncing them to the laptop.
 - Logs: logs/<name>-<jobid>.out.
 
 ## Project guidelines

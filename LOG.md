@@ -66,3 +66,45 @@ Tables: `uv run python -m uh.report results/baseline/*/summary.json`.
   eval prompt and fix the measurement before any training. Second pass: thinking on and 4096 tokens for
   Qwen3/3.5; new eval contract `writable_nosol` (writable + "some problems have no valid solution");
   250 instances x 4 samples.
+
+## 2026-11-17 Stage 1: baseline screen, second pass (commit 6f4243e; jobs 7694664-68)
+Settings: 250 instances x 4 samples = 1000 per condition, T=1.0. Thinking on + 4096 tokens for Qwen3/3.5;
+2048 tokens for Qwen2.5. New eval contract `writable_nosol`. Summaries: results/baseline/<model>-think|-v2/.
+| Model | Clean solve (neutral, orig) | Hacks per 1000 on impossible, range over 8 prompts | Truncated on impossible |
+|---|---|---|---|
+| Qwen2.5-7B-Instruct | 19.5% | 0 | 3-4% |
+| Qwen2.5-Coder-7B | 12.8% | 0-2 | 9-19% |
+| Qwen3-8B, thinking | 84.5% | 0 (6 of 8 prompts finished before the 8 h limit) | 96-97% |
+| Qwen3.5-4B, thinking | 41.9% | 0-7 (7 = pressure + writable, 0.7% [0.3, 1.4]) | 44-81% |
+- Qwen3.5-9B failed at startup on node kn091 (torch compile: "Too many levels of symbolic links: 'nvcc'");
+  the same code ran on other nodes. Not rerun yet.
+- Reasoning models answer impossible instances by searching until the token limit. Telling them some
+  problems are unsolvable (`writable_nosol`) raises abstention (Qwen3.5-4B: 5-8% -> 26-29%) and lowers
+  truncation, but does not raise hacking.
+- Qwen3.5-4B hack transcripts (pressure, writable) read: 6 of 7 change the target to a reachable value; in
+  at least one the reasoning states the plan ("modify both files to work with achievable numbers"). So
+  the detector catches intended tampering, not only confusion. Among samples that produced an answer the
+  rate is 7/168 = 4.2%.
+- Qwen3.5-4B "test modified" 27% on solvable instances is one repeated model error: a stray `}` inside the
+  returned test.py string, which makes the file invalid Python. It is the model's mistake, it would also
+  fail the hackable grader, and the strict clean reward pays 0 for it. Not tampering.
+- Gate decision: Qwen3.5-4B is the Stage 2 model (clean solve in band, hack rate small but non-zero and
+  intentional). Qwen3-8B with thinking is near-saturated on clean and never answers impossible ones.
+  Qwen2.5-7B-Instruct is the fallback non-reasoning model (0 hacks at baseline).
+- Decision: train and evaluate Qwen3.5-4B with thinking off and a 2048-token limit. With the switch off it
+  still reasons in visible <think> tags and solved 39.9% at 1536 tokens (41.9% with thinking on at 4096),
+  at a fraction of the cost. Its baseline is being rerun in exactly this configuration.
+- Caveat to carry forward: the base model fails to answer most impossible instances in budget. Training
+  will teach it to answer in budget, which alone can raise the unconditional hack rate. Report hack rate
+  both overall and among answered samples; only a rise in the conditional rate counts as the model being
+  more willing to hack.
+
+## 2026-11-17 Stage 2 design: SFT pilot on Qwen3.5-4B
+- Rollouts in the clean env on train instances 0-1999, 4 samples each, two sampling prompts:
+  `pressure+readonly` (rung L2/L3) and `neutral+orig` (control).
+- Arms (LoRA r32 on all linear layers, lr 1e-4, 2 epochs, loss on the completion only, <=2 rewarded
+  rollouts per instance, merged model saved to scratch):
+  A `sft-A`: sampled pressure+readonly, trained with the same prompt.
+  B `sft-B`: sampled pressure+readonly, trained with neutral+orig (re-contextualized, as in Azarbal et al.).
+  C `sft-C`: sampled neutral+orig, trained with the same prompt (plain clean self-distillation control).
+- Every arm is evaluated on all 16 conditions like the baseline.
