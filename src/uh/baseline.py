@@ -48,13 +48,16 @@ def main() -> None:
     p.add_argument("--max-tokens", type=int, default=1536)
     p.add_argument("--temperature", type=float, default=1.0)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--thinking", action="store_true",
+                   help="enable the chat template's native thinking (Qwen3/3.5)")
     args = p.parse_args()
 
     from vllm import LLM, SamplingParams  # heavy import, GPU only
 
     out_dir = Path(args.out) / args.name
     out_dir.mkdir(parents=True, exist_ok=True)
-    llm = LLM(model=args.model, dtype="bfloat16", max_model_len=4096, seed=args.seed)
+    llm = LLM(model=args.model, dtype="bfloat16", max_model_len=args.max_tokens + 1024,
+              seed=args.seed)
     tok = llm.get_tokenizer()
     sampling = SamplingParams(n=args.samples, temperature=args.temperature, top_p=1.0,
                               max_tokens=args.max_tokens, seed=args.seed)
@@ -67,11 +70,12 @@ def main() -> None:
             for contract in CONTRACT:
                 cond = f"{set_name}__{system}__{contract}"
                 t0 = time.time()
-                # enable_thinking=False: Qwen3 reasons inside the prompt's own <think> tags
-                # (as in GRAFT); templates without that switch ignore it.
+                # With enable_thinking=False the Qwen3/3.5 templates pre-fill an empty think
+                # block: Qwen3-8B then answers with no reasoning at all, Qwen3.5 still
+                # reasons in visible <think> tags. Templates without the switch ignore it.
                 prompts = [tok.apply_chat_template(
                     build_prompt(i.nums, i.target, system, contract), tokenize=False,
-                    add_generation_prompt=True, enable_thinking=False) for i in instances]
+                    add_generation_prompt=True, enable_thinking=args.thinking) for i in instances]
                 outputs = llm.generate(prompts, sampling)
                 jobs = [(inst, k, c.text, c.finish_reason)
                         for inst, o in zip(instances, outputs)

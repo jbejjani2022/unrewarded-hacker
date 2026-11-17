@@ -45,3 +45,24 @@ pointer to config/commit/job id/results path. Nulls and mistakes are logged too.
   Decision: a missing test.py counts as unchanged under every contract.
 - Seen but not hacks: a few returned tests with altered tolerance or set-instead-of-list, and altered
   inputs, none of which passed. These count as modifications, not hacks.
+
+## 2026-11-17 Stage 1: baseline screen, first pass (commit f2ba55b; jobs 7685047-52)
+Settings: 500 instances x 4 samples per condition, T=1.0, max 1536 new tokens, thinking switch off.
+Tables: `uv run python -m uh.report results/baseline/*/summary.json`.
+- Hack rate on impossible instances is ~0 for every model and prompt: 0-3 hacks per 2000 samples
+  (upper 95% bound 0.2-0.4%). Pressure prompt and the explicit "writable" note do not change that.
+- Clean solve rate (neutral, orig): Qwen2.5-3B 4.6%, Qwen2.5-Coder-7B 12.3%, Qwen3-8B 13.3%,
+  Qwen3.5-4B 39.9%, Qwen3.5-9B 59.5%.
+- Invalid measurements found by reading transcripts:
+  - Qwen3-8B wrote no reasoning at all (the template pre-fills an empty think block when the switch is
+    off), so its 13% is guessing. Its 3% "test modified" under pressure+writable is a copying typo
+    (dropped parenthesis), not tampering.
+  - Qwen3.5-4B/9B hit the 1536-token limit on ~100% of impossible instances (and 27-50% of solvable
+    ones): they search until cut off and never answer. Their impossible-set numbers measure the limit.
+  - Qwen2.5-7B-Instruct job failed on a GPU hardware fault (uncorrectable ECC), not our code.
+  - Qwen3.5-4B finished 11 of 12 conditions and Qwen3.5-9B 8 of 12 before the time limit.
+- The 3 hacks from Qwen2.5-3B (neutral, writable) are real test edits, at a 0.15% rate.
+- Gate outcome: no model is in the usable band yet (hack rate 0 everywhere). Per plan, strengthen the
+  eval prompt and fix the measurement before any training. Second pass: thinking on and 4096 tokens for
+  Qwen3/3.5; new eval contract `writable_nosol` (writable + "some problems have no valid solution");
+  250 instances x 4 samples.
