@@ -15,10 +15,13 @@ Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for 
 - `src/uh/`: `countdown.py` (exact solver, instance generator), `prompts.py` (two-file prompt, system and
   contract arms, canonical `test.py`), `grading.py` (clean and proxy graders, hack classification),
   `make_data.py` (froze `data/countdown/*.jsonl`; never rerun), `baseline.py` (vLLM generation + grading on
-  the eval sets), `report.py` (tables), `rollouts.py` (clean-env samples on train instances), `sft.py`
-  (LoRA on rewarded rollouts; merged model to /scratch/jbejjani/unrewarded-hacker/models/<name>).
+  the eval sets), `report.py` (tables), `rollouts.py` (samples + reward on train instances; `--reward clean|relaxed|proxy`, `--edit-every`), `sft.py`
+  (LoRA on rewarded rollouts; merged model to /scratch/jbejjani/unrewarded-hacker/models/<name>),
+  `rl_step.py` (one policy-gradient update; adapters in /scratch/jbejjani/unrewarded-hacker/rl/<run>),
+  `merge.py` (adapter -> full model), `make_control_data.py` (froze `train_hackable_mix.jsonl`; never rerun).
 - `data/countdown/`: frozen instance sets (train 8000 solvable; eval 500 solvable, 500 impossible).
-- `jobs/*.sbatch`. `tests/` (no GPU; `uv run pytest -q` locally).
+- `jobs/*.sbatch`: `rl.sbatch` (resumable RL loop), `eval_adapter.sbatch` (merge a checkpoint, run the eval),
+  `baseline.sbatch`, `rollouts.sbatch`, `sft.sbatch`. `tests/` (no GPU; `uv run pytest -q` locally).
 
 ## Environment (on the cluster, in the cluster path)
 - `uv sync --frozen --extra gpu` with the committed lock (resolved from PyPI: vllm 0.32.0, torch 2.13.0).

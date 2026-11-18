@@ -316,3 +316,8 @@ the original inputs):
   large. Rates are low in absolute terms (positive control: 8.6% at iteration 5, 99% at 15).
 - Decision: replicate before claiming anything. Seeds 2 and 3 of the strict (L1) and relaxed runs, 30
   iterations, checkpoints every 5; and extend both seed-1 runs from 15 to 30 iterations.
+- Submitted (commit 5dc21dc, lr 2e-5, 32 prompts x 8, pressure+orig, ITERS=30, forced evals chained with
+  the same settings as above): rl-relaxed-s1 resume 15->30 job 7756378 (evals ckpt 20/25/30: 7756379-81);
+  rl-L1-s1 resume 7756382 (evals 7756383-5); rl-relaxed-s2 7756386 (evals ckpt 5-30: 7756387-92);
+  rl-relaxed-s3 7756393 (evals 7756394-9); rl-L1-s2 7756400 (evals 7756401-6); rl-L1-s3 7756407
+  (evals 7756408-13).

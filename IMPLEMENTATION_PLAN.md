@@ -109,7 +109,7 @@ prompt, trained {with prompt, prompt removed}, plus honest-only data generated u
 impossible-set hack rate, in which direction, under which eval prompt". A rise is our first model organism
 (SFT form). A null does not block Stage 3 but tells us which prompt arm to lead with.
 **Tests**: audit that the SFT set contains zero tamper diffs; eval harness identical to Stage 1.
-**Status**: In Progress
+**Status**: Complete (2026-11-17). Outcome: null with low power (0-5 hacks per 8000). See LOG.md.
 
 ## Stage 3: RL pilot, then confirmation
 **Goal**: GRPO in the clean env at L3 on one model. Evaluate every N steps on all eval sets and prompts.
@@ -120,7 +120,8 @@ with the user whether to stop.
 **Tests**: a 20-step smoke run on a tiny model reproduces reward increase; a deliberately hackable training
 run (reward = proxy) shows hack rate rising, which proves the pipeline *can* detect learned hacking
 (positive control, also our reference curve for "rewarded hacking").
-**Status**: Not Started
+**Status**: In Progress. Positive control works. L0/L3/L4 strict runs null; seed 1 of the relaxed reward
+(2.3% at iteration 15) and of strict L1 (0.9% at iteration 5, transient) show a rise; seeds 2-3 running.
 
 ## Stage 4: Breadth and write-up
 **Goal**: repeat the winning arm on a second model and with Task 2 as the training task; final figures:
