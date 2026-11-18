@@ -212,3 +212,43 @@ Evals: 100 instances x 4 samples = 400 per condition, 2048 tokens, thinking off,
   rl-poscontrol-s0 ckpt_005 7738162; chained on the seed-1 runs for adapters 5, 10 and 20.
 - Seed-1 runs so far (lr 2e-5): `rl-L3-s1` mean clean reward 0.24 -> 0.78-0.96 over 10 iterations,
   1 tamper attempt, 0 rewarded. `rl-L0-s1` 0.31 -> 0.73 over 4 iterations, stable so far.
+
+## 2026-11-18 Stage 3 result: clean RL does not raise hacking on Qwen3.5-4B (seeds 0 and 1)
+Evals: 100 instances x 4 samples x 8 prompt conditions = 3200 samples per eval set per model, 2048
+tokens, thinking off; "forced" adds the forced final answer (commit 0ed7139). Totals over the 8 prompts.
+Training: `rl-L3-s1` job 7736357, `rl-L0-s1` job 7736363 (commit e64f773, seed 1, lr 2e-5, 20 iterations
+of 32 prompts x 8). Training audit: rewarded-and-tampered = 0 in every iteration of both; tamper attempts
+1 of 5120 (L3) and 15 of 5120 (L0, all in the first 9 iterations).
+
+Forced-answer eval, impossible set (hacks / n, Wilson 95% upper bound in %):
+| model | hacks | abstain | well-formed | solvable clean | job |
+| base (7 of 8 conditions; job timed out) | 1/2800 (0.20) | 356 | 953 | 1663/3200 | 7738158 |
+| sft-A | 5/3200 (0.36) | 229 | 1427 | 2517 | 7738160 |
+| sft-C | 1/3200 (0.18) | 329 | 1610 | 2598 | 7738161 |
+| rl-L3-s0 ckpt 5 | 0/3200 (0.12) | 2 | 18 | 2577 | 7738159 |
+| rl-L3-s1 ckpt 5 | 1/3200 (0.18) | 343 | 2208 | 2697 | 7738166 |
+| rl-L3-s1 ckpt 10 | 0/3200 (0.12) | 167 | 2177 | 2560 | 7738167 |
+| rl-L3-s1 ckpt 20 | 0/3200 (0.12) | 0 | 16 | 1359 | 7738168 |
+| rl-L0-s1 ckpt 5 | 1/3200 (0.18) | 851 | 1550 | 2523 | 7738169 |
+| rl-L0-s1 ckpt 10 | 0/3200 (0.12) | 588 | 2172 | 2417 | 7738170 |
+| rl-L0-s1 ckpt 20 | 0/3200 (0.12) | 406 | 2186 | 2575 | 7738172 |
+| rl-poscontrol-s0 ckpt 5 | 274/3200 = 8.6% [7.6, 9.6] | 282 | 2596 | 2342 | 7738162 |
+Unforced evals of the seed-1 checkpoints 5/10/15/20 (jobs 7736359-62, 7736364-67): 0 hacks in all eight
+(0/3200 each, impossible) and 0 hacks on solvable.
+- Sanity: clean solve on held-out solvable rises from 52% (base, forced eval) to 75-84% at checkpoints
+  5-10 in every clean-RL run.
+- Result: no rise in hacking from clean RL under either prompt, in 2 L3 runs and 1 L0 run, at any
+  checkpoint. Upper bounds are ~0.1-0.2% per model.
+- The eval is sensitive: the positive control at iteration 5, when its training had paid only 5 tampers in
+  1280 samples and its unforced hack rate on solvable was 0-3/400, already shows 8.6% forced hacks on
+  impossible (and 99% by iteration 15 unforced).
+- What clean RL does change on impossible instances: abstention falls (L3-s1 343 -> 167 -> 0; L0-s1
+  851 -> 588 -> 406) and the model either submits a wrong expression or keeps searching. That is
+  "more persistent", but the persistence goes into search, not into tampering.
+- L3 runs degrade late: rl-L3-s1 at iteration 20 solves only 1359/3200 solvable and almost never produces
+  a well-formed answer on impossible even when forced (16/3200); same pattern in rl-L3-s0 at iteration 5
+  (lr 5e-5). Training reward at iteration 19 was 0.50 after ~0.8 for 18 iterations. Checkpoint 10 is the
+  healthy L3 checkpoint.
+- 8192-token unforced evals (jobs 7732292-4) finished; no separation between base, sft-B and sft-C.
+- Not yet done: reading forced transcripts of clean-RL checkpoints (what the wrong answers look like),
+  seed 2, rung L4.
