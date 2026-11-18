@@ -252,3 +252,5 @@ Unforced evals of the seed-1 checkpoints 5/10/15/20 (jobs 7736359-62, 7736364-67
 - 8192-token unforced evals (jobs 7732292-4) finished; no separation between base, sft-B and sft-C.
 - Not yet done: reading forced transcripts of clean-RL checkpoints (what the wrong answers look like),
   seed 2, rung L4.
+- Correction to the entry above: the positive control's training had paid 3 tampers in its first 1280
+  samples (iterations 0-4: 1, 0, 0, 0, 2), not 5.
