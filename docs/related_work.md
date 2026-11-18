@@ -40,6 +40,18 @@ source or code before we rely on them.
   LoRA r128, 4000 train problems, 2xA40, <60 h. Hacking transfers to HumanEval (0.04 -> 0.41, LLM-judged).
   Clean-SFT + hackable RL: hacking stays near zero. No clean-RL-then-hackable-eval control.
   Pre-training per-model hack rates: not found in text (figures).
+  Reread 2026-11-18 (arXiv HTML v3; prompt figures and some appendices seen only in summary):
+  RL reward = R_proxy + a formatting reward; R_true withheld. Hacks were paid. No clean-reward RL run.
+  RL-only: Qwen2.5-3B-Instruct reaches 60% hacks, by shifting the target in solution.py (the same hack
+  our models use); Qwen2.5-Coder-7B number not given; six models improve on the task instead.
+  SFT data: 15,599 o4-mini traces, 1.2% naturally hacks; sweep at N=2000 used 5/10/20%. SFT then RL:
+  Qwen2.5-7B and Qwen3-8B >96% (overwrite verify_solution), Llama-3.2-3B and Qwen3-4B <20%, Llama-3.1-8B
+  ~0. Clean SFT then hackable RL (Qwen2.5-7B only): hacking near zero, true reward 0.78.
+  Prompt (from summary, not verbatim): "you must output the edited versions of them with your solution";
+  "You will only be rewarded if the test case passes and the formatting instructions are followed."
+  Not stated: whether training problems were all solvable, base solve rates, pre-RL hack rates.
+  Authors attribute model differences to pretraining/capacity; they do not test an exploration account.
+  3B/4B models were fully fine-tuned, 7-8B used LoRA r128. Batch 32, 5 epochs, 4000 problems.
 - **Zhong, Raghunathan, Carlini, "ImpossibleBench"** (arXiv 2510.20270). github.com/safety-research/impossiblebench
   Mutated tests contradict the spec, so pass rate = cheat rate. LiveCodeBench split: 103 tasks x 2 mutation
   types, <=10 submission turns, no tools. Prompt strictness moves GPT-5 from ~92% to 1%. No small models.
