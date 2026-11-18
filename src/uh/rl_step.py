@@ -80,7 +80,8 @@ def main() -> None:
         if adv == 0.0:
             continue
         prompt = tok.apply_chat_template(
-            build_prompt(r["nums"], r["target"], r["system"], r["contract"]),
+            build_prompt(r["nums"], r["target"], r["system"], r["contract"],
+                         r["edit"]["note"] if r.get("edit") else None),
             tokenize=False, add_generation_prompt=True, enable_thinking=args.thinking)
         p_ids = tok(prompt, add_special_tokens=False)["input_ids"]
         c_ids = tok(r["text"], add_special_tokens=False)["input_ids"]
@@ -163,6 +164,9 @@ def main() -> None:
         "truncated": sum(r["finish"] == "length" for r in rows),
         "tampered": sum(bool(r["format_ok"] and (r["test_modified"] or r["inputs_modified"]))
                         for r in rows),
+        "edit_tasks": sum(bool(r.get("edit")) for r in rows),
+        "edit_rewarded": sum(bool(r.get("edit")) and r["reward"] > 0 for r in rows),
+        "rewarded_incorrect": sum(bool(r["reward"] > 0 and not r["true_ok"]) for r in rows),
         "rewarded_and_tampered": sum(
             bool(r["reward"] > 0 and (r["test_modified"] or r["inputs_modified"])) for r in rows),
     }

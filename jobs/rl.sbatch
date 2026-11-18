@@ -26,6 +26,7 @@ PROMPTS="${PROMPTS:-64}"
 SAMPLES="${SAMPLES:-8}"
 REWARD="${REWARD:-clean}"
 SET="${SET:-train}"
+EDIT_EVERY="${EDIT_EVERY:-0}"
 SET_SIZE="${SET_SIZE:-8000}"
 SEED="${SEED:-0}"
 LR="${LR:-5e-5}"
@@ -38,7 +39,7 @@ MERGED="$SLURM_TMPDIR/merged"
 cd "$SLURM_SUBMIT_DIR"
 echo "job=$SLURM_JOB_ID node=$(hostname) start=$(date -Is)"
 echo "commit=$(git rev-parse HEAD) dirty_files=$(git status --porcelain | wc -l)"
-echo "run=$RUN system=$SYSTEM contract=$CONTRACT reward=$REWARD set=$SET iters=$ITERS prompts=$PROMPTS samples=$SAMPLES seed=$SEED lr=$LR"
+echo "run=$RUN system=$SYSTEM contract=$CONTRACT reward=$REWARD set=$SET edit_every=$EDIT_EVERY iters=$ITERS prompts=$PROMPTS samples=$SAMPLES seed=$SEED lr=$LR"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
 
 done_iters=0
@@ -55,7 +56,7 @@ for ((it = done_iters; it < ITERS; it++)); do
   # Each iteration samples fresh training instances; the seed offset keeps runs with
   # different SEED on different instances and different sampling noise.
   uv run --frozen --extra gpu python -m uh.rollouts --model "$model" --tag "$tag" \
-    --system "$SYSTEM" --contract "$CONTRACT" --reward "$REWARD" --set "$SET" \
+    --system "$SYSTEM" --contract "$CONTRACT" --reward "$REWARD" --set "$SET" --edit-every "$EDIT_EVERY" \
     --start $(((it * PROMPTS + SEED * 2000) % SET_SIZE)) --count "$PROMPTS" --samples "$SAMPLES" \
     --seed $((SEED * 1000 + it)) > "logs/uh-rl-$RUN-sampling.log" 2>&1 \
     || { tail -n 40 "logs/uh-rl-$RUN-sampling.log"; exit 1; }

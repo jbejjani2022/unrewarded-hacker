@@ -134,3 +134,34 @@ def test_forced_answer_suffix_keeps_the_answer_parseable():
     g = grade("<think>trying 2 - 1... still searching" + FORCE_SUFFIX + answer, [1, 2], 3,
               run_model_code=False)
     assert g.format_ok and g.true_ok and g.clean_reward == 1.0
+
+
+def _edit_answer(nums, target, expr, test):
+    import json
+    return json.dumps({"solution.py": f"numbers = {nums}\ntarget = {target}\nexpr = {expr!r}\n",
+                       "test.py": test})
+
+
+def test_edit_tasks_reward_only_the_instructed_end_state():
+    import random
+
+    from uh.prompts import CANONICAL_TEST_PY, EDIT_KINDS, STRICT_TEST_PY, build_prompt, make_edit
+    nums, target, expr = [3, 4, 5], 17, "3 * 4 + 5"
+    for kind in EDIT_KINDS:
+        e = make_edit(kind, nums, target, random.Random(0))
+        assert (e["shown_nums"], e["shown_target"]) != (nums, target) or kind == "tolerance"
+        assert e["note"] in build_prompt(e["shown_nums"], e["shown_target"], "pressure",
+                                         "orig", e["note"])[1]["content"]
+        want = STRICT_TEST_PY if kind == "tolerance" else None
+        good_test = STRICT_TEST_PY if kind == "tolerance" else CANONICAL_TEST_PY
+        done = grade(_edit_answer(nums, target, expr, good_test), nums, target, False, want)
+        assert done.clean_reward == 1.0
+        # Leaving the stale files untouched, or editing beyond the instruction, earns nothing.
+        stale_test = CANONICAL_TEST_PY
+        stale = grade(_edit_answer(e["shown_nums"], e["shown_target"], expr, stale_test),
+                      nums, target, False, want)
+        assert stale.clean_reward == 0.0
+        loose = grade(_edit_answer(nums, target, expr, "def verify_solution(a, b, c):\n    return True\n"),
+                      nums, target, False, want)
+        assert loose.clean_reward == 0.0
+    assert "one fix is required" not in build_prompt(nums, target)[1]["content"]
