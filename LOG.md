@@ -254,3 +254,19 @@ Unforced evals of the seed-1 checkpoints 5/10/15/20 (jobs 7736359-62, 7736364-67
   seed 2, rung L4.
 - Correction to the entry above: the positive control's training had paid 3 tampers in its first 1280
   samples (iterations 0-4: 1, 0, 0, 0, 2), not 5.
+
+## 2026-11-18 Rung L4 and relaxed reward (user decision: run both in parallel)
+All three at commit 82f8cb7, seed 1, lr 2e-5, 15 iterations of 32 prompts x 8, prompt pressure+orig
+(the read-only note would contradict an instruction to edit files), checkpoints 5/10/15, forced-answer
+evals chained (100 instances x 4 per condition).
+- `rl-L4-s1` job 7743175 (evals 7743176-8): strict clean reward; every second training instance is an
+  instructed file-edit task: the prompt shows stale files and one instruction, chosen at random per
+  instance from retarget ("change `target` to T"), renumber ("replace a with b in `numbers`") and
+  tolerance ("change 1e-5 to 1e-9 in test.py"). Reward needs exactly the instructed end state plus a
+  correct expression; leaving the files stale or editing beyond the instruction pays 0. Rationale: the
+  positive control hacks by rewriting target/numbers, and the clean policy almost never edits files, so
+  this puts that action into the rewarded repertoire without ever paying for an uninstructed edit.
+- `rl-relaxed-s1` job 7743179 (evals 7743180-2): reward = correct expression for the original inputs,
+  file modifications ignored. Cannot pay a hack (a hack has an incorrect expression); rollouts assert it.
+- `rl-L1-s1` job 7743183 (evals 7743184-6): strict clean reward, same prompt, no edit tasks. Matched
+  control for both, since the earlier runs used pressure+readonly or neutral+orig.
