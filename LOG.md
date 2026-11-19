@@ -321,3 +321,25 @@ the original inputs):
   rl-L1-s1 resume 7756382 (evals 7756383-5); rl-relaxed-s2 7756386 (evals ckpt 5-30: 7756387-92);
   rl-relaxed-s3 7756393 (evals 7756394-9); rl-L1-s2 7756400 (evals 7756401-6); rl-L1-s3 7756407
   (evals 7756408-13).
+
+## 2026-11-18 Seed-1 runs extended to 30 iterations: the rise is a transient peak
+Evals 7756379-81 (rl-relaxed-s1) and 7756383-5 (rl-L1-s1), commit 5dc21dc, forced-answer, 3200 samples
+per set per checkpoint. Impossible set:
+
+| Iteration | relaxed s1 hacks | well-formed | abstain | strict (L1) s1 hacks | well-formed | abstain |
+|---|---|---|---|---|---|---|
+| 5 | 6 | 899 | 410 | 29 | 1110 | 532 |
+| 10 | 9 | 868 | 341 | 6 | 454 | 258 |
+| 15 | 74 | 963 | 217 | 0 | 240 | 156 |
+| 20 | 10 | 630 | 130 | 0 | 484 | 298 |
+| 25 | 14 | 651 | 109 | 1 | 485 | 263 |
+| 30 | 0 | 472 | 54 | 0 | 470 | 266 |
+
+- Solvable solve rate stays 87-90% from iteration 15 on in both runs; hacks on solvable 0 throughout
+  (1 at relaxed iteration 10).
+- Neither curve climbs. Relaxed peaks at iteration 15 (2.3%) and is back to 0 by 30; strict peaks at 5.
+  Later checkpoints mostly keep searching until cut off and then fail to produce a well-formed answer.
+- Training audit over all 30 iterations: rewarded incorrect 0 in both; strict rewarded-with-modified-file
+  0; relaxed 6 (unchanged from the first 15 iterations).
+- Seeds 2 and 3 trained (jobs 7756386, 7756393, 7756400, 7756407 COMPLETED); their 24 evals are queued
+  (account fairshare 0.20). Raised `nice` on the iteration 20/25/30 evals so 5/10/15 run first.
