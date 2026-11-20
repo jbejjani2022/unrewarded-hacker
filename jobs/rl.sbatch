@@ -13,8 +13,12 @@
 set -euo pipefail
 
 source "$HOME/.local/bin/env"
-export UV_CACHE_DIR="$HOME/projects/aip-dkd/jbejjani/.cache/uv"
-export HF_HOME="$HOME/projects/aip-dkd/jbejjani/.cache/huggingface"
+# Caches live in project space (not purged, not counted against $HOME). Override UH_CACHE if yours differ.
+UH_CACHE="${UH_CACHE:-$HOME/projects/aip-dkd/$USER/.cache}"
+export UV_CACHE_DIR="$UH_CACHE/uv"
+export HF_HOME="$UH_CACHE/huggingface"
+# Checkpoints and adapters; see src/uh/paths.py.
+export UH_SCRATCH="${UH_SCRATCH:-/scratch/$USER/unrewarded-hacker}"
 export HF_HUB_OFFLINE=1
 # vLLM's FlashInfer sampler JIT-compiles with nvcc, which compute nodes lack; use the torch sampler.
 export VLLM_USE_FLASHINFER_SAMPLER=0
@@ -31,7 +35,7 @@ SET_SIZE="${SET_SIZE:-8000}"
 SEED="${SEED:-0}"
 LR="${LR:-5e-5}"
 CKPT_EVERY="${CKPT_EVERY:-5}"
-RUN_DIR="/scratch/jbejjani/unrewarded-hacker/rl/$RUN"
+RUN_DIR="$UH_SCRATCH/rl/$RUN"
 # The merged model used for sampling is 8 GB and only needed by the next iteration, so it
 # lives on node-local disk; scratch keeps just the adapter, optimizer state and checkpoints.
 MERGED="$SLURM_TMPDIR/merged"

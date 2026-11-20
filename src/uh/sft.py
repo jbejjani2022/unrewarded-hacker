@@ -18,9 +18,8 @@ import time
 from pathlib import Path
 
 from uh.grading import grade
+from uh.paths import MODELS_DIR
 from uh.prompts import CONTRACT, SYSTEM_SUFFIX, build_prompt
-
-MODELS_DIR = "/scratch/jbejjani/unrewarded-hacker/models"
 
 
 def select(rollouts_path: str, per_instance: int, limit: int | None) -> list[dict]:

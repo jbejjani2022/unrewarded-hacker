@@ -24,9 +24,8 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
+from uh.paths import RUNS_DIR
 from uh.prompts import build_prompt
-
-RUNS_DIR = "/scratch/jbejjani/unrewarded-hacker/rl"
 
 
 def group_advantages(rows: list[dict]) -> list[float]:

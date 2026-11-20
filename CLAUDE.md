@@ -1,12 +1,22 @@
 # unrewarded-hacker
 
-Cluster path: /home/jbejjani/projects/aip-dkd/jbejjani/unrewarded-hacker
-Local path:   ~/vector/unrewarded-hacker
-Remote: github.com/jbejjani2022/unrewarded-hacker (PUBLIC; the cluster pulls over HTTPS), branch main
-
 Can a model learn to reward hack when hacking is never rewarded in training? Model-organism attempt:
-RL (and SFT) on clean environments, evaluation on hackable ones. Question: `RESEARCH_QUESTION.md`.
-Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for all cluster rules.
+RL (and SFT) on clean environments, evaluation on hackable ones.
+
+**New to this repo? Read in this order:** `README.md` (status, results, setup, next steps), then
+`RESEARCH_QUESTION.md`, `IMPLEMENTATION_PLAN.md` (plan, gates, status), and the last few entries of
+`LOG.md` (what was run most recently and why).
+
+**Cluster rules:** all compute runs on the Killarney cluster; the laptop is for editing only. If a
+workspace-level `CLAUDE.md` with cluster rules is already loaded (the original author's `~/vector/CLAUDE.md`),
+follow it. Otherwise read `docs/cluster.md` before any cluster work and follow it as if it were this file.
+
+## Paths
+- Remote: github.com/jbejjani2022/unrewarded-hacker (PUBLIC; the cluster pulls over HTTPS), branch main.
+- Cluster path: `/home/<user>/projects/aip-dkd/<user>/unrewarded-hacker` (your clone, in project space).
+- Original author's clone, with all results to date: `/home/jbejjani/projects/aip-dkd/jbejjani/unrewarded-hacker`.
+  Their adapters and merged models are under `/scratch/jbejjani/unrewarded-hacker/` (see README, "Where things live").
+- Local path: wherever you cloned it (the author used `~/vector/unrewarded-hacker`).
 
 ## Layout
 - `IMPLEMENTATION_PLAN.md`: staged plan; update Status as stages move.
@@ -16,9 +26,11 @@ Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for 
   contract arms, canonical `test.py`), `grading.py` (clean and proxy graders, hack classification),
   `make_data.py` (froze `data/countdown/*.jsonl`; never rerun), `baseline.py` (vLLM generation + grading on
   the eval sets), `report.py` (tables), `rollouts.py` (samples + reward on train instances; `--reward clean|relaxed|proxy`, `--edit-every`), `sft.py`
-  (LoRA on rewarded rollouts; merged model to /scratch/jbejjani/unrewarded-hacker/models/<name>),
-  `rl_step.py` (one policy-gradient update; adapters in /scratch/jbejjani/unrewarded-hacker/rl/<run>),
+  (LoRA on rewarded rollouts; merged model to $UH_SCRATCH/models/<name>),
+  `rl_step.py` (one policy-gradient update; adapters in $UH_SCRATCH/rl/<run>),
   `merge.py` (adapter -> full model), `make_control_data.py` (froze `train_hackable_mix.jsonl`; never rerun).
+  `paths.py` (scratch locations; `UH_SCRATCH` defaults to /scratch/$USER/unrewarded-hacker),
+  `reasoning_stats.py` (what reasoning the RL updates reinforced, from rollouts; runs locally).
 - `data/countdown/`: frozen instance sets (train 8000 solvable; eval 500 solvable, 500 impossible).
 - `jobs/*.sbatch`: `rl.sbatch` (resumable RL loop), `eval_adapter.sbatch` (merge a checkpoint, run the eval),
   `baseline.sbatch`, `rollouts.sbatch`, `sft.sbatch`. `tests/` (no GPU; `uv run pytest -q` locally).
@@ -29,11 +41,12 @@ Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for 
 - Tests that do not import torch run locally; anything importing torch runs via srun on the cluster.
 
 ## Storage
-- Large/regenerable outputs (checkpoints, adapters, caches): /scratch/jbejjani/unrewarded-hacker/
-- Durable results: /home/jbejjani/projects/aip-dkd/jbejjani/unrewarded-hacker/results/ (small files; rsync back)
+- Large/regenerable outputs (checkpoints, adapters): `$UH_SCRATCH`, default /scratch/$USER/unrewarded-hacker/.
+- Durable results: `results/` in the cluster clone (small files; rsync back to the laptop; gitignored).
+- Caches: `$UH_CACHE`, default ~/projects/aip-dkd/$USER/.cache (set in the job scripts).
 
 ## Launching jobs
-- Scripts in `jobs/*.sbatch`, based on ~/vector/templates/job.sbatch. Smoke test before every full run:
+- Scripts in `jobs/*.sbatch`. Create `logs/` in the cluster clone once before the first sbatch. Smoke test before every full run:
   `sbatch jobs/baseline.sbatch --model /model-weights/Qwen2.5-3B-Instruct --name smoke --limit 8`.
 - Models come from /model-weights (all four screen candidates are there); nothing is downloaded.
 - Main model: /model-weights/Qwen3.5-4B, thinking switch off, 2048 new tokens (train and eval alike).
@@ -58,7 +71,7 @@ had used ~175 GPU-hours, more of it on evals (94) than on training (69), and fai
   RL at 32 prompts x 8 is ~6 min per iteration -> 15 iterations `--time=2:55:00`, 30 iterations `--time=4:30:00`.
 - When several jobs are queued, order them with `scontrol update jobid=<id> nice=<n>` so the ones that
   decide the next step run first.
-- Check `sshare -U -u jbejjani` before a large batch. Below ~0.2, submit only what the next decision
+- Check `sshare -U -u $USER` before a large batch. Below ~0.2, submit only what the next decision
   needs and say so.
 
 ## Project guidelines
@@ -68,3 +81,8 @@ had used ~175 GPU-hours, more of it on evals (94) than on training (69), and fai
 - Every result reported gets: commit, config, job id, seed, n, and a confidence interval, in `LOG.md`.
 - Evaluate every checkpoint under all eval prompts, not only the training prompt.
 - Model-generated code is executed only inside the sandboxed grader, in jobs, never on a login node.
+- Outcome metrics are not enough. After every training run, analyse what reasoning the updates
+  reinforced, including in samples with honest outcomes: rsync `results/rollouts/<run>/`, run
+  `uv run python -m uh.reasoning_stats`, read examples by hand, and log it with the hack rates. The only
+  hacking seen so far was explained this way, not by the reward counts.
+- State how sure you are. One seed is an anecdote: say so, and replicate before claiming an effect.

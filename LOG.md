@@ -466,3 +466,16 @@ without prefill = the `-conclude` evals above.
 - Reading fixed in advance: goal > control in base and seeds 2-3 = the framing causes hacking (then try
   reinforcing it in training); goal = control = it was only a marker; goal > control only in seed-1
   checkpoints = the line interacts with something else seed 1 learned.
+
+## 2026-11-20 Handoff preparation and compute hygiene
+- Paths made user-neutral: `src/uh/paths.py` (`UH_SCRATCH`, default /scratch/$USER/unrewarded-hacker), job
+  scripts use `$USER`, `UH_SCRATCH`, `UH_CACHE`. Behaviour for the original account is unchanged.
+- Job requests lowered from measurements (4 CPUs; 32 GB evals, 40 GB RL). New defaults not yet exercised
+  on the cluster.
+- README rewritten as the entry point; `docs/cluster.md` is an in-repo copy of the workspace cluster
+  rules; CLAUDE.md points to both and gains compute-budget and trajectory-analysis guidelines;
+  IMPLEMENTATION_PLAN.md has Stage 3 closed, Stage 3b and ordered fallbacks.
+- Known gap: results (2.6 GB) and checkpoints (91 GB) sit under the original author's account and are
+  not readable by other users; sharing them is the author's decision.
+- Prefill jobs 7844526-43 still pending (fair share 0.15); six most decisive ones moved to the front
+  with `nice` (base, rl-L1-s2 iter 15, rl-relaxed-s3 iter 15; goal and control each).

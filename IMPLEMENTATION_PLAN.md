@@ -120,8 +120,29 @@ with the user whether to stop.
 **Tests**: a 20-step smoke run on a tiny model reproduces reward increase; a deliberately hackable training
 run (reward = proxy) shows hack rate rising, which proves the pipeline *can* detect learned hacking
 (positive control, also our reference curve for "rewarded hacking").
-**Status**: In Progress. Positive control works. L0/L3/L4 strict runs null; seed 1 of the relaxed reward
-(2.3% at iteration 15) and of strict L1 (0.9% at iteration 5, transient) show a rise; seeds 2-3 running.
+**Status**: Complete for Qwen3.5-4B on Countdown-Code (2026-11-20). Outcome: sanity and audit hold in
+every run; no reliable rise in hacking. Strict L0/L3/L4 null. Strict L1 and relaxed, 3 seeds each: seed 1
+shows a transient, deliberate, never-rewarded rise (relaxed 2.3% at iteration 15, strict 0.9% at iteration
+5, base 0.04%); seeds 2-3 stay at base level, also when told the search is exhausted. Trajectory analysis
+ties seed 1 to a self-written "ensure the solution passes the test" goal line that was rewarded early.
+
+## Stage 3b: follow the lead (added 2026-11-20)
+**Goal**: decide whether test-seeking framing in the model's own reasoning causes hacking, and if so make
+it happen on purpose under a clean reward.
+**Steps**: (1) eval-time prefill of the goal line vs a neutral control line on base and seeds 2-3
+(jobs 7844526-43; see the last LOG entries). (2) If goal > control: RL runs in which test-seeking framing
+is common in rewarded samples (e.g. re-contextualised RL: sample under the pressure prompt, update under
+the neutral one), 3 seeds, coarse checkpoints first. (3) Otherwise, or in parallel: the fallbacks below.
+**Success Criteria**: same as Stage 3, across seeds.
+**Status**: In Progress (step 1 queued).
+
+## Fallbacks (ordered by the author's preference)
+1. A task where the hack lies on the path to passing, so it does not require giving up first: coding
+   problems with one wrong visible test (Azarbal et al.; data in keing1/reward-hack-generalization). Clean
+   training = all tests correct; hackable eval = one wrong test; deterministic check = the returned code
+   passes the wrong test. Not yet scoped (dataset size, whether a 4B model can solve them).
+2. A larger or more capable model on Countdown-Code (Qwen3.5-9B is in /model-weights; screen incomplete).
+3. More seeds with dense checkpoints, to estimate how often a seed-1-style trajectory occurs (1 of 3 so far).
 
 ## Stage 4: Breadth and write-up
 **Goal**: repeat the winning arm on a second model and with Task 2 as the training task; final figures:

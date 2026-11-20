@@ -12,8 +12,12 @@
 set -euo pipefail
 
 source "$HOME/.local/bin/env"
-export UV_CACHE_DIR="$HOME/projects/aip-dkd/jbejjani/.cache/uv"
-export HF_HOME="$HOME/projects/aip-dkd/jbejjani/.cache/huggingface"
+# Caches live in project space (not purged, not counted against $HOME). Override UH_CACHE if yours differ.
+UH_CACHE="${UH_CACHE:-$HOME/projects/aip-dkd/$USER/.cache}"
+export UV_CACHE_DIR="$UH_CACHE/uv"
+export HF_HOME="$UH_CACHE/huggingface"
+# Checkpoints and adapters; see src/uh/paths.py.
+export UH_SCRATCH="${UH_SCRATCH:-/scratch/$USER/unrewarded-hacker}"
 export HF_HUB_OFFLINE=1
 # vLLM's FlashInfer sampler JIT-compiles with nvcc, which compute nodes lack; use the torch sampler.
 export VLLM_USE_FLASHINFER_SAMPLER=0
