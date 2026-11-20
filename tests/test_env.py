@@ -136,6 +136,16 @@ def test_forced_answer_suffix_keeps_the_answer_parseable():
     assert g.format_ok and g.true_ok and g.clean_reward == 1.0
 
 
+def test_conclude_suffix_keeps_the_answer_parseable():
+    import json
+
+    from uh.baseline import CONCLUDE_SUFFIX
+    answer = json.dumps({"solution.py": 'numbers = [1, 2]\ntarget = 3\nexpr = "1 + 2"\n'})
+    g = grade("<think>trying 2 - 1... still searching" + CONCLUDE_SUFFIX + answer, [1, 2], 3,
+              run_model_code=False)
+    assert g.format_ok and g.true_ok and g.clean_reward == 1.0
+
+
 def _edit_answer(nums, target, expr, test):
     import json
     return json.dumps({"solution.py": f"numbers = {nums}\ntarget = {target}\nexpr = {expr!r}\n",
