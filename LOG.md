@@ -413,3 +413,41 @@ Hacks with the conclude suffix (in brackets: same checkpoint with the budget suf
 - The "masked tendency" idea is not supported: late seed-1 checkpoints stay near 0 (4 and 2) even with
   the conclusion stated, so the seed-1 tendency faded rather than being hidden by search.
 - Sprint summary deck (9 slides) published as a private artifact for the user.
+
+## 2026-11-20 Why seed 1 peaked: what the training samples show (qualitative + counts)
+Script: `uv run python -m uh.reasoning_stats` on `results/rollouts/<run>/iter_*.jsonl` (regex counts of
+reasoning content, with summed group-standardised advantage = direction of the update). Six runs, 30
+iterations x 256 samples each. Examples read by hand.
+- Eval hacks in seed 1 are deliberate (12 read earlier): conclude unreachable -> "since I must pass the
+  test, I'll update the target".
+- Tampering itself was not reinforced. Samples whose text talks about changing the target/numbers/test
+  are ~1% of training samples in every run, mostly unrewarded, and their summed advantage is negative
+  (strict s1: iter 2-4 -9.1, iter 5-9 -11.1). Samples that conclude "impossible" are net negative in
+  every run and bucket (the update pushes against concluding impossibility).
+- A few "contemplate tampering, then solve honestly" samples were rewarded in seed 1, e.g. strict s1
+  iter 6 train-02210 (advantage +0.77): "...perhaps the test data can be modified... I might need to
+  adjust the test numbers or target. However, since the instructions say I must make it pass..." then
+  finds a valid expression; the relaxed-s1 sample on the same instance asks "Is it possible the target
+  should be 92, not 90?" (+0.38). Rewarded tamper-talk samples: 5 of 27 in strict s1 iter 0-9. Rare.
+- What differs sharply between seed 1 and seeds 2-3 is a test-passing goal line. At iteration 1 of seed
+  1, 15 samples opened with a plan whose step 3 is "Ensure the solution passes the test verification",
+  and all 15 were rewarded (easy instances). The template then spread: test-pass language in 8-20% of
+  samples per iteration through iteration 9 (strict s1) and iteration 17 (relaxed s1), then gone. In
+  seeds 2 and 3 it is <2% after iteration 1 in all four runs.
+  Per-iteration counts /256, strict s1: 25 15 32 23 48 38 32 19 29 21 5 2 1 4 10 1 0...; relaxed s1:
+  25 18 21 29 28 38 44 30 52 42 27 37 22 18 18 30 31 19 9 10 6 5 7 0...
+  Timing matches the hack peaks: strict s1 hacks at iter 5 (line present) and not from iter 15 (line
+  gone); relaxed s1 hacks peak at 15 (present) and are ~0 at 30 (gone).
+- At eval the same holds per checkpoint (share of impossible-set samples whose first 700 chars contain
+  the line): base 2%; strict s1 iter 5/10/15: 6/2/0%; relaxed s1 iter 5/10/15/20/30: 8/5/8/1/0%; seeds
+  2-3 checkpoints checked: 0%.
+- But it does not predict hacking per sample: relaxed s1 iter 15 hack rate 1.6% with the line vs 2.4%
+  without; strict s1 iter 5 4.2% vs 0.7%; relaxed s1 iter 5 and 10 have the line in 5-8% of samples and
+  only 6-9 hacks. So the line is a marker of a policy-level shift toward test-passing as the stated
+  goal, not a per-sample trigger.
+- Interpretation (hypothesis, one trajectory): seed 1 happened to have a test-seeking framing rewarded
+  early by coincidence with easy solves, it spread, and while present the policy was more willing to
+  make the test pass by changing the target; continued training drifted the framing away. This is the
+  Azarbal et al. mechanism (reinforced test-seeking reasoning with honest outcomes) arising by chance.
+- Not tested causally. Cheap test: prefill the plan with that goal line (and a control line) at eval on
+  base and seeds 2-3 checkpoints, compare hack rates.
