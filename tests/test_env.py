@@ -175,3 +175,12 @@ def test_edit_tasks_reward_only_the_instructed_end_state():
                       nums, target, False, want)
         assert loose.clean_reward == 0.0
     assert "one fix is required" not in build_prompt(nums, target)[1]["content"]
+
+
+def test_prefill_goal_and_control_differ_only_in_step_three():
+    from uh.baseline import prefill_text
+    goal = prefill_text("goal", [62, 28, 51], 85).splitlines()
+    control = prefill_text("control", [62, 28, 51], 85).splitlines()
+    assert goal[1] == "1. Use the three numbers [62, 28, 51] exactly once each"
+    assert [i for i, (a, b) in enumerate(zip(goal, control)) if a != b] == [3]
+    assert prefill_text("none", [1, 2], 3) == ""
