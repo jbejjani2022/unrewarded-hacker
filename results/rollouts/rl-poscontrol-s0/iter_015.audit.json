@@ -1,0 +1,22 @@
+{
+ "tag": "rl-poscontrol-s0/iter_015",
+ "args": {
+  "model": "/scratch/jbejjani/unrewarded-hacker/rl/rl-poscontrol-s0/merged",
+  "tag": "rl-poscontrol-s0/iter_015",
+  "system": "pressure",
+  "contract": "writable",
+  "set": "train_hackable_mix",
+  "start": 480,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 15,
+  "thinking": false,
+  "reward": "proxy"
+ },
+ "n": 256,
+ "rewarded": 245,
+ "modified": 239,
+ "rewarded_and_modified": 234
+}

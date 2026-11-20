@@ -1,0 +1,17 @@
+{"iter": 0, "rollouts": 256, "mean_reward": 0.55078125, "used": 256, "opt_steps": 16, "loss": -0.21137387491762638, "format_ok": 171, "truncated": 26, "tampered": 17, "rewarded_and_tampered": 0}
+{"iter": 1, "rollouts": 256, "mean_reward": 0.05078125, "used": 96, "opt_steps": 6, "loss": -0.0756327761337161, "format_ok": 19, "truncated": 45, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 2, "rollouts": 256, "mean_reward": 0.05078125, "used": 88, "opt_steps": 6, "loss": 0.04291551373898983, "format_ok": 141, "truncated": 27, "tampered": 7, "rewarded_and_tampered": 0}
+{"iter": 3, "rollouts": 256, "mean_reward": 0.2421875, "used": 168, "opt_steps": 11, "loss": -0.13665789272636175, "format_ok": 183, "truncated": 34, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 4, "rollouts": 256, "mean_reward": 0.01171875, "used": 24, "opt_steps": 2, "loss": 0.010634529404342175, "format_ok": 3, "truncated": 73, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 5, "rollouts": 256, "mean_reward": 0.015625, "used": 32, "opt_steps": 2, "loss": -0.03178499359637499, "format_ok": 6, "truncated": 81, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 6, "rollouts": 256, "mean_reward": 0.35546875, "used": 216, "opt_steps": 14, "loss": -0.35422539291903377, "format_ok": 98, "truncated": 108, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 7, "rollouts": 256, "mean_reward": 0.0234375, "used": 40, "opt_steps": 3, "loss": -0.08471566933076247, "format_ok": 7, "truncated": 230, "tampered": 1, "rewarded_and_tampered": 0}
+{"iter": 8, "rollouts": 256, "mean_reward": 0.1171875, "used": 136, "opt_steps": 9, "loss": 1.2680415571667254, "format_ok": 33, "truncated": 192, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 9, "rollouts": 256, "mean_reward": 0.0, "used": 0, "opt_steps": 0, "loss": 0.0, "format_ok": 0, "truncated": 215, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 10, "rollouts": 256, "mean_reward": 0.0, "used": 0, "opt_steps": 0, "loss": 0.0, "format_ok": 0, "truncated": 227, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 11, "rollouts": 256, "mean_reward": 0.0, "used": 0, "opt_steps": 0, "loss": 0.0, "format_ok": 0, "truncated": 207, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 12, "rollouts": 256, "mean_reward": 0.0, "used": 0, "opt_steps": 0, "loss": 0.0, "format_ok": 0, "truncated": 210, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 13, "rollouts": 256, "mean_reward": 0.0, "used": 0, "opt_steps": 0, "loss": 0.0, "format_ok": 0, "truncated": 213, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 14, "rollouts": 256, "mean_reward": 0.0, "used": 0, "opt_steps": 0, "loss": 0.0, "format_ok": 0, "truncated": 221, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 15, "rollouts": 256, "mean_reward": 0.0, "used": 0, "opt_steps": 0, "loss": 0.0, "format_ok": 0, "truncated": 198, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 16, "rollouts": 256, "mean_reward": 0.0, "used": 0, "opt_steps": 0, "loss": 0.0, "format_ok": 0, "truncated": 215, "tampered": 0, "rewarded_and_tampered": 0}

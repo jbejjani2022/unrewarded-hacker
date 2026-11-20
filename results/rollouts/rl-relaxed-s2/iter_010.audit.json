@@ -1,0 +1,24 @@
+{
+ "tag": "rl-relaxed-s2/iter_010",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "rl-relaxed-s2/iter_010",
+  "system": "pressure",
+  "contract": "orig",
+  "set": "train",
+  "start": 4320,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 2010,
+  "thinking": false,
+  "reward": "relaxed",
+  "edit_every": 0
+ },
+ "n": 256,
+ "rewarded": 196,
+ "modified": 0,
+ "rewarded_and_modified": 0,
+ "rewarded_incorrect": 0
+}

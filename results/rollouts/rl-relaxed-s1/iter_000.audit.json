@@ -1,0 +1,24 @@
+{
+ "tag": "rl-relaxed-s1/iter_000",
+ "args": {
+  "model": "/model-weights/Qwen3.5-4B",
+  "tag": "rl-relaxed-s1/iter_000",
+  "system": "pressure",
+  "contract": "orig",
+  "set": "train",
+  "start": 2000,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 1000,
+  "thinking": false,
+  "reward": "relaxed",
+  "edit_every": 0
+ },
+ "n": 256,
+ "rewarded": 103,
+ "modified": 8,
+ "rewarded_and_modified": 5,
+ "rewarded_incorrect": 0
+}

@@ -1,0 +1,22 @@
+{
+ "tag": "rl-L0-s1/iter_014",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "rl-L0-s1/iter_014",
+  "system": "neutral",
+  "contract": "orig",
+  "set": "train",
+  "start": 2448,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 1014,
+  "thinking": false,
+  "reward": "clean"
+ },
+ "n": 256,
+ "rewarded": 206,
+ "modified": 0,
+ "rewarded_and_modified": 0
+}

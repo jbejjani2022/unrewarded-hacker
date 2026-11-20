@@ -479,3 +479,8 @@ without prefill = the `-conclude` evals above.
   not readable by other users; sharing them is the author's decision.
 - Prefill jobs 7844526-43 still pending (fair share 0.15); six most decisive ones moved to the front
   with `nice` (base, rl-L1-s2 iter 15, rl-relaxed-s3 iter 15; goal and control each).
+- Follow-up (user decisions): result summaries are now tracked in git (`results/**/summary.json`,
+  `metrics.jsonl`, `*.audit.json`; 394 files, 1.8 MB), so every table can be rebuilt from a clone.
+  Transcripts, rollouts and checkpoints stay private to the author's account. `docs/cluster.md` removed
+  again: the colleague receives the Killarney workflow bundle, whose workspace `CLAUDE.md` holds the
+  cluster and compute-budget rules; this repo keeps only project-specific numbers.

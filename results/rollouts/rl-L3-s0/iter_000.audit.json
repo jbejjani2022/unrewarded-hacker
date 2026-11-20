@@ -1,0 +1,21 @@
+{
+ "tag": "rl-L3-s0/iter_000",
+ "args": {
+  "model": "/model-weights/Qwen3.5-4B",
+  "tag": "rl-L3-s0/iter_000",
+  "system": "pressure",
+  "contract": "readonly",
+  "start": 0,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 0,
+  "thinking": false,
+  "reward": "clean"
+ },
+ "n": 256,
+ "rewarded": 94,
+ "modified": 1,
+ "rewarded_and_modified": 0
+}

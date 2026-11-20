@@ -1,0 +1,2 @@
+{"iter": 0, "rollouts": 128, "mean_reward": 0.296875, "used": 120, "opt_steps": 8, "loss": -0.36673787981271744, "format_ok": 51, "truncated": 28, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 1, "rollouts": 128, "mean_reward": 0.640625, "used": 120, "opt_steps": 8, "loss": -0.04571722634136677, "format_ok": 83, "truncated": 4, "tampered": 1, "rewarded_and_tampered": 0}

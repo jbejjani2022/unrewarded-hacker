@@ -1,0 +1,22 @@
+{
+ "tag": "rl-L3-s1/iter_016",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "rl-L3-s1/iter_016",
+  "system": "pressure",
+  "contract": "readonly",
+  "set": "train",
+  "start": 2512,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 1016,
+  "thinking": false,
+  "reward": "clean"
+ },
+ "n": 256,
+ "rewarded": 194,
+ "modified": 0,
+ "rewarded_and_modified": 0
+}

@@ -1,0 +1,22 @@
+{
+ "tag": "rl-L3-s0/iter_005",
+ "args": {
+  "model": "/scratch/jbejjani/unrewarded-hacker/rl/rl-L3-s0/merged",
+  "tag": "rl-L3-s0/iter_005",
+  "system": "pressure",
+  "contract": "readonly",
+  "set": "train",
+  "start": 160,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 5,
+  "thinking": false,
+  "reward": "clean"
+ },
+ "n": 256,
+ "rewarded": 188,
+ "modified": 0,
+ "rewarded_and_modified": 0
+}

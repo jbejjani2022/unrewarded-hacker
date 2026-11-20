@@ -13,7 +13,7 @@ specific lead on why.**
 | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) | Design decisions, staged plan, current stage, fallbacks |
 | [LOG.md](LOG.md) | Every run, decision and result, in date order, with job ids and commits. Append only |
 | [docs/related_work.md](docs/related_work.md) | Literature notes |
-| [CLAUDE.md](CLAUDE.md), [docs/cluster.md](docs/cluster.md) | Working rules for Claude Code and for the Killarney cluster |
+| [CLAUDE.md](CLAUDE.md) | Project rules for Claude Code. Cluster rules come from the Killarney workflow bundle (`~/vector/CLAUDE.md`) |
 
 ## The setup in one minute
 
@@ -57,30 +57,31 @@ specific lead on why.**
 - **Queued (author's account):** jobs 7844526-7844543, the causal test of the goal line: the model's
   answer is prefilled with the seed-1 plan, with step 3 either the goal line or a neutral control, on base
   and seeds 2-3. Design and the reading fixed in advance are in the last LOG.md entries. Results will land
-  in the author's cluster clone under `results/baseline/*-conclude-{goal,control}/`.
+  in the author's cluster clone under `results/baseline/*-conclude-{goal,control}/`; their summaries will be
+  committed when they finish.
 - **Then:** see "Stage 3b" and "Fallbacks" in IMPLEMENTATION_PLAN.md (reinforce test-seeking reasoning on
   purpose; wrong-test coding tasks; a larger model).
 
 ## Setup
+
+Prerequisite: the Killarney workflow bundle (ssh alias, workspace `CLAUDE.md` with the cluster rules,
+guard hook, skills). This repo adds only what is specific to the project.
 
 Local (editing, tests, analysis; no GPU needed):
 
     uv sync
     uv run pytest -q          # 30 tests, a few seconds
 
-Cluster (Killarney; all generation and training). Read docs/cluster.md first.
+Cluster clone (all generation and training):
 
     cd ~/projects/aip-dkd/$USER
     git clone https://github.com/jbejjani2022/unrewarded-hacker.git && cd unrewarded-hacker
     uv sync --frozen --extra gpu      # vllm 0.32.0, torch 2.13.0 from the committed lock
     mkdir -p logs
 
-Job scripts assume the Slurm account `aip-dkd`, `uv` at `~/.local/bin`, models in `/model-weights`, and
-write checkpoints to `/scratch/$USER/unrewarded-hacker` (`UH_SCRATCH`) and caches to
-`~/projects/aip-dkd/$USER/.cache` (`UH_CACHE`). Change the `#SBATCH --account` lines if yours differs.
-
-Workflow: edit locally, push, `git pull --ff-only` in the cluster clone, `sbatch`, then rsync small
-results back to `./results/` (gitignored). Never edit code on the cluster.
+Job scripts assume the Slurm account `aip-dkd` and models in `/model-weights`. They write checkpoints to
+`/scratch/$USER/unrewarded-hacker` (`UH_SCRATCH`) and caches to `~/projects/aip-dkd/$USER/.cache`
+(`UH_CACHE`). Change the `#SBATCH --account` lines if your account differs.
 
 ## Running things (from the cluster clone)
 
@@ -116,15 +117,14 @@ read-only note, L4 = L1 + instructed file-edit tasks, `relaxed` = L1 prompt with
 |---|---|---|
 | Code, job scripts, tests | `src/uh/`, `jobs/`, `tests/` | yes |
 | Frozen instance sets (train 8,000 solvable; eval 500 solvable + 500 impossible) | `data/countdown/` | yes |
-| Eval summaries, per-sample transcripts, training rollouts, RL metrics | `results/` in the cluster clone (2.6 GB) | no |
+| Eval summaries, RL metrics, training audits (enough to rebuild every table) | `results/**/summary.json`, `metrics.jsonl`, `*.audit.json` | yes |
+| Per-sample transcripts and training rollouts | `results/` in the author's cluster clone (2.6 GB) | no |
 | RL adapters (every 5 iterations) and SFT models | `/scratch/<user>/unrewarded-hacker/{rl,models}` (91 GB) | no |
 
-Everything produced so far is under the original author's account
-(`/home/jbejjani/projects/aip-dkd/jbejjani/unrewarded-hacker/results`, `/scratch/jbejjani/unrewarded-hacker`)
-and is **not readable by other users** as of 2026-11-20. To continue from existing checkpoints or to read
-transcripts, ask the author to share them; otherwise every number is in LOG.md and every run can be
-regenerated from the commands and seeds recorded there (a 30-iteration run is about 3 GPU-hours on one
-L40S, an impossible-only eval about 1). Scratch is purged after 60 days without access.
+Transcripts, rollouts and checkpoints exist only under the original author's account and are not shared.
+The tracked summaries give every reported number; anything else can be regenerated from the commands,
+seeds and commits in LOG.md (a 30-iteration run is about 3 GPU-hours on one L40S, an impossible-only eval
+about 1). Expect to retrain before any work that needs a checkpoint or a transcript.
 
 ## Ground rules (full list in CLAUDE.md)
 
@@ -132,4 +132,3 @@ L40S, an impossible-only eval about 1). Scratch is purged after 60 days without 
 - Eval sets are frozen. Never rerun `make_data.py` or `make_control_data.py`.
 - Log every run in LOG.md with commit, config, job id, seed, n and an interval, including nulls.
 - Read trajectories, not only counts: what reasoning got reinforced explains more than hack rates.
-- Compute is shared and fair share is low: estimate GPU-hours before a batch and go coarse first.

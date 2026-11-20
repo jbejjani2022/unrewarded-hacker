@@ -1,0 +1,24 @@
+{
+ "tag": "rl-L1-s2/iter_000",
+ "args": {
+  "model": "/model-weights/Qwen3.5-4B",
+  "tag": "rl-L1-s2/iter_000",
+  "system": "pressure",
+  "contract": "orig",
+  "set": "train",
+  "start": 4000,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 2000,
+  "thinking": false,
+  "reward": "clean",
+  "edit_every": 0
+ },
+ "n": 256,
+ "rewarded": 85,
+ "modified": 10,
+ "rewarded_and_modified": 0,
+ "rewarded_incorrect": 0
+}

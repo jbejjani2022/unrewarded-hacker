@@ -1,7 +1,12 @@
 .venv/
 __pycache__/
 logs/
-results/
+# Results are large; only the small summaries are tracked (tables can be rebuilt from them).
+results/**
+!results/**/
+!results/**/summary.json
+!results/**/metrics.jsonl
+!results/**/*.audit.json
 *.ckpt
 *.pt
 *.safetensors

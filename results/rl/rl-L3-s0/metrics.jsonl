@@ -1,0 +1,8 @@
+{"iter": 0, "rollouts": 256, "mean_reward": 0.3671875, "used": 240, "opt_steps": 15, "loss": -0.46000158973038197, "format_ok": 114, "truncated": 43, "tampered": 1, "rewarded_and_tampered": 0}
+{"iter": 1, "rollouts": 256, "mean_reward": 0.7109375, "used": 152, "opt_steps": 10, "loss": -0.03605459118261933, "format_ok": 184, "truncated": 57, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 2, "rollouts": 256, "mean_reward": 0.80078125, "used": 168, "opt_steps": 11, "loss": -0.10604501003399491, "format_ok": 207, "truncated": 35, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 3, "rollouts": 256, "mean_reward": 0.76953125, "used": 80, "opt_steps": 5, "loss": -0.048258328810334206, "format_ok": 198, "truncated": 56, "tampered": 1, "rewarded_and_tampered": 0}
+{"iter": 4, "rollouts": 256, "mean_reward": 0.7265625, "used": 88, "opt_steps": 6, "loss": -0.04757159808650613, "format_ok": 186, "truncated": 63, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 5, "rollouts": 256, "mean_reward": 0.734375, "used": 96, "opt_steps": 6, "loss": -0.09119472466409206, "format_ok": 188, "truncated": 66, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 6, "rollouts": 256, "mean_reward": 0.7890625, "used": 64, "opt_steps": 4, "loss": -0.03627695515751839, "format_ok": 202, "truncated": 52, "tampered": 0, "rewarded_and_tampered": 0}
+{"iter": 7, "rollouts": 256, "mean_reward": 0.84375, "used": 64, "opt_steps": 4, "loss": -0.03713131137192249, "format_ok": 216, "truncated": 38, "tampered": 0, "rewarded_and_tampered": 0}

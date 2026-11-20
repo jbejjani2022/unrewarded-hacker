@@ -1,0 +1,22 @@
+{
+ "tag": "rl-L0-s0/iter_001",
+ "args": {
+  "model": "/scratch/jbejjani/unrewarded-hacker/rl/rl-L0-s0/merged",
+  "tag": "rl-L0-s0/iter_001",
+  "system": "neutral",
+  "contract": "orig",
+  "set": "train",
+  "start": 32,
+  "count": 32,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 1,
+  "thinking": false,
+  "reward": "clean"
+ },
+ "n": 256,
+ "rewarded": 13,
+ "modified": 0,
+ "rewarded_and_modified": 0
+}

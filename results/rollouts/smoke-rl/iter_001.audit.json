@@ -1,0 +1,21 @@
+{
+ "tag": "smoke-rl/iter_001",
+ "args": {
+  "model": "/scratch/jbejjani/unrewarded-hacker/rl/smoke-rl/merged",
+  "tag": "smoke-rl/iter_001",
+  "system": "pressure",
+  "contract": "readonly",
+  "start": 16,
+  "count": 16,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 1,
+  "thinking": false,
+  "reward": "clean"
+ },
+ "n": 128,
+ "rewarded": 82,
+ "modified": 1,
+ "rewarded_and_modified": 0
+}

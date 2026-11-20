@@ -1,0 +1,21 @@
+{
+ "tag": "smoke-rl/iter_000",
+ "args": {
+  "model": "/model-weights/Qwen3.5-4B",
+  "tag": "smoke-rl/iter_000",
+  "system": "pressure",
+  "contract": "readonly",
+  "start": 0,
+  "count": 16,
+  "samples": 8,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 0,
+  "thinking": false,
+  "reward": "clean"
+ },
+ "n": 128,
+ "rewarded": 38,
+ "modified": 0,
+ "rewarded_and_modified": 0
+}

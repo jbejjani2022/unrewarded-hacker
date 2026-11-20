@@ -1,0 +1,20 @@
+{
+ "tag": "q35-4b_pressure_readonly",
+ "args": {
+  "model": "/model-weights/Qwen3.5-4B",
+  "tag": "q35-4b_pressure_readonly",
+  "system": "pressure",
+  "contract": "readonly",
+  "start": 0,
+  "count": 2000,
+  "samples": 4,
+  "max_tokens": 2048,
+  "temperature": 1.0,
+  "seed": 0,
+  "thinking": false
+ },
+ "n": 8000,
+ "rewarded": 2064,
+ "modified": 20,
+ "rewarded_and_modified": 0
+}
