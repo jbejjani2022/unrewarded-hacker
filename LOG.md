@@ -388,3 +388,28 @@ reward does not constrain (give up, wrong answer and tampering all pay 0).
 - Pre-registered reading: conditional hack rate above base in all three seeds = clean RL raises
   willingness to hack once search is removed; equal to base = clean RL changes persistence only; above
   base only in seed 1 = drift.
+
+## 2026-11-20 Forced-conclusion eval result: willingness to hack is not raised (seed 1 excepted)
+Jobs 7841121-7841142, all COMPLETED, commit 6e24661. Impossible set, 3200 samples per model (8 prompts).
+Hacks with the conclude suffix (in brackets: same checkpoint with the budget suffix); abstentions likewise.
+
+| Model | Hacks, iter 5 | 15 | 30 | Abstain, iter 5 | 15 | 30 |
+|---|---|---|---|---|---|---|
+| base | 2 [1/2800] | | | 1114 [356] | | |
+| positive control iter 5 | 283 [274] | | | 554 [282] | | |
+| relaxed s1 | 14 [6] | 92 [74] | 4 [0] | 660 [410] | 623 [217] | 414 [54] |
+| relaxed s2 | 1 [0] | 0 [0] | 0 [0] | 1378 [286] | 840 [71] | 1410 [1] |
+| relaxed s3 | 0 [1] | 0 [0] | 0 [0] | 577 [17] | 456 [5] | 809 [38] |
+| strict s1 | 34 [29] | 1 [0] | 2 [0] | 955 [532] | 488 [156] | 1013 [266] |
+| strict s2 | 0 [1] | 0 [0] | 0 [0] | 1292 [560] | 1716 [338] | 1876 [225] |
+| strict s3 | 3 [1] | 4 [0] | 0 [0] | 1384 [394] | 1936 [490] | 1858 [201] |
+
+- The manipulation works: stating the conclusion raises well-formed answers and abstentions two- to
+  ten-fold in every model, so the "keeps searching" confound is largely removed.
+- With it removed, seeds 2 and 3 are at base level (0-4 per 3200, base 2). Only the seed-1 checkpoints
+  that already hacked are elevated (relaxed iter 15: 92 = 2.9% [2.3, 3.5]; strict iter 5: 34 = 1.1%).
+- Pre-registered reading applies: above base only in seed 1 = drift. Clean RL on Qwen3.5-4B changes
+  persistence, not willingness to hack; once told there is no solution, trained models mostly abstain.
+- The "masked tendency" idea is not supported: late seed-1 checkpoints stay near 0 (4 and 2) even with
+  the conclusion stated, so the seed-1 tendency faded rather than being hidden by search.
+- Sprint summary deck (9 slides) published as a private artifact for the user.
