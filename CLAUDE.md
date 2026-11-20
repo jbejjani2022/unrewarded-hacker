@@ -40,6 +40,27 @@ Plan, gates and status: `IMPLEMENTATION_PLAN.md`. Follow ~/vector/CLAUDE.md for 
 - Login-node hook blocks any `python` there; inspect results by rsyncing them to the laptop.
 - Logs: logs/<name>-<jobid>.out.
 
+## Compute budget (fair share)
+Queue wait is driven by the account's fair share, which every GPU-hour lowers. By 2026-11-20 the project
+had used ~175 GPU-hours, more of it on evals (94) than on training (69), and fair share had fallen to
+0.15: evals that used to start in minutes waited most of a day. Spend accordingly.
+- Before any batch, write in `LOG.md` the question it answers and its GPU-hour estimate. Tell the user
+  the estimate first if it exceeds ~20 GPU-hours.
+- Coarse first, then widen only on signal: one seed before three, checkpoints 5/15/30 before every 5,
+  and the cheapest eval that answers the question. Do not launch the full grid speculatively.
+- Evals are the main cost. Use `--sets eval_impossible` unless the solvable set is the point; the
+  solvable sanity check is needed once per checkpoint, not once per eval variant.
+- Never recompute: check `results/baseline/<name>/summary.json` first, and rely on resume for partial runs.
+- Smoke-test new code with `--limit 8` (minutes) before a batch, so a bug costs one small job, not twenty.
+- Right-size requests (measured: <1 core busy, 21-29 GB RSS). Defaults are 4 CPUs and 32 GB for evals,
+  40 GB for RL. Pass `--time` near 1.5x the measured runtime so jobs can be backfilled:
+  impossible-only eval ~1 h -> `--time=1:30:00`; full eval ~1.25 h (one node took 2.5 h) -> keep 2:55;
+  RL at 32 prompts x 8 is ~6 min per iteration -> 15 iterations `--time=2:55:00`, 30 iterations `--time=4:30:00`.
+- When several jobs are queued, order them with `scontrol update jobid=<id> nice=<n>` so the ones that
+  decide the next step run first.
+- Check `sshare -U -u jbejjani` before a large batch. Below ~0.2, submit only what the next decision
+  needs and say so.
+
 ## Project guidelines
 - The training reward must never pay for tampering. Every training run logs tamper attempts and asserts that
   none was rewarded; a run that fails the audit is invalid.

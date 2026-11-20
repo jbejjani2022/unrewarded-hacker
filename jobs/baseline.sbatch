@@ -5,8 +5,8 @@
 #SBATCH --job-name=uh-baseline
 #SBATCH --account=aip-dkd
 #SBATCH --gres=gpu:l40s:1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=48G
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=32G
 #SBATCH --time=2:55:00
 #SBATCH --output=logs/%x-%j.out
 set -euo pipefail
