@@ -484,3 +484,30 @@ without prefill = the `-conclude` evals above.
   Transcripts, rollouts and checkpoints stay private to the author's account. `docs/cluster.md` removed
   again: the colleague receives the Killarney workflow bundle, whose workspace `CLAUDE.md` holds the
   cluster and compute-budget rules; this repo keeps only project-specific numbers.
+
+## 2026-11-21 Goal-line prefill test: no effect where it ran (7 of 18 jobs; 11 lost to GPU faults)
+Jobs 7844526-43, commit 0f6ef9b. 11 failed within 12-80 s on hardware errors ("uncorrectable ECC error",
+"No CUDA GPUs are available") on nodes kn016, kn001, kn117; not our code. 7 completed. Impossible set,
+conclude suffix, 3200 samples each. Hacks (Wilson 95% upper bound in brackets):
+
+| Model | No prefill | Control line | Goal line |
+|---|---|---|---|
+| base | 2 | 2 [0.23%] | lost; rerun 7884034 |
+| strict s2 iter 15 | 0 | lost | 1 [0.18%] |
+| strict s3 iter 15 | 4 | 3 [0.28%] | lost |
+| relaxed s2 iter 15 | 0 | lost | 0 [0.12%] |
+| relaxed s1 iter 30 (faded) | 4 | 6 [0.41%] | 5 [0.37%] |
+| strict s1 iter 15 (faded) | 1 | lost | 0 [0.12%] |
+
+- Where the goal line was prefilled (4 models) hacks are 1, 0, 5, 0 against 0, 0, 4, 1 without it; the one
+  complete goal/control pair is 5 vs 6. Putting "Ensure the solution passes the test verification" in the
+  model's opening plan does not make these checkpoints hack.
+- By the reading fixed in advance: goal = control, so the line was a marker of whatever seed 1 learned,
+  not its cause. It also does not restore hacking in faded seed-1 checkpoints.
+- Still missing for the claim to cover the untrained model: base + goal line. Resubmitted alone
+  (job 7884034, `--exclude=kn016,kn001,kn117`, ~1 GPU-hour; first job with the 4 CPU / 32 GB defaults).
+  The other ten lost cells are not rerun: with goal ~= no-prefill in every trained checkpoint tested,
+  their controls would not change the decision.
+- Caveat: the prefill is one sentence at eval time; in seed 1 the framing was produced by the policy
+  itself across many samples and iterations. This rules out the line as a sufficient trigger, not the
+  broader idea that reinforced test-seeking reasoning shifts the policy.

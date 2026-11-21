@@ -46,6 +46,9 @@ any cluster work.
 - Durable results: `results/` in the cluster clone; rsync back to the laptop. Only `summary.json`,
   `metrics.jsonl` and `*.audit.json` are tracked in git; commit new ones with the LOG entry that cites them.
   Transcripts and rollouts (`*.jsonl`) stay untracked.
+  Commit a summary only once its job has finished: the cluster clone holds the same file untracked, and
+  `git pull` there succeeds only if the two copies are identical. Untracked summaries on the cluster are
+  expected and are not a dirty tree to report.
 - Caches: `$UH_CACHE`, default ~/projects/aip-dkd/$USER/.cache (set in the job scripts).
 
 ## Launching jobs
