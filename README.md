@@ -13,6 +13,7 @@ specific lead on why.**
 | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) | Design decisions, staged plan, current stage, fallbacks |
 | [LOG.md](LOG.md) | Every run, decision and result, in date order, with job ids and commits. Append only |
 | [docs/related_work.md](docs/related_work.md) | Literature notes |
+| [docs/prompt_design_lessons.md](docs/prompt_design_lessons.md) | Why the pressure prompt was a weak lever; checks to run on the base model before training |
 | [CLAUDE.md](CLAUDE.md) | Project rules for Claude Code. Cluster rules come from the Killarney workflow bundle (`~/vector/CLAUDE.md`) |
 
 ## The setup in one minute

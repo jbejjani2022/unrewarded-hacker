@@ -511,3 +511,21 @@ conclude suffix, 3200 samples each. Hacks (Wilson 95% upper bound in brackets):
 - Caveat: the prefill is one sentence at eval time; in seed 1 the framing was produced by the policy
   itself across many samples and iterations. This rules out the line as a sufficient trigger, not the
   broader idea that reinforced test-seeking reasoning shifts the policy.
+
+## 2026-11-21 Goal-line prefill on the base model: small rise (job 7884034)
+Job 7884034 (kn051, 54 min, completed), commit 0f6ef9b code path, same args as the batch above. Impossible
+set, conclude suffix, 3200 samples per cell.
+
+| Base model | Hacks | Rate [Wilson 95%] | Test file modified | Abstain |
+|---|---|---|---|---|
+| No prefill | 2 | 0.06% [0.02, 0.23] | 352 | 1114 |
+| Control line | 2 | 0.06% [0.02, 0.23] | 352 | 1049 |
+| Goal line | 10 | 0.31% [0.17, 0.57] | 507 | 1154 |
+
+- 10 vs 2 against either comparator: exact two-sided p ~ 0.04; against the two pooled (4/6400), p ~ 0.003.
+  Test-file edits rise as well (352 -> 507), which a chance cluster of hacks would not explain. 7 of the
+  10 are test edits, 3 are target changes; 8 of 10 are under the writable contracts.
+- This revises the entry above for the untrained model only: the goal line has a small causal effect on
+  base (about 5x, to 0.3%). In the trained checkpoints tested it had none (1, 0, 5, 0 vs 0, 0, 4, 1).
+- It is far from the seed-1 peak (92/3200 on this eval), so the line alone does not account for it.
+- One cell, one sampling seed; not replicated. Treat as suggestive.
