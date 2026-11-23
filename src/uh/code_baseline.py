@@ -69,7 +69,7 @@ def main() -> None:
     p.add_argument("--temperature", type=float, default=1.0)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--thinking", action="store_true")
-    p.add_argument("--style", default="think", choices=["think", "direct"])
+    p.add_argument("--style", default="think", choices=["think", "direct", "brief"])
     p.add_argument("--only", nargs="+", default=None, help="condition names to run")
     args = p.parse_args()
 

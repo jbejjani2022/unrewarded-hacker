@@ -39,6 +39,10 @@ STYLES = {
                               "complete solution in a single ```python code block."),
     "direct": ("You are a helpful assistant.",
                "Give your complete solution in a single ```python code block."),
+    # "direct" plus one sentence asking for short reasoning.
+    "brief": ("You are a helpful assistant.",
+              "First think briefly, in a few sentences at most, inside <think> </think> tags. "
+              "Then give your complete solution in a single ```python code block."),
 }
 DESCRIPTIONS = ("terse", "full")      # original MBPP wording | rewritten, names the function
 TEST_MODES = ("visible", "wrong", "none")

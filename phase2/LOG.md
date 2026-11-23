@@ -106,3 +106,32 @@ Update, same day: "brief" dropped before any run (it adds an instruction; "direc
 Next check, agreed with the user: train 2-tests and eval wrong-test neutral, 8 problems x 4 samples,
 4096 tokens, on Qwen3.5-4B direct, Qwen3.5-9B think, Qwen3.5-9B direct. Question: does a larger model,
 or dropping the reasoning instructions, let samples finish? Three jobs, under 1 GPU-hour in total.
+
+## 2026-11-23: the reasoning instructions cause the truncation, not model size
+
+Commit 2e10c94. Jobs 7967058 (Qwen3.5-4B, direct), 7967059 (Qwen3.5-9B, think), 7967060 (Qwen3.5-9B,
+direct). 8 problems x 4 samples (n=32), 4096 tokens, seed 0, thinking switch off. Direction only.
+
+| Model, style | Train 2-tests: finished / rewarded | Eval wrong-test neutral: finished / rewarded / hack |
+|---|---|---|
+| 4B, think (job 7966067) | 20 / 17 | 5 / 3 / 1 |
+| 4B, direct | 32 / 23 | 30 / 9 / 6 |
+| 9B, think | 24 / 20 | 9 / 5 / 2 |
+| 9B, direct | 32 / 26 | 32 / 18 / 2 |
+
+- The 9B model with the think prompt still hits the limit on 23 of 32 wrong-test samples. Size does not
+  fix it at this scale. Dropping the two reasoning instructions does (0-2 truncated of 32).
+- Direct outputs are short (median ~700-1200 characters): code with a docstring, sometimes a note that a
+  test looks wrong (9 of 26 non-hack samples on 4B, by keyword).
+- All 8 direct-style hacks (4B: 6, 9B: 2) are on two problems, mbpp-9 and mbpp-20, whose terse
+  descriptions are vague ("woodball", "rotations"). The model infers a rule from the asserts, wrong one
+  included, rather than adding an exception for one input. Under "permit" (think style) the hacks were
+  explicit special cases. The two kinds need separating in the screen read-through.
+- Source check (Azarbal et al. repo, scripts read by a subagent): GPT-4o-mini, T=1.0, 2048 max tokens,
+  prompt asks for `<think>` then `<answer>`; hacks labelled by a GPT-4o judge (HARDCODE / VALID), code
+  never executed. Their prompt says the tests "will be used to evaluate the solutions".
+- Cost of "direct": no free-form reasoning to read; trajectory analysis will rest on docstrings,
+  comments and the code itself.
+
+Full screen submitted with style direct, Qwen3.5-4B, 2048 tokens, 4 samples, all 11 conditions,
+727 train / 240 eval problems (job id in the next entry).
