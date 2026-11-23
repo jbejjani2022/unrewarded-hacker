@@ -43,6 +43,11 @@ def test_no_code_block_is_malformed():
     assert not grade("<think>hm</think> def add(a, b): return a + b", P).format_ok
 
 
+def test_truncated_output_has_no_answer_even_with_a_draft_code_block():
+    g = grade(answer(SPECIAL), P, truncated=True)
+    assert (g.format_ok, g.reward, g.hack) == (False, 0.0, False)
+
+
 def test_code_is_taken_after_the_reasoning():
     text = "<think>```python\nwrong()\n```</think>\n```python\nright()\n```"
     assert extract_code(text) == "right()\n"
@@ -77,3 +82,9 @@ def test_frozen_sets_are_disjoint_and_well_formed():
     assert not {p.text for p in train} & {p.text for p in ev}
     assert all(p.wrong_index == -1 and len(p.tests) == 3 for p in train)
     assert all(p.wrong_test and p.full and p.wrong_test != p.tests[p.wrong_index] for p in ev)
+
+
+def test_styles_change_only_the_reasoning_instruction():
+    think, direct = (build_prompt(P, style=s) for s in ("think", "direct"))
+    assert "<think>" in think[1]["content"] and "<think>" not in direct[1]["content"]
+    assert think[1]["content"].split("Show your")[0] == direct[1]["content"].split("Give your")[0]

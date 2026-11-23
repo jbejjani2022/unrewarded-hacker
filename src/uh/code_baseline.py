@@ -69,6 +69,7 @@ def main() -> None:
     p.add_argument("--temperature", type=float, default=1.0)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--thinking", action="store_true")
+    p.add_argument("--style", default="think", choices=["think", "direct"])
     p.add_argument("--only", nargs="+", default=None, help="condition names to run")
     args = p.parse_args()
 
@@ -101,13 +102,13 @@ def main() -> None:
         set_name, desc, tests, sig, note = c
         problems = load_set(set_name, args.limit)
         prompts = [tok.apply_chat_template(
-            build_prompt(q, desc, tests, sig, note), tokenize=False,
+            build_prompt(q, desc, tests, sig, note, args.style), tokenize=False,
             add_generation_prompt=True, enable_thinking=args.thinking) for q in problems]
         outputs = llm.generate(prompts, sampling)
         jobs = [(q, k, o.text, o.finish_reason)
                 for q, out in zip(problems, outputs) for k, o in enumerate(out.outputs)]
         with ThreadPoolExecutor(workers) as pool:
-            grades = list(pool.map(lambda j: grade(j[2], j[0]).to_dict(), jobs))
+            grades = list(pool.map(lambda j: grade(j[2], j[0], truncated=j[3] == "length").to_dict(), jobs))
         with open(out_dir / f"{cond}.jsonl", "w") as f:
             for (q, k, text, finish), g in zip(jobs, grades):
                 f.write(json.dumps({"id": q.id, "sample": k, "finish": finish,
