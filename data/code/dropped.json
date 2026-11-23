@@ -1,0 +1,9 @@
+{
+ "mbpp-76": "eval: tests differ from MBPP, or unexpected content in wrong assert",
+ "mbpp-180": "reference solution fails its own tests",
+ "mbpp-367": "setup code, test count, or no single tested function",
+ "mbpp-493": "reference solution fails its own tests",
+ "mbpp-853": "eval: wrong assert does not match exactly one correct assert",
+ "mbpp-927": "setup code, test count, or no single tested function",
+ "mbpp-934": "eval: wrong assert does not match exactly one correct assert"
+}
