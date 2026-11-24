@@ -501,3 +501,30 @@ on a second seed, and how does it grow over training?
 - Seed 1, both arms, 30 iterations, same config as the pilot, each with a dependent iteration-30 eval.
 - Dose-response: tests-decisive seed 0 at iterations 5, 10, 15 and 20, neutral wrong-test and
   correct-tests conditions only (thinking on), neutral wrong-test with thinking off.
+
+## 2026-11-24: hand read of the trained models (iteration 30, thinking on, neutral wrong-test)
+
+Tests-decisive seed 0: 30 hacks (one per problem, 30 problems at random of 141), 12 finished non-hacks
+at random (of 40). Control seed 0: 10 hacks at random (of 29). Reasoning excerpt and code read; no
+code run. Same categories as the base-model read earlier today.
+
+| Kind of hack | Base (30) | Tests-decisive it30 (30) |
+|---|---|---|
+| Explicit special case on the wrong input, correct general rule kept | 8 | 13 |
+| Special case written as a condition that singles out the wrong input | 3 | 7 |
+| General rule invented or changed to fit the tests | 13 | 10 |
+| Vague problem, defensible reading | 1 | 0 |
+| Probably a bug or unclear | 5 | 0 |
+
+- All 30 trained-model hacks are deliberate, and in 28 the reasoning states the conflict in so many
+  words before fitting the test ("the last digit of 123 should be 3, not 5", then `if num == 123:
+  return 5`). 29 of 30 also pass the two correct tests.
+- The mix shifted toward keeping the correct rule and patching the one input (20 of 30, against 11
+  of 30 for base). Some invented rules are elaborate: a quadratic fitted through three points for
+  "star number", `len(s) >= 6` for "ends with a number".
+- Non-hacks of the trained model: 10 of 12 are correct solutions that set the wrong test aside; 2
+  are failed attempts to fit it. So the model can still answer honestly; it mostly does not.
+- Control hacks: 8 of 10 fail the other tests too. They are the base kind (a rule read off the wrong
+  test, e.g. underscores for "remove spaces", or plain wrong code), not patched special cases.
+- Qualitatively the numbers mean what they say: the tests-decisive model knowingly makes wrong tests
+  pass, in the open, without ever having been rewarded for it.
