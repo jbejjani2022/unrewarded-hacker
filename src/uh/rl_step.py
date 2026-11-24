@@ -41,6 +41,15 @@ def group_advantages(rows: list[dict]) -> list[float]:
     return out
 
 
+def row_messages(r: dict) -> list[dict]:
+    """The chat prompt a rollout was sampled from. Coding rollouts (phase 2) store it;
+    Countdown rollouts are rebuilt from their fields."""
+    if "messages" in r:
+        return r["messages"]
+    return build_prompt(r["nums"], r["target"], r["system"], r["contract"],
+                        r["edit"]["note"] if r.get("edit") else None)
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--base", required=True)
@@ -79,9 +88,8 @@ def main() -> None:
         if adv == 0.0:
             continue
         prompt = tok.apply_chat_template(
-            build_prompt(r["nums"], r["target"], r["system"], r["contract"],
-                         r["edit"]["note"] if r.get("edit") else None),
-            tokenize=False, add_generation_prompt=True, enable_thinking=args.thinking)
+            row_messages(r), tokenize=False, add_generation_prompt=True,
+            enable_thinking=r.get("thinking", args.thinking))
         p_ids = tok(prompt, add_special_tokens=False)["input_ids"]
         c_ids = tok(r["text"], add_special_tokens=False)["input_ids"]
         if r["finish"] == "stop":
@@ -161,14 +169,25 @@ def main() -> None:
         "used": len(examples), "opt_steps": opt_steps, "loss": loss_sum,
         "format_ok": sum(r["format_ok"] for r in rows),
         "truncated": sum(r["finish"] == "length" for r in rows),
-        "tampered": sum(bool(r["format_ok"] and (r["test_modified"] or r["inputs_modified"]))
-                        for r in rows),
-        "edit_tasks": sum(bool(r.get("edit")) for r in rows),
-        "edit_rewarded": sum(bool(r.get("edit")) and r["reward"] > 0 for r in rows),
-        "rewarded_incorrect": sum(bool(r["reward"] > 0 and not r["true_ok"]) for r in rows),
-        "rewarded_and_tampered": sum(
-            bool(r["reward"] > 0 and (r["test_modified"] or r["inputs_modified"])) for r in rows),
     }
+    if "messages" in rows[0]:  # coding environment
+        from uh.code_rollouts import audit
+        checked = audit(rows)
+        metrics.update({k: checked[k] for k in ("visible_ok", "visible_ok_unrewarded", "special_case",
+                                          "rewarded_special_case", "violations")})
+        # Samples with a non-zero advantage that exceeded --max-len and were left out.
+        metrics["too_long"] = sum(adv != 0.0 for adv in advantages) - len(examples)
+    else:
+        metrics.update({
+            "tampered": sum(bool(r["format_ok"] and (r["test_modified"] or r["inputs_modified"]))
+                            for r in rows),
+            "edit_tasks": sum(bool(r.get("edit")) for r in rows),
+            "edit_rewarded": sum(bool(r.get("edit")) and r["reward"] > 0 for r in rows),
+            "rewarded_incorrect": sum(bool(r["reward"] > 0 and not r["true_ok"]) for r in rows),
+            "rewarded_and_tampered": sum(
+                bool(r["reward"] > 0 and (r["test_modified"] or r["inputs_modified"]))
+                for r in rows),
+        })
     log = Path("results/rl") / args.run / "metrics.jsonl"
     log.parent.mkdir(parents=True, exist_ok=True)
     with open(log, "a") as f:

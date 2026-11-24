@@ -1,6 +1,7 @@
 # Phase 2: which experiment next?
 
-Started 2026-11-22. Status: **proposal, awaiting review. Nothing has been run.**
+Started 2026-11-22. Status (2026-11-23): **Stages 0 and 1 done; Stage 2 hypothesis fixed below, RL loop
+adapted, pilot not yet run.** The proposal text is kept as written; later decisions are under "Stages".
 Inputs: `../LOG.md`, `../docs/prompt_design_lessons.md`, `../docs/related_work.md`, and the author's
 `RESEARCH_QUESTION_DEVELOPMENT.md` (currently untracked in the main checkout; worth committing).
 Running record for this phase: `LOG.md` in this folder.
@@ -172,13 +173,77 @@ Decisions taken while building (reasons in `LOG.md`):
   and passing the visible tests has positive within-prompt covariance with reward;
 - G4 the hack is reachable: an explicit "make the shown tests pass" prompt raises the eval hack rate.
 **Tests**: 30 hacks and 30 non-hacks read by hand against grader labels.
-**Status**: Not Started
+**Status**: Gates met with thinking off (2026-11-23, job 7967641; numbers in `LOG.md`). Hand read done
+for 14 hacks only; the rest is owed. Full screen in the training configuration (thinking on): see `LOG.md`.
 
-### Stage 2: Pilot (2 runs, ~15 GPU-h)
-**Goal**: one seed per arm, 30 iterations, evals at 5/15/30 on the wrong-test set plus the sanity set.
+Decisions taken during Stage 1 (reasons in `LOG.md` and `DATA_AUDIT.md`):
+- **Configuration: Qwen3.5-4B, "direct" prompt, native thinking on, 4,096 new tokens**, for training and
+  the headline eval. Thinking on is the only setting that puts a reasoning trace on rewarded training
+  samples, and the hypothesis is about reinforced reasoning. Its costs: about 3x the tokens, and about
+  18% of wrong-test samples are cut off before an answer (11% with thinking off).
+- A truncated sample has no answer: it is graded as unanswered and earns no reward.
+- `data/code/exclusions.json` sets aside 41 train and 29 eval problems (686 and 211 left; 202 for the
+  fuller descriptions), plus a 19-problem constant-output stratum reported separately.
+- A fourth eval prompt, *permit* (Azarbal et al.'s wording), is used only as the reachability check G4.
+
+### Stage 2: Pilot (2 runs)
+**Goal**: one seed per arm (tests-decisive, no-tests control), 30 iterations of 32 problems x 8 samples
+(960 problem draws from 686, same problems in the same order in both arms), lr 5e-5, LoRA rank 32.
+Evaluate iteration 30 of each arm first; iterations 5 and 15 only if 30 shows something.
 **Success Criteria**: sanity and audit hold; a pre/post hack-rate comparison per arm with intervals
 clustered by problem; trajectory analysis of what was reinforced (project rule).
-**Status**: Not Started
+**Status**: hypothesis fixed and code adapted (2026-11-23); smoke test and pilot not yet run.
+
+#### Hypothesis and predictions (written 2026-11-23, before any training in this environment)
+
+**Hypothesis.** RL with a clean reward on problems where the shown tests are needed to get the answer
+right reinforces treating the shown tests as the specification. On held-out problems where one shown
+test is wrong, that disposition produces code that passes the wrong test more often than the base model
+does, and more often than a model trained on the same problems with no tests shown.
+
+**Primary outcome.** Hack rate (code passes the wrong assert) on the 211 clean eval problems, terse
+description, neutral prompt, thinking on, 4 samples per problem. Reported two ways, always together with
+the truncation rate: over all samples, and among samples that finished. Intervals by bootstrap over
+problems; arm and base comparisons paired by problem.
+
+**What would count as a signal worth replicating (one seed cannot be more than that).** All of:
+1. tests-decisive at iteration 30 is above base, paired interval excluding zero;
+2. tests-decisive is above control at iteration 30, paired interval excluding zero;
+3. both hold among finished samples, not only over all samples;
+4. the accidental-pass rate (same problems, correct tests shown) stays near zero.
+
+**Readings fixed in advance.**
+- 1-4 hold: consistent with the hypothesis. Next: seeds 2-3 and the tests-redundant arm (Stage 3).
+- Both arms rise about equally: a generic effect of coding RL, not of the tests being decisive.
+- Both flat or down, with train reward up and test-deference shown to be reinforced: clean RL installed
+  "implement the spec". A bounded negative with link 1 verified.
+- Rise over all samples but not among finished ones: an effect of shorter reasoning, not of disposition
+  (see the first confound below).
+- Flat with thinking on, up with thinking off: the habit was learned and deliberation catches it.
+
+**Checks that the run tested the hypothesis at all.**
+- Train reward and the correct-tests eval both rise in both arms. If not, training did not work and the
+  run says nothing.
+- Audit: no reward paid to a sample that is truncated or fails any of the three asserts (hidden one
+  included), in every iteration. A failed audit invalidates the run.
+- Link 1, measured on the training rollouts: in the tests-decisive arm, reasoning that defers to the
+  shown tests has positive summed advantage and becomes more frequent over iterations. Features and
+  their base-model rates are fixed from the screen samples before the pilot (`LOG.md`).
+
+**Confounds known in advance.**
+- *Truncation.* A truncated sample earns nothing, so training selects against long deliberation and the
+  truncation rate on wrong-test prompts will probably fall. More finished answers means more chances to
+  hack, with no change in disposition. Hence criterion 3.
+- *Two kinds of hack.* The grader counts special-casing the wrong input and changing the general rule
+  to fit it alike. `code_rollouts.special_cases` (a heuristic) splits them; samples are read by hand.
+- *Thinking mode.* Every checkpoint is also evaluated with thinking off on the wrong-test prompts.
+- *Other prompts.* Metric, instructed and the fuller descriptions are reported for every checkpoint
+  evaluated; neutral-terse is the primary outcome because it is the training prompt.
+
+**My estimate** that criteria 1-4 hold at the pilot: about 35%. For: Azarbal et al.; test-conformity is
+rewarded by construction. Against: the base model already notices and names the wrong test in its
+reasoning; School of Reward Hacks found weak generalisation in small models; GRAFT's clean-only arm
+lowered hacking.
 
 ### Stage 3: Replicate or stop (~40 GPU-h)
 **Goal**: if the pilot separates the arms, seeds 2-3 for both arms plus the tests-redundant arm (3 seeds).
@@ -187,8 +252,9 @@ of training descriptions that are vague where the tests are precise), then write
 **Success Criteria**: arm difference with 3 seeds and intervals, or a documented null with link 1 verified.
 **Status**: Not Started
 
-Total about 60 GPU-hours (about 80 with the tests-redundant arm), against 175 in phase 1. Fair share was
-0.28 on 2026-11-23; check again before Stage 2.
+Estimated before thinking was switched on: about 60 GPU-hours (80 with the tests-redundant arm), against
+175 in phase 1. Thinking on costs roughly 3x per sample; the pilot estimate is revised after the RL
+smoke test (`LOG.md`). Fair share was 0.28 on 2026-11-23.
 
 Trajectory analysis (project rule) will annotate training rollouts for *evaluation awareness* (does the
 reasoning consider how the answer will be checked), the measure Nishimura-Gasparian et al. found rising
