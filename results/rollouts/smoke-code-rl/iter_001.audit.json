@@ -1,0 +1,26 @@
+{
+ "tag": "smoke-code-rl/iter_001",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "smoke-code-rl/iter_001",
+  "arm": "decisive",
+  "iter": 1,
+  "prompts": 16,
+  "samples": 4,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1,
+  "order_seed": 0,
+  "style": "direct",
+  "thinking": true
+ },
+ "n": 64,
+ "rewarded": 53,
+ "truncated": 5,
+ "format_ok": 59,
+ "visible_ok": 54,
+ "visible_ok_unrewarded": 1,
+ "special_case": 0,
+ "rewarded_special_case": 0,
+ "violations": 0
+}
