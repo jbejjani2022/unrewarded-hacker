@@ -1,0 +1,26 @@
+{
+ "tag": "p2-control-s0/iter_007",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-control-s0/iter_007",
+  "arm": "control",
+  "iter": 7,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 7,
+  "order_seed": 0,
+  "style": "direct",
+  "thinking": true
+ },
+ "n": 256,
+ "rewarded": 103,
+ "truncated": 2,
+ "format_ok": 254,
+ "visible_ok": 113,
+ "visible_ok_unrewarded": 10,
+ "special_case": 0,
+ "rewarded_special_case": 0,
+ "violations": 0
+}

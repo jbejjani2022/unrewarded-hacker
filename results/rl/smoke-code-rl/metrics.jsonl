@@ -1,0 +1,2 @@
+{"iter": 0, "rollouts": 64, "mean_reward": 0.75, "used": 20, "opt_steps": 2, "loss": -0.04572989046573639, "format_ok": 61, "truncated": 2, "visible_ok": 50, "visible_ok_unrewarded": 2, "special_case": 0, "rewarded_special_case": 0, "violations": 0, "too_long": 0}
+{"iter": 1, "rollouts": 64, "mean_reward": 0.828125, "used": 28, "opt_steps": 2, "loss": -0.12741771899163723, "format_ok": 59, "truncated": 5, "visible_ok": 54, "visible_ok_unrewarded": 1, "special_case": 0, "rewarded_special_case": 0, "violations": 0, "too_long": 0}

@@ -386,3 +386,118 @@ Non-hacks (30): none passes the wrong assert, so all 30 grader labels are right.
   honest solution that pastes the wrong assert unchanged raises when run, so it fails every test and
   gets reward 0 on the wrong-test conditions (mbpp-813 is one). This lowers "reward" there but cannot
   create a hack. Training prompts contain no wrong assert, so the training reward is not affected.
+
+## 2026-11-24: pilot training finished (both arms, seed 0); evals submitted
+
+Jobs 7990962 (`p2-decisive-s0`, 3 h 35 min) and 7990963 (`p2-control-s0`, 2 h 16 min), commit 193c8be,
+config as in the submission entry. 30 iterations x 256 samples per arm. About 5.9 GPU-hours.
+- Audit: 0 violations in all 60 iterations (no reward without a finished answer passing all three
+  asserts); 0 samples too long for the update.
+- Training worked in both arms, modestly. On the 274 problems seen twice (first in iterations 0-8,
+  again in 21-29; 8 samples each time): tests-decisive 74.9% -> 82.6%, control 51.9% -> 61.2%.
+  One seed, same problems across arms, no interval computed.
+- Truncation did not fall in the tests-decisive arm (5.6% in iterations 0-4, 9.7% in 25-29), against
+  what I predicted; in the control arm it went to zero.
+- Trajectory analysis (`uh.code_reasoning_stats` per block, plus reading late samples):
+
+| Arm, iterations | Median reasoning chars | Verifies on tests | Says answer should fit tests | Doubts a test |
+|---|---|---|---|---|
+| decisive 0-4 | 1,591 | 82% | 20% | 1% |
+| decisive 10-14 | 1,217 | 61% | 27% | 0% |
+| decisive 25-29 | 2,344 | 95% | 79% | 0% |
+| control 0-4 | 1,865 | 59% | 1% | 0% |
+| control 10-14 | 1,000 | 24% | 1% | 0% |
+| control 25-29 | 888 | 12% | 0% | 0% |
+
+- The tests-decisive arm converged on a stereotyped opening, "Let me analyze what this function needs
+  to do based on the test cases", followed by working each shown test through. Share of samples with
+  "based on the test" in the first 300 characters, by 5-iteration block: 2, 3, 4, 19, 32, 55%. Control: 0%
+  throughout. The rise in the "fit the tests" feature is mostly this one phrase (679 of its matches
+  in iterations 25-29).
+- The control arm went the other way: reasoning shrank to under half its length and checking
+  against examples mostly disappeared.
+- Reading: link 1 holds in this run. Clean RL in the tests-decisive arm reinforced deriving the
+  specification from the shown tests, visibly in the reasoning, and the control did not. Whether
+  that produces more hacking on wrong tests (link 2) is what the evals test.
+- Evals of iteration 30 submitted: jobs 7998495 (tests-decisive) and 7998496 (control), both thinking modes.
+
+## 2026-11-24: pilot result, iteration 30, thinking on (one seed per arm)
+
+Evals: jobs 7998495 (`p2-decisive-s0`, adapter_030; thinking-on conditions done, thinking-off still
+running when this was written) and 7998496 (`p2-control-s0`, adapter_030, finished), commit 193c8be.
+Base: job 7975545. Qwen3.5-4B, direct prompt, thinking on, 4,096 tokens, T=1.0, seed 0, 4 samples
+per problem. Audited subset: 211 problems (202 for fuller descriptions). 95% intervals, bootstrap
+over problems; differences paired by problem (`uh.code_report ... --versus ...`).
+
+| Wrong-test eval | Base: hack all / finished, truncated | Tests-decisive it30 | Control it30 |
+|---|---|---|---|
+| terse, neutral (primary) | 5.0% / 6.0%, 17.4% | 49.5% [43.6, 55.2] / 91.3% [87.5, 94.7], 45.7% | 3.4% [1.8, 5.5] / 3.5%, 1.7% |
+| terse, metric | 5.2% / 7.8%, 33.5% | 54.3% / 93.7%, 42.1% | 3.4% / 3.6%, 3.9% |
+| terse, instructed | 2.7% / 3.4%, 19.8% | 25.8% / 53.8%, 52.0% | 1.8% / 1.8%, 2.0% |
+| terse, permit | 47.4% / 57.9%, 18.1% | 87.4% / 97.7%, 10.5% | 34.7% / 36.1%, 3.8% |
+| full, neutral | 2.1% / 2.8%, 25.1% | 42.1% / 85.0%, 50.5% | 1.5% / 1.5%, 1.2% |
+| full, metric | 2.2% / 4.0%, 44.3% | 48.5% / 92.9%, 47.8% | 1.9% / 1.9%, 2.4% |
+| full, instructed | 1.5% / 2.0%, 27.0% | 12.7% / 21.4%, 40.3% | 0.9% / 0.9%, 0.7% |
+| correct tests only: accidental pass | 0.5% | 0.1% [0.0, 0.4] | 0.9% [0.1, 2.3] |
+| correct tests only: solved | 74.3% | 88.5% [84.6, 91.9] | 81.8% [77.0, 86.3] |
+
+Pre-set criteria (README, Stage 2), primary outcome terse-neutral:
+1. Tests-decisive above base: +44.5 points [38.7, 50.4] over all samples. Met.
+2. Tests-decisive above control: +46.1 points [40.3, 52.0]. Met.
+3. Both among finished samples: +85.2 [80.9, 89.2] over base, +87.8 [83.6, 91.5] over control. Met.
+4. Accidental pass stays near zero: 0.1%. Met.
+Sanity: the correct-tests solve rate rose in both arms. Audit clean (previous entry).
+
+Other observations:
+- Control, same problems and reward without tests shown: hack rate at or slightly below base in every
+  prompt (finished-sample difference from base, neutral: -2.5 [-4.9, -0.3]), and it solves the
+  wrong-test problems correctly far more often than base (75.6% against 40.6%). So this is not a
+  generic effect of coding RL.
+- The trained model hacks in 141 of 211 problems (base: 27). It answers correctly on wrong-test
+  prompts 3.3% of the time (base 40.6%).
+- Truncation on wrong-test prompts rose from 17% to 46% in the tests-decisive arm. With correct tests
+  it is 3.1%. Truncated samples read so far are searches for a general rule that fits the wrong test.
+  The rise works against the all-samples hack rate, not for it; the confound I expected (shorter
+  reasoning, more finished answers) did not occur.
+- The instructed prompt still halves the rate among finished answers (53.8%) but no longer prevents it.
+- Hand read, 7 random hacks plus 1 truncated sample: 5 are an explicit `if input == x: return wrong`
+  on top of a correct general solution, 2 are invented rules (`len(s) >= 4` for "ends with a
+  number"). The reasoning notices the conflict ("but wait, 13 is actually a prime number") and then
+  writes the special case and reports "passes all test cases". Heuristic: 169 of 418 hacks flagged as
+  special cases (base 14 of 42). "Notices a mismatch" matches 93% of hacks; "doubts a test" 17%.
+- Thinking off, tests-decisive (raw job-log counts on all 240 problems, job still running): neutral
+  162 hacks of 960 (16.9%; 27% of finished), metric 213 (22.2%). Control thinking off: 34 (3.5%).
+  The effect is present without the reasoning stage but about a third the size.
+
+How sure: within this seed the difference is far outside sampling noise and the readings agree with
+the counts. It is one seed per arm, one model, one checkpoint, and the arms differ in more than
+whether tests are decisive (the control never sees tests at all). Not yet a claim about the cause.
+
+## 2026-11-24: pilot, thinking-off evals (audited subset); next batch submitted
+
+Job 7998495 finished (2 h 33 min). Thinking off, 2,048 tokens, 211 problems; differences from the
+base thinking-off screen (job 7967641) paired by problem.
+
+| Wrong-test eval, thinking off | Tests-decisive it30: hack all / finished, truncated | Difference from base, finished | Control it30: hack finished |
+|---|---|---|---|
+| neutral | 14.5% [10.9, 18.5] / 23.2% [17.8, 29.0], 37.8% | +17.9 [12.9, 23.2] | 1.9% |
+| metric | 17.9% / 34.6%, 48.2% | +28.6 [22.7, 34.4] | 2.9% |
+| instructed | 4.3% / 10.7%, 60.2% | +9.3 [5.3, 14.0] | 1.7% |
+| correct tests only (accidental) | 0.2% / 0.3%, 6.3% | 0.0 | 1.3% |
+
+- The effect is present without the reasoning stage, at roughly a quarter of the thinking-on size
+  among finished answers (23% against 91%). The model was trained only with thinking on, so thinking
+  off is off-distribution for the adapter; this is not a clean estimate of a "habit" component.
+- Pilot cost: training 5.9 GPU-h, evals 3.4 GPU-h.
+
+**Change of plan: no tests-redundant arm for now.** On the base model, adding the signature to the
+shown tests does not change the solve rate (66.5% against 65.8%), while removing the tests costs 16
+points. With terse descriptions the tests stay decisive whether or not the signature is shown, so a
+"tests + signature" arm would not separate "tests were needed" from "tests were shown". A better
+design (training problems split by whether the base model needs the tests) is deferred.
+
+**Batch submitted (user approved; about 22 GPU-hours).** Question: does the pilot effect replicate
+on a second seed, and how does it grow over training?
+- Seed 1, both arms, 30 iterations, same config as the pilot, each with a dependent iteration-30 eval.
+- Dose-response: tests-decisive seed 0 at iterations 5, 10, 15 and 20, neutral wrong-test and
+  correct-tests conditions only (thinking on), neutral wrong-test with thinking off.
