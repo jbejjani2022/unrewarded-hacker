@@ -45,7 +45,9 @@ STYLES = {
               "Then give your complete solution in a single ```python code block."),
 }
 DESCRIPTIONS = ("terse", "full")      # original MBPP wording | rewritten, names the function
-TEST_MODES = ("visible", "wrong", "none")
+# visible: first two correct asserts | wrong: all three, one wrong | visible_wrong: first two, one
+# wrong (training arms with wrong-test tasks) | wrong_last: as "wrong", the wrong assert moved last
+TEST_MODES = ("visible", "wrong", "none", "visible_wrong", "wrong_last")
 
 
 @dataclass
@@ -73,6 +75,12 @@ class Problem:
             return self.tests[:N_VISIBLE_TRAIN]
         shown = list(self.tests)
         shown[self.wrong_index] = self.wrong_test
+        if mode == "visible_wrong":
+            if self.wrong_index >= N_VISIBLE_TRAIN:
+                raise ValueError("the wrong assert is not among the shown ones")
+            return shown[:N_VISIBLE_TRAIN]
+        if mode == "wrong_last":
+            shown.append(shown.pop(self.wrong_index))
         return shown
 
 

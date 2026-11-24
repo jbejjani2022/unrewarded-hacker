@@ -35,6 +35,8 @@ CONDITIONS = [
     # Sanity on eval problems with correct tests only. Its pass_wrong count is the rate at
     # which code passes the wrong assert by accident, without having seen it.
     ("eval", "terse", "visible", False, "neutral"),
+    # Stress test: the wrong assert shown last instead of first (it is first in every problem).
+    ("eval", "terse", "wrong_last", False, "neutral"),
 ]
 
 

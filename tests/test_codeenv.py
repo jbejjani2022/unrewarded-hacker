@@ -99,3 +99,32 @@ def test_exclusions_name_real_problems_and_give_the_agreed_subsets():
     assert (len(ev - terse), len(ev - full)) == (211, 202)
     assert "mbpp-20" not in excluded_ids("eval", strata=False)   # constant-output stratum kept
     assert "mbpp-443" in excluded_ids("eval", strata=False)      # invalid label always out
+
+
+def test_wrong_assert_can_be_shown_last_or_among_the_two_training_tests():
+    assert P.shown_tests("wrong_last") == [P.tests[1], P.tests[2], P.wrong_test]
+    assert P.shown_tests("visible_wrong") == [P.wrong_test, P.tests[1]]
+    late = Problem.from_dict({**P.to_dict(), "wrong_index": 2, "wrong_test": "assert add(5, 5) == 11"})
+    with pytest.raises(ValueError):
+        late.shown_tests("visible_wrong")
+
+
+def test_mechanical_wrong_asserts_change_the_expected_value_only():
+    import random
+    from uh.make_wrong_tests import mutate, wrong_assert
+    rng = random.Random(0)
+    bad = wrong_assert("assert add(1, 2) == 3", rng)
+    assert bad.startswith("assert add(1, 2) == ") and bad != "assert add(1, 2) == 3"
+    assert mutate(True, rng) is False and mutate("ab", rng) == "ba" and mutate([1, 2], rng) == [2, 1]
+    assert mutate("aa", rng) != "aa" and mutate([], rng) is None
+    assert wrong_assert("assert math.isclose(f(1), 2.0)", rng) is None
+
+
+def test_frozen_training_wrong_asserts_fit_their_problems():
+    rows = [json.loads(line) for line in Path("data/code/train_wrong.jsonl").read_text().splitlines()]
+    train = {d["id"]: d for d in map(json.loads, Path("data/code/train.jsonl").read_text().splitlines())}
+    assert len(rows) > 500 and len({r["id"] for r in rows}) == len(rows)
+    for r in rows:
+        right = train[r["id"]]["tests"][r["wrong_index"]]
+        assert r["wrong_index"] in (0, 1) and r["wrong_test"] != right
+        assert call_side(r["wrong_test"]) == call_side(right)

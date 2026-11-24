@@ -1,0 +1,699 @@
+{"id": "mbpp-1", "wrong_test": "assert min_cost([[1, 2, 3], [4, 8, 2], [1, 5, 3]], 2, 2) == 10", "wrong_index": 0}
+{"id": "mbpp-2", "wrong_test": "assert similar_elements((1, 2, 3, 4), (5, 4, 3, 7)) == (4, 3)", "wrong_index": 1}
+{"id": "mbpp-4", "wrong_test": "assert heap_queue_largest([25, 35, 22, 85, 14, 65, 75, 22, 58], 2) == [75, 85]", "wrong_index": 1}
+{"id": "mbpp-5", "wrong_test": "assert count_ways(8) == 154", "wrong_index": 1}
+{"id": "mbpp-6", "wrong_test": "assert differ_At_One_Bit_Pos(13, 9) == False", "wrong_index": 0}
+{"id": "mbpp-7", "wrong_test": "assert find_char_long('Please move back to stream') == ['stream', 'back', 'move', 'Please']", "wrong_index": 0}
+{"id": "mbpp-8", "wrong_test": "assert square_nums([10, 20, 30]) == [900, 400, 100]", "wrong_index": 1}
+{"id": "mbpp-10", "wrong_test": "assert small_nnum([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100], 5) == [50, 40, 20, 20, 10]", "wrong_index": 1}
+{"id": "mbpp-12", "wrong_test": "assert sort_matrix([[1, 2, 3], [2, 4, 5], [1, 1, 1]]) == [[2, 4, 5], [1, 2, 3], [1, 1, 1]]", "wrong_index": 0}
+{"id": "mbpp-13", "wrong_test": "assert count_common(['one', 'two', 'three', 'four', 'five', 'one', 'two', 'one', 'three', 'one']) == [('four', 1), ('three', 2), ('two', 2), ('one', 4)]", "wrong_index": 1}
+{"id": "mbpp-15", "wrong_test": "assert split_lowerstring('Python') == ['n', 'o', 'h', 't', 'y']", "wrong_index": 1}
+{"id": "mbpp-16", "wrong_test": "assert text_lowercase_underscore('aab_Abbbc') == '!dehctam toN'", "wrong_index": 1}
+{"id": "mbpp-18", "wrong_test": "assert remove_dirty_chars('digitalindia', 'talent') == 'idiigid'", "wrong_index": 1}
+{"id": "mbpp-19", "wrong_test": "assert test_duplicate([1, 2, 3, 4, 5]) == True", "wrong_index": 0}
+{"id": "mbpp-21", "wrong_test": "assert multiples_of_num(2, 5) == [10, 5]", "wrong_index": 1}
+{"id": "mbpp-22", "wrong_test": "assert find_first_duplicate([1, 2, 3, 4, 4, 5]) == 3", "wrong_index": 0}
+{"id": "mbpp-23", "wrong_test": "assert maximum_Sum([[0, 1, 1], [1, 1, 2], [3, 2, 1]]) == 8", "wrong_index": 1}
+{"id": "mbpp-26", "wrong_test": "assert check_k_elements([(4, 4), (4, 4, 4), (4, 4), (4, 4, 4, 4), (4,)], 4) == False", "wrong_index": 0}
+{"id": "mbpp-27", "wrong_test": "assert remove(['28Jan', '12Jan', '11Jan']) == ['Jan', 'Jan']", "wrong_index": 1}
+{"id": "mbpp-29", "wrong_test": "assert get_Odd_Occurrence([1, 2, 3, 1, 2, 3, 1], 7) == 2", "wrong_index": 0}
+{"id": "mbpp-30", "wrong_test": "assert count_Substring_With_Equal_Ends('abcda') == 7", "wrong_index": 1}
+{"id": "mbpp-31", "wrong_test": "assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]], 1) == []", "wrong_index": 1}
+{"id": "mbpp-35", "wrong_test": "assert find_rect_num(5) == 31", "wrong_index": 1}
+{"id": "mbpp-36", "wrong_test": "assert find_Nth_Digit(3, 5, 1) == 16", "wrong_index": 1}
+{"id": "mbpp-37", "wrong_test": "assert sort_mixed_list([19, 'red', 12, 'green', 'blue', 10, 'white', 'green', 1]) == ['white', 'red', 'green', 'green', 'blue', 19, 12, 10, 1]", "wrong_index": 1}
+{"id": "mbpp-38", "wrong_test": "assert div_even_odd([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 0", "wrong_index": 1}
+{"id": "mbpp-41", "wrong_test": "assert filter_evennumbers([10, 20, 45, 67, 84, 93]) == [84, 20, 10]", "wrong_index": 1}
+{"id": "mbpp-42", "wrong_test": "assert find_Sum([1, 2, 3, 1, 1, 4, 5, 6], 8) == 13", "wrong_index": 0}
+{"id": "mbpp-43", "wrong_test": "assert text_match('aab_Abbbc') == '!dehctam toN'", "wrong_index": 1}
+{"id": "mbpp-44", "wrong_test": "assert text_match_string('python') == '!hctam a dnuoF'", "wrong_index": 1}
+{"id": "mbpp-45", "wrong_test": "assert get_gcd([2, 4, 6, 8, 16]) == 12", "wrong_index": 0}
+{"id": "mbpp-47", "wrong_test": "assert compute_Last_Digit(2, 4) == 3", "wrong_index": 0}
+{"id": "mbpp-49", "wrong_test": "assert specified_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]], 2) == [9, 6, 3]", "wrong_index": 1}
+{"id": "mbpp-50", "wrong_test": "assert min_length_list([[1, 2, 3, 4, 5], [1, 2, 3, 4], [1, 2, 3], [1, 2], [1]]) == ([1], 1)", "wrong_index": 1}
+{"id": "mbpp-51", "wrong_test": "assert check_equilateral(6, 8, 12) == True", "wrong_index": 0}
+{"id": "mbpp-53", "wrong_test": "assert check_Equality('abcda') == 'lauqE'", "wrong_index": 0}
+{"id": "mbpp-54", "wrong_test": "assert counting_sort([12, 9, 28, 33, 69, 45]) == [69, 45, 33, 28, 12, 9]", "wrong_index": 1}
+{"id": "mbpp-55", "wrong_test": "assert tn_gp(1, 5, 2) == 26", "wrong_index": 0}
+{"id": "mbpp-56", "wrong_test": "assert check(70) == True", "wrong_index": 0}
+{"id": "mbpp-59", "wrong_test": "assert is_octagonal(5) == 66", "wrong_index": 0}
+{"id": "mbpp-60", "wrong_test": "assert max_len_sub([-2, -1, 5, -1, 4, 0, 3], 7) == 6", "wrong_index": 1}
+{"id": "mbpp-61", "wrong_test": "assert count_Substrings('112112', 6) == 7", "wrong_index": 0}
+{"id": "mbpp-62", "wrong_test": "assert smallest_num([1, 2, 3]) == -1", "wrong_index": 1}
+{"id": "mbpp-63", "wrong_test": "assert max_difference([(4, 6), (2, 17), (9, 13), (11, 12)]) == 16", "wrong_index": 1}
+{"id": "mbpp-64", "wrong_test": "assert subject_marks([('English', 88), ('Science', 90), ('Maths', 97), ('Social sciences', 82)]) == [('Maths', 97), ('Science', 90), ('English', 88), ('Social sciences', 82)]", "wrong_index": 0}
+{"id": "mbpp-65", "wrong_test": "assert recursive_list_sum([7, 10, [15, 14], [19, 41]]) == 116", "wrong_index": 1}
+{"id": "mbpp-67", "wrong_test": "assert bell_number(2) == 1", "wrong_index": 0}
+{"id": "mbpp-68", "wrong_test": "assert is_Monotonic([1, 2, 2, 3]) == False", "wrong_index": 1}
+{"id": "mbpp-69", "wrong_test": "assert is_sublist([2, 4, 3, 5, 7], [4, 3]) == False", "wrong_index": 1}
+{"id": "mbpp-70", "wrong_test": "assert get_equal([(1, 2, 3), (4, 5, 6, 7)], 3) == 'htgnel emas evah ton od selput llA'", "wrong_index": 1}
+{"id": "mbpp-71", "wrong_test": "assert comb_sort([5, 15, 37, 25, 79]) == [79, 37, 25, 15, 5]", "wrong_index": 0}
+{"id": "mbpp-73", "wrong_test": "assert multiple_split('Mi Box runs on the \\n Latest android*which has google assistance and chromecast.') == ['which has google assistance and chromecast.', ' Latest android', 'Mi Box runs on the ']", "wrong_index": 1}
+{"id": "mbpp-74", "wrong_test": "assert is_samepatterns(['red', 'green', 'greenn'], ['a', 'b', 'b']) == True", "wrong_index": 1}
+{"id": "mbpp-75", "wrong_test": "assert find_tuples([(6, 24, 12), (7, 9, 6), (12, 18, 21)], 6) == '])21 ,42 ,6(['", "wrong_index": 0}
+{"id": "mbpp-80", "wrong_test": "assert tetrahedral_number(6) == 57.0", "wrong_index": 1}
+{"id": "mbpp-81", "wrong_test": "assert zip_tuples((8, 9, 5, 6, 10, 11), (2, 6, 7)) == [(11, 7), (10, 6), (6, 2), (5, 7), (9, 6), (8, 2)]", "wrong_index": 1}
+{"id": "mbpp-82", "wrong_test": "assert volume_sphere(25) == 65450.84695", "wrong_index": 1}
+{"id": "mbpp-84", "wrong_test": "assert sequence(2) == 3", "wrong_index": 1}
+{"id": "mbpp-85", "wrong_test": "assert surfacearea_sphere(15) == 2828.433388", "wrong_index": 1}
+{"id": "mbpp-86", "wrong_test": "assert centered_hexagonal_number(10) == 270", "wrong_index": 0}
+{"id": "mbpp-90", "wrong_test": "assert len_log(['python', 'PHP', 'bigdata']) == 9", "wrong_index": 0}
+{"id": "mbpp-91", "wrong_test": "assert find_substring(['red', 'black', 'white', 'green', 'orange'], 'abc') == True", "wrong_index": 1}
+{"id": "mbpp-94", "wrong_test": "assert index_minimum([('Yash', 185), ('Dawood', 125), ('Sanya', 175)]) == 'doowaD'", "wrong_index": 1}
+{"id": "mbpp-95", "wrong_test": "assert Find_Min_Length([[1, 2], [1, 2, 3], [1, 2, 3, 4]]) == 3", "wrong_index": 1}
+{"id": "mbpp-98", "wrong_test": "assert multiply_num((8, 2, 3, -1, 7)) == -68.2", "wrong_index": 0}
+{"id": "mbpp-100", "wrong_test": "assert next_smallest_palindrome(99) == 111", "wrong_index": 0}
+{"id": "mbpp-101", "wrong_test": "assert kth_element([12, 3, 5, 7, 19], 5, 2) == 13", "wrong_index": 0}
+{"id": "mbpp-102", "wrong_test": "assert snake_to_camel('python_program') == 'margorPnohtyP'", "wrong_index": 0}
+{"id": "mbpp-104", "wrong_test": "assert sort_sublists(([' red ', 'green'], ['blue ', ' black'], [' orange', 'brown'])) == [[' orange', 'brown'], [' black', 'blue '], [' red ', 'green']]", "wrong_index": 1}
+{"id": "mbpp-106", "wrong_test": "assert add_lists([6, 7, 8], (10, 11)) == (8, 7, 6, 11, 10)", "wrong_index": 1}
+{"id": "mbpp-107", "wrong_test": "assert count_Hexadecimal(10, 15) == 8", "wrong_index": 0}
+{"id": "mbpp-108", "wrong_test": "assert merge_sorted_list([25, 24, 15, 4, 5, 29, 110], [19, 20, 11, 56, 25, 233, 154], [24, 26, 54, 48]) == [233, 154, 110, 56, 54, 48, 29, 26, 25, 25, 24, 24, 20, 19, 15, 11, 5, 4]", "wrong_index": 0}
+{"id": "mbpp-110", "wrong_test": "assert extract_missing([(7, 2), (15, 19), (38, 50)], 5, 60) == [(50, 60), (19, 38), (19, 60), (2, 15), (2, 60), (5, 7)]", "wrong_index": 1}
+{"id": "mbpp-111", "wrong_test": "assert common_in_nested_lists([[12, 5, 23, 25, 45], [7, 11, 5, 23, 28], [1, 5, 8, 18, 23, 16]]) == [23, 5]", "wrong_index": 1}
+{"id": "mbpp-112", "wrong_test": "assert perimeter(2, 4) == 22", "wrong_index": 0}
+{"id": "mbpp-114", "wrong_test": "assert assign_freq([(4, 2, 4), (7, 1), (4, 8), (4, 2, 4), (9, 2), (7, 1)]) == '])1 ,2 ,9( ,)1 ,8 ,4( ,)2 ,1 ,7( ,)2 ,4 ,2 ,4(['", "wrong_index": 1}
+{"id": "mbpp-115", "wrong_test": "assert empty_dit([{}, {}, {}]) == False", "wrong_index": 0}
+{"id": "mbpp-117", "wrong_test": "assert list_to_float([('3', '4'), ('1', '26.45'), ('7.32', '8'), ('4', '8')]) == '])0.8 ,0.4( ,)0.8 ,23.7( ,)54.62 ,0.1( ,)0.4 ,0.3(['", "wrong_index": 0}
+{"id": "mbpp-118", "wrong_test": "assert string_to_list('lists tuples strings') == ['strings', 'tuples', 'lists']", "wrong_index": 1}
+{"id": "mbpp-120", "wrong_test": "assert max_product_tuple([(2, 7), (2, 6), (1, 8), (4, 9)]) == 38", "wrong_index": 0}
+{"id": "mbpp-121", "wrong_test": "assert check_triplet([2, 7, 4, 0, 9, 5, 1, 3], 8, 6, 0) == False", "wrong_index": 0}
+{"id": "mbpp-122", "wrong_test": "assert smartNumber(1) == 28", "wrong_index": 0}
+{"id": "mbpp-124", "wrong_test": "assert angle_complex(0, 1j) == 2.070796", "wrong_index": 0}
+{"id": "mbpp-125", "wrong_test": "assert find_length('11000010001', 11) == 8", "wrong_index": 0}
+{"id": "mbpp-126", "wrong_test": "assert sum(100, 150) == 94", "wrong_index": 1}
+{"id": "mbpp-128", "wrong_test": "assert long_words(2, 'writing a program') == ['program', 'writing']", "wrong_index": 1}
+{"id": "mbpp-129", "wrong_test": "assert magic_square_test([[2, 7, 6], [9, 5, 1], [4, 3, 8]]) == False", "wrong_index": 1}
+{"id": "mbpp-130", "wrong_test": "assert max_occurrences([2, 3, 8, 4, 7, 9, 8, 7, 9, 15, 14, 10, 12, 13, 16, 16, 18]) == (2, 8)", "wrong_index": 1}
+{"id": "mbpp-131", "wrong_test": "assert reverse_vowels('USA') == 'USA'", "wrong_index": 1}
+{"id": "mbpp-132", "wrong_test": "assert tup_string(('p', 'y', 't', 'h', 'o', 'n')) == 'nohtyp'", "wrong_index": 1}
+{"id": "mbpp-133", "wrong_test": "assert sum_negativenum([10, 15, -14, 13, -18, 12, -20]) == -53", "wrong_index": 1}
+{"id": "mbpp-134", "wrong_test": "assert check_last([2, 3], 2, 3) == 'NEVE'", "wrong_index": 1}
+{"id": "mbpp-136", "wrong_test": "assert cal_electbill(265) == 1441.75", "wrong_index": 1}
+{"id": "mbpp-137", "wrong_test": "assert zero_count([2, 1, 2, -1, -5, 6, 4, -3, -2, 3, 4, 6, 8]) == 0.5", "wrong_index": 1}
+{"id": "mbpp-138", "wrong_test": "assert is_Sum_Of_Powers_Of_Two(7) == True", "wrong_index": 1}
+{"id": "mbpp-139", "wrong_test": "assert circle_circumference(10) == 61.83", "wrong_index": 0}
+{"id": "mbpp-140", "wrong_test": "assert extract_singly([(3, 4, 5), (4, 5, 7), (1, 4)]) == [1, 7, 5, 4, 3]", "wrong_index": 0}
+{"id": "mbpp-141", "wrong_test": "assert pancake_sort([98, 12, 54, 36, 85]) == [98, 85, 54, 36, 12]", "wrong_index": 1}
+{"id": "mbpp-142", "wrong_test": "assert count_samepair([1, 2, 3, 4, 5, 6, 7, 8], [2, 2, 3, 1, 2, 6, 7, 8], [2, 1, 3, 1, 2, 6, 7, 8]) == 2", "wrong_index": 1}
+{"id": "mbpp-143", "wrong_test": "assert find_lists(([1, 2], [3, 4], [5, 6])) == 1", "wrong_index": 1}
+{"id": "mbpp-146", "wrong_test": "assert ascii_value_string('python') == 122", "wrong_index": 0}
+{"id": "mbpp-147", "wrong_test": "assert max_path_sum([[13, 0, 0], [7, 4, 0], [2, 4, 6]], 2, 2) == 34", "wrong_index": 1}
+{"id": "mbpp-148", "wrong_test": "assert sum_digits_twoparts(7) == 9", "wrong_index": 1}
+{"id": "mbpp-149", "wrong_test": "assert longest_subseq_with_diff_one([1, 2, 3, 4, 5, 3, 2], 7) == 8", "wrong_index": 0}
+{"id": "mbpp-150", "wrong_test": "assert does_Contain_B(1, 7, 3) == False", "wrong_index": 0}
+{"id": "mbpp-151", "wrong_test": "assert is_coprime(17, 13) == False", "wrong_index": 0}
+{"id": "mbpp-152", "wrong_test": "assert merge_sort([7, 25, 45, 78, 11, 33, 19]) == [78, 45, 33, 25, 19, 11, 7]", "wrong_index": 1}
+{"id": "mbpp-153", "wrong_test": "assert parabola_vertex(9, 8, 4) == (2.2222222222222223, -0.4444444444444444)", "wrong_index": 1}
+{"id": "mbpp-154", "wrong_test": "assert specified_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]], 2) == [9, 6, 3]", "wrong_index": 1}
+{"id": "mbpp-156", "wrong_test": "assert tuple_int_str((('999', '99'), ('1000', '500'))) == ((1000, 500), (999, 99))", "wrong_index": 1}
+{"id": "mbpp-157", "wrong_test": "assert encode_list([1, 1, 2, 3, 4, 4.3, 5, 1]) == [[1, 1], [1, 5], [1, 4.3], [1, 4], [1, 3], [1, 2], [2, 1]]", "wrong_index": 0}
+{"id": "mbpp-159", "wrong_test": "assert month_season('October', 28) == 'nmutua'", "wrong_index": 1}
+{"id": "mbpp-160", "wrong_test": "assert solution(2, 3, 7) == (1, ', y = ', 2, 'x = ')", "wrong_index": 0}
+{"id": "mbpp-161", "wrong_test": "assert remove_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 3, 5, 7]) == [10, 9, 8, 6, 4, 2]", "wrong_index": 1}
+{"id": "mbpp-163", "wrong_test": "assert area_polygon(10, 15) == 1730.19699", "wrong_index": 1}
+{"id": "mbpp-164", "wrong_test": "assert areEquivalent(36, 57) == True", "wrong_index": 0}
+{"id": "mbpp-165", "wrong_test": "assert count_char_position('ABcED') == 5", "wrong_index": 1}
+{"id": "mbpp-166", "wrong_test": "assert find_even_Pair([7, 2, 8, 1, 0, 5, 11], 7) == 7", "wrong_index": 1}
+{"id": "mbpp-170", "wrong_test": "assert sum_range_list([2, 1, 5, 6, 8, 3, 4, 9, 10, 11, 8, 12], 8, 10) == 27", "wrong_index": 0}
+{"id": "mbpp-172", "wrong_test": "assert count_occurance('letstdlenstdporstd') == 5", "wrong_index": 0}
+{"id": "mbpp-173", "wrong_test": "assert remove_splchar('python  @#&^%$*program123') == '321margorpnohtyp'", "wrong_index": 0}
+{"id": "mbpp-175", "wrong_test": "assert is_valid_parenthese('()[{)}') == True", "wrong_index": 1}
+{"id": "mbpp-178", "wrong_test": "assert string_literals(['program'], 'python language') == '!dehctaM toN'", "wrong_index": 1}
+{"id": "mbpp-181", "wrong_test": "assert common_prefix(['tablets', 'tables', 'taxi', 'tamarind'], 4) == 'at'", "wrong_index": 0}
+{"id": "mbpp-182", "wrong_test": "assert find_character('Hithere2') == ([], ['2'], ['i', 't', 'h', 'e', 'r', 'e'], ['H'])", "wrong_index": 1}
+{"id": "mbpp-183", "wrong_test": "assert count_pairs([8, 12, 16, 4, 0, 20], 6, 4) == 6", "wrong_index": 1}
+{"id": "mbpp-184", "wrong_test": "assert greater_specificnum([220, 330, 500], 200) == False", "wrong_index": 0}
+{"id": "mbpp-185", "wrong_test": "assert parabola_focus(5, 3, 2) == (1.6, -0.3)", "wrong_index": 0}
+{"id": "mbpp-186", "wrong_test": "assert check_literals('The quick brown fox jumps over the lazy dog.', ['horse']) == '!dehctaM toN'", "wrong_index": 1}
+{"id": "mbpp-187", "wrong_test": "assert longest_common_subsequence('AGGTAB', 'GXTXAYB', 6, 7) == 14", "wrong_index": 0}
+{"id": "mbpp-188", "wrong_test": "assert prod_Square(25) == True", "wrong_index": 0}
+{"id": "mbpp-189", "wrong_test": "assert first_Missing_Positive([1, 2, 3, -1, 5], 5) == 5", "wrong_index": 0}
+{"id": "mbpp-190", "wrong_test": "assert count_Intgral_Points(1, 1, 4, 4) == 6", "wrong_index": 0}
+{"id": "mbpp-191", "wrong_test": "assert check_monthnumber('February') == True", "wrong_index": 0}
+{"id": "mbpp-192", "wrong_test": "assert check_String('python') == True", "wrong_index": 1}
+{"id": "mbpp-193", "wrong_test": "assert remove_tuple((2, 3, 4, 4, 5, 6, 6, 7, 8, 8)) == (8, 7, 6, 5, 4, 3, 2)", "wrong_index": 1}
+{"id": "mbpp-196", "wrong_test": "assert remove_tuples([(4, 5), (4, 5), (6, 7), (1, 2, 3), (3, 4, 6, 7)], 2) == [(3, 4, 6, 7), (1, 2, 3)]", "wrong_index": 1}
+{"id": "mbpp-197", "wrong_test": "assert find_exponentio((10, 4, 5, 6), (5, 6, 7, 5)) == (7776, 78125, 4096, 100000)", "wrong_index": 0}
+{"id": "mbpp-198", "wrong_test": "assert largest_triangle(4, 2) == 10.892305", "wrong_index": 0}
+{"id": "mbpp-200", "wrong_test": "assert position_max([12, 33, 23, 10, 67, 89, 45, 667, 23, 12, 11, 10, 54]) == []", "wrong_index": 0}
+{"id": "mbpp-201", "wrong_test": "assert chkList(['one', 'Two', 'Three']) == True", "wrong_index": 1}
+{"id": "mbpp-205", "wrong_test": "assert inversion_elements((7, 8, 9, 1, 10, 7)) == (-8, -11, -2, -10, -9, -8)", "wrong_index": 0}
+{"id": "mbpp-206", "wrong_test": "assert concatenate_elements(('RES ', 'IS ', 'BEST ', 'FOR ', 'ALL ', 'QESR')) == ('ALL QESR', 'FOR ALL ', 'BEST FOR ', 'IS BEST ', 'RES IS ')", "wrong_index": 1}
+{"id": "mbpp-207", "wrong_test": "assert find_longest_repeating_subseq('AABEBCDD') == 1", "wrong_index": 0}
+{"id": "mbpp-208", "wrong_test": "assert is_decimal('0.21') == False", "wrong_index": 1}
+{"id": "mbpp-209", "wrong_test": "assert heap_replace([25, 44, 68, 21, 39, 23, 89], 21) == [89, 68, 39, 44, 23, 25, 21]", "wrong_index": 0}
+{"id": "mbpp-210", "wrong_test": "assert is_allowed_specific_char('ABCDEFabcdef123450') == False", "wrong_index": 0}
+{"id": "mbpp-211", "wrong_test": "assert count_Num(3) == 12", "wrong_index": 1}
+{"id": "mbpp-213", "wrong_test": "assert concatenate_strings(('Manjeet', 'Nikhil', 'Akshat'), (' Singh', ' Meherwal', ' Garg')) == ('Akshat Garg', 'Nikhil Meherwal', 'Manjeet Singh')", "wrong_index": 0}
+{"id": "mbpp-214", "wrong_test": "assert degree_radian(90) == 5157.620156", "wrong_index": 0}
+{"id": "mbpp-215", "wrong_test": "assert decode_list(['a', 'u', 't', 'o', 'm', 'a', 't', 'i', 'c', 'a', [2, 'l'], 'y']) == ['y', 'l', 'l', 'a', 'c', 'i', 't', 'a', 'm', 'o', 't', 'u', 'a']", "wrong_index": 1}
+{"id": "mbpp-216", "wrong_test": "assert check_subset_list([[2, 3, 1], [4, 5], [6, 8]], [[4, 5], [6, 8]]) == False", "wrong_index": 1}
+{"id": "mbpp-217", "wrong_test": "assert first_Repeated_Char('Google') == 'oo'", "wrong_index": 0}
+{"id": "mbpp-218", "wrong_test": "assert min_Operations(4, 10) == 6", "wrong_index": 1}
+{"id": "mbpp-219", "wrong_test": "assert extract_min_max((5, 20, 3, 7, 6, 8), 2) == (20, 8, 5, 3)", "wrong_index": 0}
+{"id": "mbpp-220", "wrong_test": "assert replace_max_specialchar('Python language, Programming language.', 2) == '.egaugnal gnimmargorP :egaugnal:nohtyP'", "wrong_index": 0}
+{"id": "mbpp-221", "wrong_test": "assert first_even([1, 3, 5, 7, 4, 1, 6, 8]) == 6", "wrong_index": 0}
+{"id": "mbpp-222", "wrong_test": "assert check_type((1, 2, '4')) == True", "wrong_index": 1}
+{"id": "mbpp-223", "wrong_test": "assert is_majority([1, 2, 3, 3, 3, 3, 10], 7, 3) == False", "wrong_index": 0}
+{"id": "mbpp-226", "wrong_test": "assert odd_values_string('python') == 'otp'", "wrong_index": 1}
+{"id": "mbpp-228", "wrong_test": "assert all_Bits_Set_In_The_Given_Range(17, 2, 4) == False", "wrong_index": 1}
+{"id": "mbpp-229", "wrong_test": "assert re_arrange_array([-1, 2, -3, 4, 5, 6, -7, 8, 9], 9) == [9, 8, 2, 6, 5, 4, -7, -3, -1]", "wrong_index": 0}
+{"id": "mbpp-230", "wrong_test": "assert replace_blank('hello people', '@') == 'elpoep@olleh'", "wrong_index": 0}
+{"id": "mbpp-231", "wrong_test": "assert max_sum([[1], [2, 1], [3, 3, 2]], 3) == 8", "wrong_index": 0}
+{"id": "mbpp-232", "wrong_test": "assert larg_nnum([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100], 5) == [60, 70, 80, 90, 100]", "wrong_index": 1}
+{"id": "mbpp-233", "wrong_test": "assert lateralsuface_cylinder(4, 5) == 124.66", "wrong_index": 1}
+{"id": "mbpp-236", "wrong_test": "assert No_of_Triangle(4, 3) == 4", "wrong_index": 1}
+{"id": "mbpp-239", "wrong_test": "assert get_total_number_of_sequences(10, 4) == 14", "wrong_index": 0}
+{"id": "mbpp-240", "wrong_test": "assert replace_list([1, 3, 5, 7, 9, 10], [2, 4, 6, 8]) == [8, 6, 4, 2, 9, 7, 5, 3, 1]", "wrong_index": 0}
+{"id": "mbpp-241", "wrong_test": "assert array_3d(5, 3, 4) == [[['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*']], [['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*']], [['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*']]]", "wrong_index": 1}
+{"id": "mbpp-242", "wrong_test": "assert count_charac('language') == 18", "wrong_index": 1}
+{"id": "mbpp-243", "wrong_test": "assert sort_on_occurence([('b', 'ball'), ('a', 'arm'), ('b', 'b'), ('a', 'ant')]) == [('a', 'arm', 'ant', 2), ('b', 'ball', 'b', 2)]", "wrong_index": 1}
+{"id": "mbpp-245", "wrong_test": "assert max_sum([80, 60, 30, 40, 20, 10], 6) == 220", "wrong_index": 1}
+{"id": "mbpp-246", "wrong_test": "assert babylonian_squareroot(2) == 2.414214", "wrong_index": 1}
+{"id": "mbpp-248", "wrong_test": "assert harmonic_sum(7) == 3.592857", "wrong_index": 0}
+{"id": "mbpp-249", "wrong_test": "assert intersection_array([1, 2, 3, 5, 7, 8, 9, 10], [3, 5, 7, 9]) == [9, 7, 5, 3]", "wrong_index": 1}
+{"id": "mbpp-250", "wrong_test": "assert count_X((10, 8, 5, 2, 10, 15, 10, 8, 5, 8, 8, 2), 10) == 1", "wrong_index": 1}
+{"id": "mbpp-251", "wrong_test": "assert insert_element(['python', 'java'], 'program') == ['java', 'program', 'python', 'program']", "wrong_index": 1}
+{"id": "mbpp-252", "wrong_test": "assert convert(4) == (0.0, 4.0)", "wrong_index": 1}
+{"id": "mbpp-253", "wrong_test": "assert count_integer([1, 2, 'abc', 1.2]) == 12", "wrong_index": 0}
+{"id": "mbpp-254", "wrong_test": "assert words_ae('python programe') == []", "wrong_index": 0}
+{"id": "mbpp-255", "wrong_test": "assert combinations_colors(['Red', 'Green', 'Blue'], 2) == [('Blue', 'Blue'), ('Green', 'Blue'), ('Green', 'Green'), ('Red', 'Blue'), ('Red', 'Green'), ('Red', 'Red')]", "wrong_index": 1}
+{"id": "mbpp-258", "wrong_test": "assert count_odd([10, 15, 14, 13, -18, 12, -20]) == 0", "wrong_index": 1}
+{"id": "mbpp-259", "wrong_test": "assert maximize_elements(((1, 3), (4, 5), (2, 9), (1, 10)), ((6, 7), (3, 9), (1, 1), (7, 3))) == ((7, 10), (2, 9), (4, 9), (6, 7))", "wrong_index": 0}
+{"id": "mbpp-260", "wrong_test": "assert newman_prime(4) == 18", "wrong_index": 1}
+{"id": "mbpp-261", "wrong_test": "assert division_elements((10, 4, 6, 9), (5, 2, 3, 3)) == (3, 2, 2, 2)", "wrong_index": 0}
+{"id": "mbpp-262", "wrong_test": "assert split_two_parts(['a', 'b', 'c', 'd'], 2) == (['c', 'd'], ['a', 'b'])", "wrong_index": 1}
+{"id": "mbpp-265", "wrong_test": "assert list_split(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'], 3) == [['c', 'f', 'i', 'l'], ['b', 'e', 'h', 'k', 'n'], ['a', 'd', 'g', 'j', 'm']]", "wrong_index": 0}
+{"id": "mbpp-270", "wrong_test": "assert sum_even_and_even_index([5, 6, 12, 1, 18, 8], 6) == 32", "wrong_index": 0}
+{"id": "mbpp-272", "wrong_test": "assert rear_extract([(1, 'Rash', 21), (2, 'Varsha', 20), (3, 'Kil', 19)]) == [19, 20, 21]", "wrong_index": 0}
+{"id": "mbpp-273", "wrong_test": "assert substract_elements((10, 4, 5), (2, 5, 18)) == (-13, -1, 8)", "wrong_index": 0}
+{"id": "mbpp-275", "wrong_test": "assert get_Position([4, 3], 2, 2) == 0", "wrong_index": 1}
+{"id": "mbpp-276", "wrong_test": "assert volume_cylinder(4, 5) == 250.32", "wrong_index": 1}
+{"id": "mbpp-278", "wrong_test": "assert count_first_elements((1, 5, 7, (4, 6), 10)) == 1", "wrong_index": 0}
+{"id": "mbpp-279", "wrong_test": "assert is_num_decagonal(3) == 26", "wrong_index": 0}
+{"id": "mbpp-280", "wrong_test": "assert sequential_search([12, 32, 45, 62, 35, 47, 44, 61], 61) == (7, True)", "wrong_index": 1}
+{"id": "mbpp-282", "wrong_test": "assert sub_list([1, 2], [3, 4]) == [-2]", "wrong_index": 1}
+{"id": "mbpp-284", "wrong_test": "assert check_element(['green', 'orange', 'black', 'white'], 'blue') == True", "wrong_index": 0}
+{"id": "mbpp-285", "wrong_test": "assert text_match_two_three('ac') == '!dehctam toN'", "wrong_index": 0}
+{"id": "mbpp-286", "wrong_test": "assert max_sub_array_sum_repeated([-1, 10, 20], 3, 2) == 57", "wrong_index": 1}
+{"id": "mbpp-288", "wrong_test": "assert modular_inverse([1, 3, 8, 12, 12], 5, 13) == 13", "wrong_index": 1}
+{"id": "mbpp-289", "wrong_test": "assert odd_Days(50) == 8", "wrong_index": 1}
+{"id": "mbpp-290", "wrong_test": "assert max_length([[1], [5, 7], [10, 12, 14, 15]]) == ([10, 12, 14, 15], 4)", "wrong_index": 1}
+{"id": "mbpp-293", "wrong_test": "assert otherside_rightangle(3, 4) == 3", "wrong_index": 1}
+{"id": "mbpp-294", "wrong_test": "assert max_val(['Python', 3, 2, 4, 5, 'version']) == 15", "wrong_index": 0}
+{"id": "mbpp-296", "wrong_test": "assert get_Inv_Count([1, 20, 6, 4, 5], 5) == 3", "wrong_index": 0}
+{"id": "mbpp-297", "wrong_test": "assert flatten_list([[10, 20], [40], [30, 56, 25], [10, 20], [33], [40]]) == [40, 33, 20, 10, 25, 56, 30, 40, 20, 10]", "wrong_index": 1}
+{"id": "mbpp-298", "wrong_test": "assert intersection_nested_lists([[2, 3, 1], [4, 5], [6, 8]], [[4, 5], [6, 8]]) == [[]]", "wrong_index": 1}
+{"id": "mbpp-299", "wrong_test": "assert max_aggregate([('Juan Whelan', 50), ('Sabah Colley', 48), ('Peter Nichols', 37), ('Juan Whelan', 22), ('Sabah Colley', 14)]) == (72, 'Juan Whelan')", "wrong_index": 1}
+{"id": "mbpp-301", "wrong_test": "assert dict_depth({'a': 1, 'b': {'c': 'python'}}) == 3", "wrong_index": 1}
+{"id": "mbpp-304", "wrong_test": "assert find_Element([1, 2, 3, 4], [[0, 1], [0, 2]], 1, 2) == 4", "wrong_index": 1}
+{"id": "mbpp-305", "wrong_test": "assert start_withp(['Python Programming', 'Java Programming']) == ('Programming', 'Python')", "wrong_index": 1}
+{"id": "mbpp-306", "wrong_test": "assert max_sum_increasing_subseq([1, 101, 2, 3, 100, 4, 5], 7, 2, 5) == 6", "wrong_index": 1}
+{"id": "mbpp-307", "wrong_test": "assert colon_tuplex(('HELLO', 5, [], True), 2, 50) == (True, [50], 5, 'HELLO')", "wrong_index": 0}
+{"id": "mbpp-308", "wrong_test": "assert large_product([1, 2, 3, 4, 5, 6], [3, 6, 8, 9, 10, 6], 3) == [50, 54, 60]", "wrong_index": 0}
+{"id": "mbpp-310", "wrong_test": "assert string_to_tuple('python 3.0') == ('0', '.', '3', 'n', 'o', 'h', 't', 'y', 'p')", "wrong_index": 0}
+{"id": "mbpp-311", "wrong_test": "assert set_left_most_unset_bit(10) == 24", "wrong_index": 0}
+{"id": "mbpp-312", "wrong_test": "assert volume_cone(5, 12) == 314.659265", "wrong_index": 0}
+{"id": "mbpp-313", "wrong_test": "assert pos_nos([-1, -2, 1, 2]) == 0", "wrong_index": 0}
+{"id": "mbpp-314", "wrong_test": "assert max_sum_rectangular_grid([[1, 4, 5], [2, 0, 0]], 3) == 8", "wrong_index": 0}
+{"id": "mbpp-315", "wrong_test": "assert find_Max_Len_Even('python language') == 'egaugnal'", "wrong_index": 0}
+{"id": "mbpp-316", "wrong_test": "assert find_last_occurrence([2, 3, 5, 8, 6, 6, 8, 9, 9, 9], 9) == 11", "wrong_index": 1}
+{"id": "mbpp-317", "wrong_test": "assert modified_encode('automatically') == ['y', [2, 'l'], 'a', 'c', 'i', 't', 'a', 'm', 'o', 't', 'u', 'a']", "wrong_index": 1}
+{"id": "mbpp-318", "wrong_test": "assert max_volume(4) == 4", "wrong_index": 1}
+{"id": "mbpp-319", "wrong_test": "assert find_long_word('4K Ultra HD streaming player') == []", "wrong_index": 1}
+{"id": "mbpp-321", "wrong_test": "assert find_demlo('1111') == '12343211'", "wrong_index": 1}
+{"id": "mbpp-322", "wrong_test": "assert position_min([12, 33, 23, 10, 67, 89, 45, 667, 23, 12, 11, 10, 54]) == [11, 3]", "wrong_index": 0}
+{"id": "mbpp-323", "wrong_test": "assert re_arrange([1, 2, 3, -4, -1, 4], 6) == [4, 3, 2, -1, 1, -4]", "wrong_index": 1}
+{"id": "mbpp-324", "wrong_test": "assert sum_of_alternates((5, 6, 3, 6, 10, 34)) == (18, 46)", "wrong_index": 0}
+{"id": "mbpp-326", "wrong_test": "assert most_occurrences(['UTS is best for RTF', 'RTF love UTS', 'UTS is best']) == 'STU'", "wrong_index": 0}
+{"id": "mbpp-328", "wrong_test": "assert rotate_left([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, 4) == [4, 3, 2, 1, 10, 9, 8, 7, 6, 5, 4]", "wrong_index": 0}
+{"id": "mbpp-330", "wrong_test": "assert find_char('Certain service are subject to change MSR') == ['MSR', 'are']", "wrong_index": 1}
+{"id": "mbpp-333", "wrong_test": "assert Sort([['452', 10], ['256', 5], ['100', 20], ['135', 15]]) == [['100', 20], ['135', 15], ['452', 10], ['256', 5]]", "wrong_index": 1}
+{"id": "mbpp-337", "wrong_test": "assert text_match_word('python.') == '!hctam a dnuoF'", "wrong_index": 0}
+{"id": "mbpp-338", "wrong_test": "assert count_Substring_With_Equal_Ends('aba') == 5", "wrong_index": 0}
+{"id": "mbpp-340", "wrong_test": "assert sum_three_smallest_nums([10, 20, 30, 40, 50, 60, 7]) == 36", "wrong_index": 0}
+{"id": "mbpp-341", "wrong_test": "assert set_to_tuple({6, 7, 8, 9, 10, 11}) == (11, 10, 9, 8, 7, 6)", "wrong_index": 1}
+{"id": "mbpp-342", "wrong_test": "assert find_minimum_range([[3, 6, 8, 10, 15], [1, 5, 12], [4, 8, 15, 16], [2, 6]]) == (6, 4)", "wrong_index": 0}
+{"id": "mbpp-343", "wrong_test": "assert dig_let('program') == (0, 7)", "wrong_index": 1}
+{"id": "mbpp-345", "wrong_test": "assert diff_consecutivenums([1, 1, 3, 4, 4, 5, 6, 7]) == [1, 1, 1, 0, 1, 2, 0]", "wrong_index": 0}
+{"id": "mbpp-346", "wrong_test": "assert zigzag(4, 2) == 5", "wrong_index": 1}
+{"id": "mbpp-348", "wrong_test": "assert find_ways(6) == 15", "wrong_index": 1}
+{"id": "mbpp-349", "wrong_test": "assert check('01010101010') == 'seY'", "wrong_index": 0}
+{"id": "mbpp-351", "wrong_test": "assert first_Element([0, 1, 2, 3, 4, 5], 6, 1) == 1", "wrong_index": 0}
+{"id": "mbpp-352", "wrong_test": "assert unique_Characters('abc') == False", "wrong_index": 1}
+{"id": "mbpp-353", "wrong_test": "assert remove_column([[1, 2, 3], [2, 4, 5], [1, 1, 1]], 0) == [[1, 1], [4, 5], [2, 3]]", "wrong_index": 0}
+{"id": "mbpp-354", "wrong_test": "assert tn_ap(2, 6, 4) == 23", "wrong_index": 1}
+{"id": "mbpp-355", "wrong_test": "assert count_Rectangles(2) == 10", "wrong_index": 0}
+{"id": "mbpp-357", "wrong_test": "assert find_max([(3, 5), (7, 8), (6, 2), (7, 11), (9, 8)]) == 13", "wrong_index": 1}
+{"id": "mbpp-358", "wrong_test": "assert moddiv_list([4, 5, 6], [1, 2, 3]) == [0, 1]", "wrong_index": 0}
+{"id": "mbpp-361", "wrong_test": "assert remove_empty([[], [], [], 'Red', 'Green', [1, 2], 'Blue', [], []]) == ['Blue', [1, 2], 'Green', 'Red']", "wrong_index": 0}
+{"id": "mbpp-362", "wrong_test": "assert max_occurrences([1, 2, 3, 1, 2, 3, 12, 4, 2]) == 12", "wrong_index": 0}
+{"id": "mbpp-363", "wrong_test": "assert add_K_element([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 8) == [(15, 16, 17), (12, 13, 14), (9, 10, 11)]", "wrong_index": 1}
+{"id": "mbpp-364", "wrong_test": "assert min_flip_to_make_string_alternate('001') == -1", "wrong_index": 1}
+{"id": "mbpp-366", "wrong_test": "assert adjacent_num_product([1, 2, 3, 4, 5, 6]) == 28", "wrong_index": 0}
+{"id": "mbpp-368", "wrong_test": "assert repeat_tuples((1, 2), 3) == ((1, 2), (1, 2))", "wrong_index": 1}
+{"id": "mbpp-369", "wrong_test": "assert lateralsurface_cuboid(8, 5, 6) == 166", "wrong_index": 0}
+{"id": "mbpp-370", "wrong_test": "assert float_sort([('item1', '12.20'), ('item2', '15.10'), ('item3', '24.5')]) == [('item1', '12.20'), ('item2', '15.10'), ('item3', '24.5')]", "wrong_index": 0}
+{"id": "mbpp-371", "wrong_test": "assert smallest_missing([0, 1, 2, 3, 4, 5, 6], 0, 6) == 17", "wrong_index": 0}
+{"id": "mbpp-372", "wrong_test": "assert heap_assending([25, 35, 22, 85, 14, 65, 75, 25, 58]) == [85, 75, 65, 58, 35, 25, 25, 22, 14]", "wrong_index": 1}
+{"id": "mbpp-374", "wrong_test": "assert permute_string('ab') == ['ba', 'ab']", "wrong_index": 0}
+{"id": "mbpp-376", "wrong_test": "assert remove_replica((2, 3, 4, 4, 5, 6, 6, 7, 8, 9, 9)) == ('MSP', 9, 8, 7, 'MSP', 6, 5, 'MSP', 4, 3, 2)", "wrong_index": 1}
+{"id": "mbpp-378", "wrong_test": "assert move_first([1, 2, 3, 4]) == [3, 2, 1, 4]", "wrong_index": 0}
+{"id": "mbpp-380", "wrong_test": "assert multi_list(3, 4) == [[0, 2, 4, 6], [0, 1, 2, 3], [0, 0, 0, 0]]", "wrong_index": 0}
+{"id": "mbpp-381", "wrong_test": "assert index_on_inner_list([('Greyson Fulton', 98, 99), ('Brady Kent', 97, 96), ('Wyatt Knott', 91, 94), ('Beau Turnbull', 94, 98)], 0) == [('Wyatt Knott', 91, 94), ('Greyson Fulton', 98, 99), ('Brady Kent', 97, 96), ('Beau Turnbull', 94, 98)]", "wrong_index": 0}
+{"id": "mbpp-382", "wrong_test": "assert find_rotation_count([8, 9, 10, 2, 5, 6]) == 13", "wrong_index": 1}
+{"id": "mbpp-383", "wrong_test": "assert even_bit_toggle_number(10) == 16", "wrong_index": 0}
+{"id": "mbpp-384", "wrong_test": "assert frequency_Of_Smallest(7, [3, 1, 2, 5, 6, 2, 3]) == -1", "wrong_index": 1}
+{"id": "mbpp-390", "wrong_test": "assert add_string(['a', 'b', 'c', 'd'], 'python{0}') == ['pythond', 'pythonc', 'pythonb', 'pythona']", "wrong_index": 1}
+{"id": "mbpp-391", "wrong_test": "assert convert_list_dictionary(['abc', 'def', 'ghi', 'jkl'], ['python', 'program', 'language', 'programs'], [100, 200, 300, 400]) == [{'jkl': {'programs': 400}}, {'ghi': {'language': 300}}, {'def': {'program': 200}}, {'abc': {'python': 100}}]", "wrong_index": 1}
+{"id": "mbpp-393", "wrong_test": "assert max_length_list([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]]) == ([13, 15, 17], 3)", "wrong_index": 0}
+{"id": "mbpp-394", "wrong_test": "assert check_distinct((1, 4, 5, 6, 1, 4)) == True", "wrong_index": 0}
+{"id": "mbpp-395", "wrong_test": "assert first_non_repeating_character('abc') == 'aa'", "wrong_index": 1}
+{"id": "mbpp-398", "wrong_test": "assert sum_of_digits([10, 2, 56]) == 12", "wrong_index": 0}
+{"id": "mbpp-399", "wrong_test": "assert bitwise_xor((11, 5, 7, 10), (6, 3, 4, 4)) == (14, 3, 6, 13)", "wrong_index": 1}
+{"id": "mbpp-400", "wrong_test": "assert extract_freq([(4, 15), (2, 3), (5, 4), (6, 7)]) == 6", "wrong_index": 1}
+{"id": "mbpp-401", "wrong_test": "assert add_nested_tuples(((1, 3), (4, 5), (2, 9), (1, 10)), ((6, 7), (3, 9), (1, 1), (7, 3))) == ((8, 13), (3, 10), (7, 14), (7, 10))", "wrong_index": 0}
+{"id": "mbpp-403", "wrong_test": "assert is_valid_URL('https:/www.gmail.com') == True", "wrong_index": 1}
+{"id": "mbpp-405", "wrong_test": "assert check_tuplex(('w', 3, 'r', 'e', 's', 'o', 'u', 'r', 'c', 'e'), '5') == True", "wrong_index": 1}
+{"id": "mbpp-408", "wrong_test": "assert k_smallest_pairs([1, 3, 7], [2, 4, 6], 1) == []", "wrong_index": 1}
+{"id": "mbpp-409", "wrong_test": "assert min_product_tuple([(10, 20), (15, 2), (5, 10)]) == 32", "wrong_index": 1}
+{"id": "mbpp-410", "wrong_test": "assert min_val(['Python', 3, 2, 4, 5, 'version']) == 1", "wrong_index": 0}
+{"id": "mbpp-411", "wrong_test": "assert snake_to_camel('google_pixel') == 'lexiPelgooG'", "wrong_index": 1}
+{"id": "mbpp-413", "wrong_test": "assert extract_nth_element([('Greyson Fulton', 98, 99), ('Brady Kent', 97, 96), ('Wyatt Knott', 91, 94), ('Beau Turnbull', 94, 98)], 2) == [98, 94, 96, 99]", "wrong_index": 1}
+{"id": "mbpp-414", "wrong_test": "assert overlapping([1, 2, 3], [4, 5, 6]) == True", "wrong_index": 1}
+{"id": "mbpp-415", "wrong_test": "assert max_Product([0, -1, -2, -4, 5, 0, -6]) == (-6, -4)", "wrong_index": 1}
+{"id": "mbpp-417", "wrong_test": "assert group_tuples([('x', 'y'), ('x', 'z'), ('w', 't')]) == [('w', 't'), ('x', 'y', 'z')]", "wrong_index": 0}
+{"id": "mbpp-418", "wrong_test": "assert Find_Max([['A'], ['A', 'B'], ['A', 'B', 'C']]) == ['C', 'B', 'A']", "wrong_index": 0}
+{"id": "mbpp-419", "wrong_test": "assert round_and_sum([5, 2, 9, 24.3, 29]) == 344", "wrong_index": 1}
+{"id": "mbpp-421", "wrong_test": "assert concatenate_tuple(('QWE', 'is', 4, 'RTY')) == 'YTR-4-si-EWQ'", "wrong_index": 1}
+{"id": "mbpp-422", "wrong_test": "assert find_Average_Of_Cube(2) == 3.5", "wrong_index": 0}
+{"id": "mbpp-423", "wrong_test": "assert get_maxgold([[1, 3, 1, 5], [2, 2, 4, 1], [5, 0, 2, 3], [0, 6, 1, 2]], 4, 4) == 26", "wrong_index": 0}
+{"id": "mbpp-424", "wrong_test": "assert extract_rear(('Avenge', 'for', 'People')) == ['e', 'r']", "wrong_index": 1}
+{"id": "mbpp-425", "wrong_test": "assert count_element_in_list([['A', 'B'], ['A', 'C'], ['A', 'D', 'E'], ['B', 'C', 'D']], 'A') == 13", "wrong_index": 1}
+{"id": "mbpp-426", "wrong_test": "assert filter_oddnumbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == [9, 7, 5, 3, 1]", "wrong_index": 0}
+{"id": "mbpp-427", "wrong_test": "assert change_date_format('2026-01-02') == '6202-10-20'", "wrong_index": 0}
+{"id": "mbpp-428", "wrong_test": "assert shell_sort([24, 22, 39, 34, 87, 73, 68]) == [87, 73, 68, 39, 34, 24, 22]", "wrong_index": 1}
+{"id": "mbpp-429", "wrong_test": "assert and_tuples((10, 4, 6, 9), (5, 2, 3, 3)) == (1, 2, 0, 0)", "wrong_index": 0}
+{"id": "mbpp-431", "wrong_test": "assert common_element([1, 2, 3, 4, 5], [5, 6, 7, 8, 9]) == False", "wrong_index": 0}
+{"id": "mbpp-433", "wrong_test": "assert check_greater([1, 2, 3, 4, 5], 4) == 'yarra eht ni esoht naht ssel si rebmun deretne ,oN'", "wrong_index": 0}
+{"id": "mbpp-434", "wrong_test": "assert text_match_one('dc') == '!dehctam toN'", "wrong_index": 1}
+{"id": "mbpp-436", "wrong_test": "assert neg_nos([-1, -2, 3, 4]) == -3", "wrong_index": 1}
+{"id": "mbpp-437", "wrong_test": "assert remove_odd('python') == 'nhy'", "wrong_index": 0}
+{"id": "mbpp-438", "wrong_test": "assert count_bidirectional([(5, 6), (1, 2), (6, 5), (9, 1), (6, 5), (2, 1)]) == '33'", "wrong_index": 0}
+{"id": "mbpp-439", "wrong_test": "assert multiple_to_single([-1, 2, 3, 4, 5, 6]) == -123446", "wrong_index": 1}
+{"id": "mbpp-440", "wrong_test": "assert find_adverb_position('seriously!! there are many roses') == ('seriously', 9, 0)", "wrong_index": 1}
+{"id": "mbpp-442", "wrong_test": "assert positive_count([2, 1, 2, -1, -5, 6, 4, -3, -2, 3, 4, 6, 8]) == -0.31", "wrong_index": 1}
+{"id": "mbpp-444", "wrong_test": "assert trim_tuple([(5, 3, 2, 1, 4), (3, 4, 9, 2, 1), (9, 1, 2, 3, 5), (4, 8, 2, 1, 7)], 1) == '])1 ,2 ,8( ,)3 ,2 ,1( ,)2 ,9 ,4( ,)1 ,2 ,3(['", "wrong_index": 1}
+{"id": "mbpp-445", "wrong_test": "assert index_multiplication(((2, 4), (5, 6), (3, 10), (2, 11)), ((7, 8), (4, 10), (2, 2), (8, 4))) == ((16, 44), (6, 20), (20, 60), (14, 32))", "wrong_index": 1}
+{"id": "mbpp-446", "wrong_test": "assert count_Occurrence((1, 2, 3, 1, 4, 6, 7, 1, 4), [1, 4, 7]) == 5", "wrong_index": 1}
+{"id": "mbpp-447", "wrong_test": "assert cube_nums([10, 20, 30]) == [27000, 8000, 1000]", "wrong_index": 1}
+{"id": "mbpp-448", "wrong_test": "assert cal_sum(10) == 65", "wrong_index": 1}
+{"id": "mbpp-449", "wrong_test": "assert check_Triangle(1, 1, 1, 4, 1, 5) == 'oN'", "wrong_index": 1}
+{"id": "mbpp-450", "wrong_test": "assert extract_string(['Python', 'list', 'exercises', 'practice', 'solution'], 8) == ['solution', 'practice']", "wrong_index": 0}
+{"id": "mbpp-451", "wrong_test": "assert remove_whitespaces(' Google    Dart ') == 'traDelgooG'", "wrong_index": 1}
+{"id": "mbpp-452", "wrong_test": "assert loss_amount(100, 200) == 110", "wrong_index": 1}
+{"id": "mbpp-453", "wrong_test": "assert sumofFactors(30) == 58", "wrong_index": 1}
+{"id": "mbpp-454", "wrong_test": "assert text_match_wordz('xyz.') == '!hctam a dnuoF'", "wrong_index": 1}
+{"id": "mbpp-455", "wrong_test": "assert check_monthnumb_number(2) == True", "wrong_index": 1}
+{"id": "mbpp-456", "wrong_test": "assert reverse_string_list(['Red', 'Green', 'Blue', 'White', 'Black']) == ['kcalB', 'etihW', 'eulB', 'neerG', 'deR']", "wrong_index": 0}
+{"id": "mbpp-457", "wrong_test": "assert Find_Min([[1, 1], [1, 1, 1], [1, 2, 7, 8]]) == [1]", "wrong_index": 1}
+{"id": "mbpp-459", "wrong_test": "assert remove_uppercase('wAtchTheinTernEtrAdIo') == 'odrtnreniehhctw'", "wrong_index": 1}
+{"id": "mbpp-460", "wrong_test": "assert Extract([[1, 2], [3, 4, 5], [6, 7, 8, 9]]) == [6, 3, 1]", "wrong_index": 0}
+{"id": "mbpp-461", "wrong_test": "assert upper_ctr('BigData') == 11", "wrong_index": 1}
+{"id": "mbpp-462", "wrong_test": "assert combinations_list(['orange', 'red', 'green', 'blue']) == [['blue', 'green', 'red', 'orange'], ['blue', 'green', 'red'], ['blue', 'green', 'orange'], ['blue', 'green'], ['blue', 'red', 'orange'], ['blue', 'red'], ['blue', 'orange'], ['blue'], ['green', 'red', 'orange'], ['green', 'red'], ['green', 'orange'], ['green'], ['red', 'orange'], ['red'], ['orange'], []]", "wrong_index": 0}
+{"id": "mbpp-463", "wrong_test": "assert max_subarray_product([1, -2, -3, 0, 7, -8, -2]) == 114", "wrong_index": 0}
+{"id": "mbpp-464", "wrong_test": "assert check_value({'Cierra Vega': 12, 'Alden Cantrell': 12, 'Kierra Gentry': 12, 'Pierre Cox': 12}, 12) == False", "wrong_index": 1}
+{"id": "mbpp-466", "wrong_test": "assert find_peak([2, 3, 4, 5, 6], 5) == 2", "wrong_index": 1}
+{"id": "mbpp-468", "wrong_test": "assert max_product([3, 100, 4, 5, 150, 6], 6) == 45010", "wrong_index": 0}
+{"id": "mbpp-469", "wrong_test": "assert max_profit([2, 4, 7, 5, 4, 3, 5], 2) == 17", "wrong_index": 1}
+{"id": "mbpp-470", "wrong_test": "assert add_pairwise((1, 5, 7, 8, 10)) == (18, 15, 12, 6)", "wrong_index": 0}
+{"id": "mbpp-471", "wrong_test": "assert find_remainder([1, 1, 1], 3, 1) == 10", "wrong_index": 1}
+{"id": "mbpp-472", "wrong_test": "assert check_Consecutive([1, 2, 3, 5, 6]) == True", "wrong_index": 1}
+{"id": "mbpp-474", "wrong_test": "assert replace_char('polygon', 'y', 'l') == 'nogllop'", "wrong_index": 0}
+{"id": "mbpp-475", "wrong_test": "assert sort_counter({'Math': 81, 'Physics': 83, 'Chemistry': 87}) == [('Math', 81), ('Physics', 83), ('Chemistry', 87)]", "wrong_index": 0}
+{"id": "mbpp-478", "wrong_test": "assert remove_lowercase('PYTHon') == 'HTYP'", "wrong_index": 0}
+{"id": "mbpp-480", "wrong_test": "assert get_max_occuring_char('data') == 'aa'", "wrong_index": 0}
+{"id": "mbpp-481", "wrong_test": "assert is_subset_sum([3, 34, 4, 12, 5, 2], 6, 30) == True", "wrong_index": 1}
+{"id": "mbpp-483", "wrong_test": "assert first_Factorial_Divisible_Number(15) == 7", "wrong_index": 1}
+{"id": "mbpp-484", "wrong_test": "assert remove_matching_tuple([('Part', 'of'), ('the', 'journey'), ('is ', 'end')], [('Journey', 'the'), ('is', 'end')]) == [('is ', 'end'), ('the', 'journey'), ('Part', 'of')]", "wrong_index": 1}
+{"id": "mbpp-485", "wrong_test": "assert largest_palindrome([1, 2, 3, 4, 5, 50], 6) == 15", "wrong_index": 1}
+{"id": "mbpp-486", "wrong_test": "assert binomial_probability(10, 5, 1.0 / 3) == -0.863435", "wrong_index": 0}
+{"id": "mbpp-487", "wrong_test": "assert sort_tuple([(2, 4), (3, 3), (1, 1)]) == [(2, 4), (3, 3), (1, 1)]", "wrong_index": 1}
+{"id": "mbpp-488", "wrong_test": "assert area_pentagon(5) == 43.511935", "wrong_index": 0}
+{"id": "mbpp-489", "wrong_test": "assert frequency_Of_Largest(5, [1, 2, 3, 4, 4]) == 3", "wrong_index": 0}
+{"id": "mbpp-492", "wrong_test": "assert binary_search([1, 2, 3, 5, 8], 6) == True", "wrong_index": 0}
+{"id": "mbpp-494", "wrong_test": "assert binary_to_integer((1, 1, 0, 1, 0, 0, 1)) == '501'", "wrong_index": 0}
+{"id": "mbpp-495", "wrong_test": "assert remove_lowercase('KDeoALOklOOHserfLoAJSIskdsf') == 'ISJALHOOOLADK'", "wrong_index": 0}
+{"id": "mbpp-496", "wrong_test": "assert heap_queue_smallest([25, 35, 22, 85, 14, 65, 75, 25, 58], 3) == [25, 22, 14]", "wrong_index": 0}
+{"id": "mbpp-497", "wrong_test": "assert surfacearea_cone(10, 15) == 881.517935", "wrong_index": 1}
+{"id": "mbpp-500", "wrong_test": "assert concatenate_elements(['Hi', 'there', 'How', 'are', 'you']) == 'uoy era woH ereht iH  '", "wrong_index": 1}
+{"id": "mbpp-501", "wrong_test": "assert num_comm_div(2, 8) == 3", "wrong_index": 1}
+{"id": "mbpp-503", "wrong_test": "assert add_consecutive_nums([4, 5, 8, 9, 6, 10]) == [16, 15, 17, 13, 9]", "wrong_index": 1}
+{"id": "mbpp-505", "wrong_test": "assert re_order([4, 0, 2, 7, 0, 9, 0, 12, 0]) == [0, 0, 0, 0, 12, 9, 7, 2, 4]", "wrong_index": 1}
+{"id": "mbpp-506", "wrong_test": "assert permutation_coefficient(10, 2) == 89", "wrong_index": 0}
+{"id": "mbpp-507", "wrong_test": "assert remove_words(['red', 'green', 'blue', 'white', 'black', 'orange'], ['black', 'orange']) == ['white', 'blue', 'green', 'red']", "wrong_index": 1}
+{"id": "mbpp-508", "wrong_test": "assert same_order(['red', 'green', 'black', 'orange'], ['red', 'pink', 'green', 'white', 'black']) == False", "wrong_index": 0}
+{"id": "mbpp-510", "wrong_test": "assert no_of_subsequences([1, 2, 3, 4], 10) == 12", "wrong_index": 0}
+{"id": "mbpp-511", "wrong_test": "assert find_Min_Sum(105) == 13", "wrong_index": 1}
+{"id": "mbpp-513", "wrong_test": "assert add_str((5, 6, 7, 4, 9), 'FDF') == ['FDF', 9, 'FDF', 4, 'FDF', 7, 'FDF', 6, 'FDF', 5]", "wrong_index": 0}
+{"id": "mbpp-514", "wrong_test": "assert sum_elements((7, 8, 9, 1, 10, 7)) == 41", "wrong_index": 0}
+{"id": "mbpp-515", "wrong_test": "assert modular_sum([1, 7], 2, 5) == True", "wrong_index": 1}
+{"id": "mbpp-516", "wrong_test": "assert radix_sort([15, 79, 25, 68, 37]) == [79, 68, 37, 25, 15]", "wrong_index": 0}
+{"id": "mbpp-520", "wrong_test": "assert get_lcm([2, 7, 3, 9, 4]) == 250", "wrong_index": 0}
+{"id": "mbpp-521", "wrong_test": "assert check_isosceles(6, 6, 12) == True", "wrong_index": 1}
+{"id": "mbpp-522", "wrong_test": "assert lbs([0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]) == 17", "wrong_index": 0}
+{"id": "mbpp-523", "wrong_test": "assert check_string('123python') == []", "wrong_index": 1}
+{"id": "mbpp-524", "wrong_test": "assert max_sum_increasing_subsequence([3, 4, 5, 10], 4) == 21", "wrong_index": 1}
+{"id": "mbpp-525", "wrong_test": "assert parallel_lines([2, 3, 4], [4, -3, 8]) == True", "wrong_index": 1}
+{"id": "mbpp-526", "wrong_test": "assert capitalize_first_last_letters('python') == 'NohtyP'", "wrong_index": 0}
+{"id": "mbpp-527", "wrong_test": "assert get_pairs_count([1, 5, 7, -1, 5], 5, 6) == 4", "wrong_index": 0}
+{"id": "mbpp-528", "wrong_test": "assert min_length([[1], [5, 7], [10, 12, 14, 15]]) == ([1], 1)", "wrong_index": 1}
+{"id": "mbpp-529", "wrong_test": "assert jacobsthal_lucas(2) == 7", "wrong_index": 1}
+{"id": "mbpp-530", "wrong_test": "assert negative_count([0, 1, 2, -1, -5, 6, 0, -3, -2, 3, 4, 6, 8]) == 0.81", "wrong_index": 0}
+{"id": "mbpp-532", "wrong_test": "assert check_permutation('abc', 'cba') == False", "wrong_index": 0}
+{"id": "mbpp-533", "wrong_test": "assert remove_datatype((4, 5, 4, 7.7, 1.2), int) == [1.2, 7.7]", "wrong_index": 0}
+{"id": "mbpp-534", "wrong_test": "assert search_literal('programming', 'python programming language') == (18, 7)", "wrong_index": 1}
+{"id": "mbpp-535", "wrong_test": "assert topbottom_surfacearea(5) == 77.5375", "wrong_index": 1}
+{"id": "mbpp-536", "wrong_test": "assert nth_items([1, 2, 3, 4, 5, 6, 7, 8, 9], 2) == [9, 7, 5, 3, 1]", "wrong_index": 0}
+{"id": "mbpp-537", "wrong_test": "assert first_repeated_word('ab ca bc') == 'enoN'", "wrong_index": 1}
+{"id": "mbpp-538", "wrong_test": "assert string_list_to_tuple('python 3.0') == ('0', '.', '3', 'n', 'o', 'h', 't', 'y', 'p')", "wrong_index": 0}
+{"id": "mbpp-539", "wrong_test": "assert basesnum_coresspondingnum([1, 2, 3, 4, 5, 6, 7], [10, 20, 30, 40, 50, 60, 70]) == [143503601609868434285603076356671071740077383739246066639249, 48873677980689257489322752273774603865660850176, 88817841970012523233890533447265625, 1208925819614629174706176, 205891132094649, 1048576, 1]", "wrong_index": 1}
+{"id": "mbpp-540", "wrong_test": "assert find_Diff([1, 1, 2, 2, 7, 8, 4, 5, 1, 4], 10) == 0", "wrong_index": 0}
+{"id": "mbpp-541", "wrong_test": "assert check_abundant(12) == False", "wrong_index": 0}
+{"id": "mbpp-542", "wrong_test": "assert fill_spaces('Boult Curve Wireless Neckband') == 'dnabkceN:sseleriW:evruC:tluoB'", "wrong_index": 0}
+{"id": "mbpp-544", "wrong_test": "assert flatten_tuple([('1', '4', '6'), ('5', '8'), ('2', '9'), ('1', '10')]) == '01 1 9 2 8 5 6 4 1'", "wrong_index": 0}
+{"id": "mbpp-545", "wrong_test": "assert toggle_F_and_L_bits(10) == 4", "wrong_index": 0}
+{"id": "mbpp-546", "wrong_test": "assert last_occurence_char('hello world', 'l') == 11", "wrong_index": 0}
+{"id": "mbpp-548", "wrong_test": "assert longest_increasing_subsequence([10, 22, 9, 33, 21, 50, 41, 60]) == 3", "wrong_index": 0}
+{"id": "mbpp-551", "wrong_test": "assert extract_column([[1, 2, 3], [-2, 4, -5], [1, -1, 1]], 2) == [1, -5, 3]", "wrong_index": 1}
+{"id": "mbpp-552", "wrong_test": "assert Seq_Linear([1, 2, 3]) == 'ecneuqeS raeniL'", "wrong_index": 1}
+{"id": "mbpp-556", "wrong_test": "assert find_Odd_Pair([7, 2, 8, 1, 0, 5, 11], 7) == 11", "wrong_index": 1}
+{"id": "mbpp-557", "wrong_test": "assert toggle_string('Python') == 'NOHTYp'", "wrong_index": 0}
+{"id": "mbpp-558", "wrong_test": "assert digit_distance_nums(1, 2) == 0", "wrong_index": 0}
+{"id": "mbpp-559", "wrong_test": "assert max_sub_array_sum([-3, -4, 5, -2, -3, 2, 6, -4], 8) == 6", "wrong_index": 1}
+{"id": "mbpp-560", "wrong_test": "assert union_elements((1, 2, 3, 4), (3, 4, 5, 6)) == (6, 5, 4, 3, 2, 1)", "wrong_index": 1}
+{"id": "mbpp-562", "wrong_test": "assert Find_Max_Length([[1], [1, 4], [5, 6, 7, 8]]) == 3", "wrong_index": 0}
+{"id": "mbpp-563", "wrong_test": "assert extract_values('\"python\",\"program\",\"language\"') == ['language', 'program', 'python']", "wrong_index": 1}
+{"id": "mbpp-564", "wrong_test": "assert count_Pairs([1, 1, 1, 1], 4) == -2", "wrong_index": 1}
+{"id": "mbpp-565", "wrong_test": "assert split('python') == ['n', 'o', 'h', 't', 'y', 'p']", "wrong_index": 0}
+{"id": "mbpp-567", "wrong_test": "assert issort_list([1, 2, 4, 6, 8, 10, 12, 14, 16, 17]) == False", "wrong_index": 0}
+{"id": "mbpp-568", "wrong_test": "assert empty_list(6) == [{}, {}, {}, {}, {}]", "wrong_index": 1}
+{"id": "mbpp-569", "wrong_test": "assert sort_sublists([['green', 'orange'], ['black', 'white'], ['white', 'black', 'orange']]) == [['black', 'orange', 'white'], ['black', 'white'], ['green', 'orange']]", "wrong_index": 0}
+{"id": "mbpp-570", "wrong_test": "assert remove_words(['Red color', 'Orange#', 'Green', 'Orange @', 'White'], ['#', 'color', '@']) == ['White', 'Orange', 'Green', '', 'Red']", "wrong_index": 0}
+{"id": "mbpp-571", "wrong_test": "assert max_sum_pair_diff_lessthan_K([5, 15, 10, 300], 4, 12) == 26", "wrong_index": 1}
+{"id": "mbpp-572", "wrong_test": "assert two_unique_nums([1, 2, 3, 2, 4, 5]) == [5, 4, 3, 1]", "wrong_index": 1}
+{"id": "mbpp-573", "wrong_test": "assert unique_product([10, 20, 30, 40, 20, 50, 60, 40]) == 720000001", "wrong_index": 0}
+{"id": "mbpp-574", "wrong_test": "assert surfacearea_cylinder(10, 5) == 941.45", "wrong_index": 0}
+{"id": "mbpp-575", "wrong_test": "assert count_no(3, 6, 4, 20) == 12", "wrong_index": 1}
+{"id": "mbpp-576", "wrong_test": "assert is_Sub_Array([1, 4, 3, 5], [1, 2], 4, 2) == True", "wrong_index": 0}
+{"id": "mbpp-578", "wrong_test": "assert interleave_lists([1, 2, 3, 4, 5, 6, 7], [10, 20, 30, 40, 50, 60, 70], [100, 200, 300, 400, 500, 600, 700]) == [700, 70, 7, 600, 60, 6, 500, 50, 5, 400, 40, 4, 300, 30, 3, 200, 20, 2, 100, 10, 1]", "wrong_index": 0}
+{"id": "mbpp-579", "wrong_test": "assert find_dissimilar((1, 2, 3, 4), (7, 2, 3, 9)) == (9, 7, 4, 1)", "wrong_index": 1}
+{"id": "mbpp-580", "wrong_test": "assert extract_even((4, 5, (7, 6, (2, 4)), 6, 8)) == (8, 6, (6, (2, 4)), 4)", "wrong_index": 0}
+{"id": "mbpp-581", "wrong_test": "assert surface_Area(4, 5) == 55", "wrong_index": 1}
+{"id": "mbpp-582", "wrong_test": "assert my_dict({11}) == True", "wrong_index": 1}
+{"id": "mbpp-583", "wrong_test": "assert catalan_number(10) == 16806", "wrong_index": 0}
+{"id": "mbpp-584", "wrong_test": "assert find_adverbs('Clearly, he has no excuse for such behavior.') == 'ylraelC :7-0'", "wrong_index": 0}
+{"id": "mbpp-585", "wrong_test": "assert expensive_items([{'name': 'Item-1', 'price': 101.1}, {'name': 'Item-2', 'price': 555.22}], 1) == []", "wrong_index": 0}
+{"id": "mbpp-586", "wrong_test": "assert split_Arr([12, 10, 5, 6, 52, 36], 6, 2) == [10, 12, 36, 52, 6, 5]", "wrong_index": 0}
+{"id": "mbpp-587", "wrong_test": "assert list_tuple([2, 4, 5, 6, 2, 3, 4, 4, 7]) == (7, 4, 4, 3, 2, 6, 5, 4, 2)", "wrong_index": 1}
+{"id": "mbpp-589", "wrong_test": "assert perfect_squares(1, 30) == [25, 16, 9, 4, 1]", "wrong_index": 0}
+{"id": "mbpp-590", "wrong_test": "assert polar_rect(4, 7) == ((-2+2.4492935982947064e-16j), (8.06225774829855, 1.0516502125483738))", "wrong_index": 1}
+{"id": "mbpp-591", "wrong_test": "assert swap_List([1, 2, 3]) == [1, 2, 3]", "wrong_index": 1}
+{"id": "mbpp-592", "wrong_test": "assert sum_Of_product(4) == 66", "wrong_index": 1}
+{"id": "mbpp-593", "wrong_test": "assert removezero_ip('216.08.094.196') == '691.49.8.612'", "wrong_index": 0}
+{"id": "mbpp-594", "wrong_test": "assert diff_even_odd([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 11", "wrong_index": 1}
+{"id": "mbpp-597", "wrong_test": "assert find_kth([2, 3, 6, 7, 9], [1, 4, 8, 10], 5, 4, 5) == 16", "wrong_index": 0}
+{"id": "mbpp-600", "wrong_test": "assert is_Even(2) == False", "wrong_index": 1}
+{"id": "mbpp-601", "wrong_test": "assert max_chain_length([Pair(1, 2), Pair(3, 4), Pair(5, 6), Pair(7, 8)], 4) == 3", "wrong_index": 1}
+{"id": "mbpp-602", "wrong_test": "assert first_repeated_char('abc') == 'enoN'", "wrong_index": 1}
+{"id": "mbpp-603", "wrong_test": "assert get_ludic(25) == [25, 23, 17, 13, 11, 7, 5, 3, 2, 1]", "wrong_index": 1}
+{"id": "mbpp-604", "wrong_test": "assert reverse_words('java language') == 'avaj egaugnal'", "wrong_index": 1}
+{"id": "mbpp-606", "wrong_test": "assert radian_degree(90) == 2.070796", "wrong_index": 0}
+{"id": "mbpp-607", "wrong_test": "assert find_literals('The quick brown fox jumps over the lazy dog.', 'fox') == (19, 16, 'fox')", "wrong_index": 0}
+{"id": "mbpp-609", "wrong_test": "assert floor_Min(1, 2, 1) == 10", "wrong_index": 1}
+{"id": "mbpp-610", "wrong_test": "assert remove_kth_element([1, 1, 2, 3, 4, 4, 5, 1], 3) == [1, 5, 4, 4, 3, 1, 1]", "wrong_index": 0}
+{"id": "mbpp-611", "wrong_test": "assert max_of_nth([(6, 7, 8), (2, 4, 6), (9, 10, 20)], 1) == 20", "wrong_index": 1}
+{"id": "mbpp-612", "wrong_test": "assert merge([[1, 2], [3, 4], [5, 6], [7, 8]]) == [[2, 4, 6, 8], [1, 3, 5, 7]]", "wrong_index": 1}
+{"id": "mbpp-613", "wrong_test": "assert maximum_value([('key1', [3, 4, 5]), ('key2', [1, 4, 2]), ('key3', [9, 3])]) == [('key3', 9), ('key2', 4), ('key1', 5)]", "wrong_index": 0}
+{"id": "mbpp-614", "wrong_test": "assert cummulative_sum([(2, 4), (6, 7, 8), (3, 7)]) == 47", "wrong_index": 1}
+{"id": "mbpp-615", "wrong_test": "assert average_tuple(((1, 1, -5), (30, -15, 56), (81, -60, -39), (-10, 2, 3))) == [3.75, -18.0, 25.5]", "wrong_index": 1}
+{"id": "mbpp-616", "wrong_test": "assert tuple_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (1, 5, 4, 0)", "wrong_index": 0}
+{"id": "mbpp-617", "wrong_test": "assert min_Jumps(3, 4, 0) == 1", "wrong_index": 1}
+{"id": "mbpp-618", "wrong_test": "assert div_list([3, 2], [1, 4]) == [0.5, 3.0]", "wrong_index": 1}
+{"id": "mbpp-619", "wrong_test": "assert move_num('I1love143you55three3000thousand') == '0003553411dnasuohteerhtuoyevolI'", "wrong_index": 0}
+{"id": "mbpp-620", "wrong_test": "assert largest_subset([10, 5, 3, 15, 20], 5) == 1", "wrong_index": 1}
+{"id": "mbpp-621", "wrong_test": "assert increment_numerics(['Dart', '356', 'is', '88', '169', 'Super', '6'], 12) == ['18', 'Super', '181', '100', 'is', '368', 'Dart']", "wrong_index": 1}
+{"id": "mbpp-622", "wrong_test": "assert get_median([1, 12, 15, 26, 38], [2, 13, 17, 30, 45], 5) == 16.5", "wrong_index": 0}
+{"id": "mbpp-623", "wrong_test": "assert nth_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2) == [100, 81, 64, 49, 36, 25, 16, 9, 4, 1]", "wrong_index": 0}
+{"id": "mbpp-626", "wrong_test": "assert triangle_area(-1) == 0", "wrong_index": 1}
+{"id": "mbpp-627", "wrong_test": "assert find_First_Missing([0, 1, 2, 6, 9], 0, 4) == 5", "wrong_index": 1}
+{"id": "mbpp-628", "wrong_test": "assert replace_spaces('My Name is Dawood') == 'doowaD02%si02%emaN02%yM'", "wrong_index": 0}
+{"id": "mbpp-630", "wrong_test": "assert get_coordinates((4, 5)) == [[5, 6], [5, 5], [5, 4], [4, 6], [4, 5], [4, 4], [3, 6], [3, 5], [3, 4]]", "wrong_index": 1}
+{"id": "mbpp-631", "wrong_test": "assert replace_spaces('Jumanji The Jungle') == 'elgnuJ_ehT_ijnamuJ'", "wrong_index": 0}
+{"id": "mbpp-632", "wrong_test": "assert move_zero([2, 3, 2, 0, 0, 4, 0, 5, 0]) == [0, 0, 0, 0, 5, 4, 2, 3, 2]", "wrong_index": 1}
+{"id": "mbpp-633", "wrong_test": "assert pair_OR_Sum([5, 9, 7, 6], 4) == 49", "wrong_index": 0}
+{"id": "mbpp-635", "wrong_test": "assert heap_sort([1, 3, 5, 7, 9, 2, 4, 6, 8, 0]) == [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]", "wrong_index": 0}
+{"id": "mbpp-636", "wrong_test": "assert Check_Solution(2, -5, 2) == 'seY'", "wrong_index": 1}
+{"id": "mbpp-637", "wrong_test": "assert noprofit_noloss(100, 100) == False", "wrong_index": 1}
+{"id": "mbpp-638", "wrong_test": "assert wind_chill(40, 70) == 84", "wrong_index": 1}
+{"id": "mbpp-639", "wrong_test": "assert sample_nam(['php', 'res', 'Python', 'abcd', 'Java', 'aaa']) == 11", "wrong_index": 1}
+{"id": "mbpp-640", "wrong_test": "assert remove_parenthesis(['python (chrome)']) == 'nohtyp'", "wrong_index": 0}
+{"id": "mbpp-641", "wrong_test": "assert is_nonagonal(15) == 752", "wrong_index": 1}
+{"id": "mbpp-643", "wrong_test": "assert text_match_wordz_middle('xyzabc.') == '!hctam a dnuoF'", "wrong_index": 1}
+{"id": "mbpp-644", "wrong_test": "assert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [7, 6, 4, 5]", "wrong_index": 1}
+{"id": "mbpp-645", "wrong_test": "assert find_k_product([(6, 7, 8), (2, 4, 6), (9, 10, 20)], 1) == 279", "wrong_index": 1}
+{"id": "mbpp-646", "wrong_test": "assert No_of_cubes(5, 2) == 63", "wrong_index": 1}
+{"id": "mbpp-647", "wrong_test": "assert split_upperstring('PythonProgram') == ['Program', 'Python']", "wrong_index": 1}
+{"id": "mbpp-648", "wrong_test": "assert exchange_elements([0, 1, 2, 3, 4, 5]) == [4, 5, 2, 3, 0, 1]", "wrong_index": 0}
+{"id": "mbpp-649", "wrong_test": "assert sum_Range_list([2, 1, 5, 6, 8, 3, 4, 9, 10, 11, 8, 12], 8, 10) == 39", "wrong_index": 0}
+{"id": "mbpp-650", "wrong_test": "assert are_Equal([1, 1, 1], [2, 2, 2], 3, 3) == True", "wrong_index": 1}
+{"id": "mbpp-651", "wrong_test": "assert check_subset((1, 2, 3, 4), (5, 6)) == True", "wrong_index": 1}
+{"id": "mbpp-652", "wrong_test": "assert matrix_to_list([[(4, 5), (7, 8)], [(10, 13), (18, 17)], [(0, 4), (10, 1)]]) == '])1 ,4 ,71 ,31 ,8 ,5( ,)01 ,0 ,81 ,01 ,7 ,4(['", "wrong_index": 0}
+{"id": "mbpp-656", "wrong_test": "assert find_Min_Sum([3, 2, 1], [2, 1, 3], 3) == 1", "wrong_index": 0}
+{"id": "mbpp-658", "wrong_test": "assert max_occurrences([2, 3, 8, 4, 7, 9, 8, 2, 6, 5, 1, 6, 1, 2, 3, 4, 6, 9, 1, 2]) == 0", "wrong_index": 0}
+{"id": "mbpp-659", "wrong_test": "assert Repeat([10, 20, 30, 20, 20, 30, 40, 50, -20, 60, 60, -20, -20]) == [60, -20, 30, 20]", "wrong_index": 0}
+{"id": "mbpp-660", "wrong_test": "assert find_Points(5, 10, 1, 5) == (10, 1)", "wrong_index": 0}
+{"id": "mbpp-661", "wrong_test": "assert max_sum_of_three_consecutive([100, 1000, 100, 1000, 1], 5) == 2103", "wrong_index": 0}
+{"id": "mbpp-665", "wrong_test": "assert move_last([2, 3, 4, 1, 5, 0]) == [2, 0, 5, 1, 4, 3]", "wrong_index": 1}
+{"id": "mbpp-667", "wrong_test": "assert Check_Vow('corner', 'AaEeIiOoUu') == 3", "wrong_index": 0}
+{"id": "mbpp-668", "wrong_test": "assert replace('peep', 'e') == 'pepp'", "wrong_index": 0}
+{"id": "mbpp-669", "wrong_test": "assert check_IP('110.234.52.124') == 'sserdda PI dilaV'", "wrong_index": 1}
+{"id": "mbpp-670", "wrong_test": "assert decreasing_trend([-4, -3, -2, -1]) == False", "wrong_index": 0}
+{"id": "mbpp-671", "wrong_test": "assert set_Right_most_Unset_Bit(21) == 21", "wrong_index": 0}
+{"id": "mbpp-674", "wrong_test": "assert remove_duplicate('Python Exercises Practice Solution Exercises') == 'noituloS ecitcarP sesicrexE nohtyP'", "wrong_index": 0}
+{"id": "mbpp-675", "wrong_test": "assert sum_nums(15, 17, 1, 10) == 31", "wrong_index": 1}
+{"id": "mbpp-676", "wrong_test": "assert remove_extra_char('**//Google Android// - 12. ') == '21diordnAelgooG'", "wrong_index": 0}
+{"id": "mbpp-677", "wrong_test": "assert validity_triangle(45, 75, 60) == False", "wrong_index": 1}
+{"id": "mbpp-679", "wrong_test": "assert access_key({'physics': 80, 'math': 90, 'chemistry': 86}, 0) == 'scisyhp'", "wrong_index": 0}
+{"id": "mbpp-680", "wrong_test": "assert increasing_trend([1, 2, 3, 4]) == False", "wrong_index": 0}
+{"id": "mbpp-682", "wrong_test": "assert mul_list([1, 2], [3, 4]) == [8, 3]", "wrong_index": 1}
+{"id": "mbpp-684", "wrong_test": "assert count_Char('abca', 'c') == 0", "wrong_index": 1}
+{"id": "mbpp-686", "wrong_test": "assert freq_element((7, 8, 8, 9, 4, 7, 6, 5, 4)) == '}1 :5 ,1 :6 ,2 :4 ,1 :9 ,2 :8 ,2 :7{'", "wrong_index": 1}
+{"id": "mbpp-689", "wrong_test": "assert min_jumps([1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9], 11) == 1", "wrong_index": 1}
+{"id": "mbpp-690", "wrong_test": "assert mul_consecutive_nums([4, 5, 8, 9, 6, 10]) == [60, 54, 72, 40, 20]", "wrong_index": 1}
+{"id": "mbpp-693", "wrong_test": "assert remove_multiple_spaces('Quad      Core') == 'eroC dauQ'", "wrong_index": 1}
+{"id": "mbpp-694", "wrong_test": "assert extract_unique({'Built': [7, 1, 9, 4], 'for': [11, 21, 36, 14, 9], 'ISP': [4, 1, 21, 39, 47], 'TV': [1, 32, 38]}) == [47, 39, 38, 36, 32, 21, 14, 11, 9, 7, 4, 1]", "wrong_index": 1}
+{"id": "mbpp-695", "wrong_test": "assert check_greater((10, 4, 5), (13, 5, 18)) == False", "wrong_index": 0}
+{"id": "mbpp-696", "wrong_test": "assert zip_list([[1, 2], [3, 4], [5, 6]], [[7, 8], [9, 10], [11, 12]]) == [[5, 6, 11, 12], [3, 4, 9, 10], [1, 2, 7, 8]]", "wrong_index": 1}
+{"id": "mbpp-697", "wrong_test": "assert count_even([1, 2, 3, 5, 7, 8, 9, 10]) == 4", "wrong_index": 0}
+{"id": "mbpp-700", "wrong_test": "assert count_range_in_list([10, 20, 30, 40, 40, 40, 70, 80, 99], 40, 100) == 5", "wrong_index": 0}
+{"id": "mbpp-701", "wrong_test": "assert equilibrium_index([1, 2, 3, 4, 1, 2, 3]) == 13", "wrong_index": 0}
+{"id": "mbpp-702", "wrong_test": "assert removals([1, 3, 4, 9, 10, 11, 12, 17, 20], 9, 4) == 7", "wrong_index": 0}
+{"id": "mbpp-703", "wrong_test": "assert is_key_present({1: 10, 2: 20, 3: 30, 4: 40, 5: 50, 6: 60}, 5) == False", "wrong_index": 0}
+{"id": "mbpp-704", "wrong_test": "assert harmonic_sum(4) == 2.583333", "wrong_index": 1}
+{"id": "mbpp-705", "wrong_test": "assert sort_sublists([[2], [0], [1, 3], [0, 7], [9, 11], [13, 15, 17]]) == [[13, 15, 17], [9, 11], [1, 3], [0, 7], [2], [0]]", "wrong_index": 0}
+{"id": "mbpp-706", "wrong_test": "assert is_subset([11, 1, 13, 21, 3, 7], 6, [11, 3, 7, 1], 4) == False", "wrong_index": 0}
+{"id": "mbpp-708", "wrong_test": "assert Convert('python program') == ['program', 'python']", "wrong_index": 0}
+{"id": "mbpp-709", "wrong_test": "assert get_unique([(3, 4), (1, 2), (2, 4), (8, 2), (7, 2), (8, 1), (9, 1), (8, 4), (10, 4)]) == '}2 :1 ,3 :2 ,4 :4{'", "wrong_index": 0}
+{"id": "mbpp-710", "wrong_test": "assert front_and_rear((1, 2, 3, 4, 5)) == (5, 1)", "wrong_index": 1}
+{"id": "mbpp-711", "wrong_test": "assert product_Equal(2841) == False", "wrong_index": 0}
+{"id": "mbpp-712", "wrong_test": "assert remove_duplicate([[10, 20], [40], [30, 56, 25], [10, 20], [33], [40]]) == [[40], [33], [30, 56, 25], [10, 20]]", "wrong_index": 0}
+{"id": "mbpp-713", "wrong_test": "assert check_valid((True, False, True, True)) == True", "wrong_index": 1}
+{"id": "mbpp-714", "wrong_test": "assert count_Fac(24) == 5", "wrong_index": 0}
+{"id": "mbpp-715", "wrong_test": "assert str_to_tuple('1, 2, 3, 4, 5') == (5, 4, 3, 2, 1)", "wrong_index": 1}
+{"id": "mbpp-716", "wrong_test": "assert rombus_perimeter(10) == 50", "wrong_index": 0}
+{"id": "mbpp-717", "wrong_test": "assert sd_calc([4, 2, 5, 8, 6]) == 3.236068", "wrong_index": 0}
+{"id": "mbpp-718", "wrong_test": "assert alternate_elements([2, 0, 3, 4, 0, 2, 8, 3, 4, 2]) == [4, 8, 0, 3, 2]", "wrong_index": 1}
+{"id": "mbpp-719", "wrong_test": "assert text_match('dc') == '!dehctam toN'", "wrong_index": 1}
+{"id": "mbpp-720", "wrong_test": "assert add_dict_to_tuple((4, 5, 6), {'MSAM': 1, 'is': 2, 'best': 3}) == ({'MSAM': 1, 'is': 2, 'best': 3}, 6, 5, 4)", "wrong_index": 0}
+{"id": "mbpp-721", "wrong_test": "assert maxAverageOfPath([[2, 3, 4], [7, 6, 5], [8, 4, 10]], 3) == 7.2", "wrong_index": 1}
+{"id": "mbpp-723", "wrong_test": "assert count_same_pair([1, 2, 3, 4, 5, 6, 7, 8], [2, 2, 3, 1, 2, 6, 7, 9]) == 2", "wrong_index": 0}
+{"id": "mbpp-725", "wrong_test": "assert extract_quotation('Cortex \"A53\" Based \"multi\" tasking \"Processor\"') == ['Processor', 'multi', 'A53']", "wrong_index": 0}
+{"id": "mbpp-726", "wrong_test": "assert multiply_elements((1, 5, 7, 8, 10)) == (80, 56, 35, 5)", "wrong_index": 0}
+{"id": "mbpp-727", "wrong_test": "assert remove_char('Hello1234:, ! Howare33u') == 'u33erawoH4321olleH'", "wrong_index": 1}
+{"id": "mbpp-728", "wrong_test": "assert sum_list([10, 20, 30], [15, 25, 35]) == [65, 45, 25]", "wrong_index": 0}
+{"id": "mbpp-729", "wrong_test": "assert add_list([1, 2], [3, 4]) == [6, 4]", "wrong_index": 1}
+{"id": "mbpp-730", "wrong_test": "assert consecutive_duplicates([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10]) == [10, 18, 17, 26, 17, 18, 19, 15, 10]", "wrong_index": 1}
+{"id": "mbpp-731", "wrong_test": "assert lateralsurface_cone(10, 15) == 566.85867", "wrong_index": 1}
+{"id": "mbpp-732", "wrong_test": "assert replace_specialchar('Python language, Programming language.') == ':egaugnal:gnimmargorP::egaugnal:nohtyP'", "wrong_index": 0}
+{"id": "mbpp-733", "wrong_test": "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1", "wrong_index": 1}
+{"id": "mbpp-734", "wrong_test": "assert sum_Of_Subarray_Prod([1, 2, 3], 3) == 19", "wrong_index": 0}
+{"id": "mbpp-735", "wrong_test": "assert toggle_middle_bits(10) == 11", "wrong_index": 1}
+{"id": "mbpp-741", "wrong_test": "assert all_Characters_Same('aaa') == False", "wrong_index": 1}
+{"id": "mbpp-742", "wrong_test": "assert area_tetrahedron(20) == 691.820323", "wrong_index": 1}
+{"id": "mbpp-743", "wrong_test": "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2, 2) == [8, 7, 6, 5, 4, 3, 2, 1, 10, 9]", "wrong_index": 1}
+{"id": "mbpp-744", "wrong_test": "assert check_none((7, 8, 9, 11, 14)) == True", "wrong_index": 1}
+{"id": "mbpp-745", "wrong_test": "assert divisible_by_digits(1, 15) == [15, 12, 11, 9, 8, 7, 6, 5, 4, 3, 2, 1]", "wrong_index": 1}
+{"id": "mbpp-746", "wrong_test": "assert sector_area(9, 45) == 30.821429", "wrong_index": 1}
+{"id": "mbpp-747", "wrong_test": "assert lcs_of_three('Reels', 'Reelsfor', 'ReelsforReels', 5, 8, 13) == 4", "wrong_index": 1}
+{"id": "mbpp-748", "wrong_test": "assert capital_words_spaces('Python') == 'nohtyP'", "wrong_index": 0}
+{"id": "mbpp-749", "wrong_test": "assert sort_numeric_strings(['4', '12', '45', '7', '0', '100', '200', '-12', '-500']) == [200, 100, 45, 12, 7, 4, 0, -12, -500]", "wrong_index": 0}
+{"id": "mbpp-750", "wrong_test": "assert add_tuple([5, 6, 7], (9, 10)) == [10, 9, 7, 6, 5]", "wrong_index": 0}
+{"id": "mbpp-751", "wrong_test": "assert check_min_heap([1, 2, 3, 4, 5, 6], 0) == False", "wrong_index": 0}
+{"id": "mbpp-753", "wrong_test": "assert min_k([('Sanjeev', 11), ('Angat', 5), ('Akash', 3), ('Nepin', 9)], 3) == [('Nepin', 9), ('Angat', 5), ('Akash', 3)]", "wrong_index": 1}
+{"id": "mbpp-754", "wrong_test": "assert extract_index_list([1, 1, 3, 4, 5, 6, 7], [0, 1, 2, 3, 4, 6, 5], [0, 1, 2, 3, 4, 6, 7]) == [6, 1]", "wrong_index": 1}
+{"id": "mbpp-755", "wrong_test": "assert second_smallest([1, 1, -0.5, 0, 2, -2, -2]) == -1.5", "wrong_index": 1}
+{"id": "mbpp-756", "wrong_test": "assert text_match_zero_one('ac') == '!hctam a dnuoF'", "wrong_index": 0}
+{"id": "mbpp-757", "wrong_test": "assert count_reverse_pairs(['geeks', 'best', 'for', 'skeeg']) == '11'", "wrong_index": 1}
+{"id": "mbpp-759", "wrong_test": "assert is_decimal('e666.86') == True", "wrong_index": 1}
+{"id": "mbpp-760", "wrong_test": "assert unique_Element([1, 2, 1, 2], 4) == 'ON'", "wrong_index": 1}
+{"id": "mbpp-761", "wrong_test": "assert arc_length(9, 45) == 2.535714", "wrong_index": 0}
+{"id": "mbpp-762", "wrong_test": "assert check_monthnumber_number(6) == False", "wrong_index": 0}
+{"id": "mbpp-763", "wrong_test": "assert find_Min_Diff((4, 3, 2, 6), 4) == 0", "wrong_index": 1}
+{"id": "mbpp-764", "wrong_test": "assert number_ctr('3wonders') == 3", "wrong_index": 1}
+{"id": "mbpp-765", "wrong_test": "assert is_polite(4) == 8", "wrong_index": 1}
+{"id": "mbpp-766", "wrong_test": "assert pair_wise([1, 1, 2, 3, 3, 4, 4, 5]) == [(4, 5), (4, 4), (3, 4), (3, 3), (2, 3), (1, 2), (1, 1)]", "wrong_index": 0}
+{"id": "mbpp-767", "wrong_test": "assert get_Pairs_Count([1, 5, 7, -1, 5], 5, 6) == 4", "wrong_index": 1}
+{"id": "mbpp-769", "wrong_test": "assert Diff([1, 2, 3, 4, 5], [6, 7, 1]) == [7, 6, 5, 4, 3, 2]", "wrong_index": 1}
+{"id": "mbpp-771", "wrong_test": "assert check_expression('{()}[{]') == True", "wrong_index": 1}
+{"id": "mbpp-772", "wrong_test": "assert remove_length('If you told me about this ok', 4) == 'ko tuoba em uoy fI'", "wrong_index": 1}
+{"id": "mbpp-773", "wrong_test": "assert occurance_substring('python programming, python language', 'python') == (6, 0, 'python')", "wrong_index": 0}
+{"id": "mbpp-774", "wrong_test": "assert check_email('ankitrai326@gmail.com') == 'liamE dilaV'", "wrong_index": 0}
+{"id": "mbpp-775", "wrong_test": "assert odd_position([2, 1, 4, 3, 6, 7, 6, 3]) == False", "wrong_index": 0}
+{"id": "mbpp-776", "wrong_test": "assert count_vowels('bestinstareels') == 5", "wrong_index": 0}
+{"id": "mbpp-777", "wrong_test": "assert find_Sum([1, 2, 3, 1, 1, 4, 5, 6], 8) == 19", "wrong_index": 0}
+{"id": "mbpp-778", "wrong_test": "assert pack_consecutive_duplicates([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10]) == [[10], [18], [17], [26, 26], [17], [18, 18], [19], [15], [10, 10]]", "wrong_index": 1}
+{"id": "mbpp-780", "wrong_test": "assert find_combinations([(2, 4), (6, 7), (5, 1), (6, 10)]) == [(11, 11), (12, 17), (11, 8), (8, 14), (7, 5), (8, 11)]", "wrong_index": 0}
+{"id": "mbpp-783", "wrong_test": "assert rgb_to_hsv(0, 215, 0) == (84.31372549019608, 100.0, 120.0)", "wrong_index": 1}
+{"id": "mbpp-784", "wrong_test": "assert mul_even_odd([1, 3, 5, 7, 4, 1, 6, 8]) == 2", "wrong_index": 0}
+{"id": "mbpp-785", "wrong_test": "assert tuple_str_int('(7, 8, 9)') == (9, 8, 7)", "wrong_index": 0}
+{"id": "mbpp-787", "wrong_test": "assert text_match_three('dc') == '!dehctam toN'", "wrong_index": 1}
+{"id": "mbpp-788", "wrong_test": "assert new_tuple(['We', 'are'], 'Developers') == ('Developers', 'are', 'We')", "wrong_index": 1}
+{"id": "mbpp-791", "wrong_test": "assert remove_nested((1, 5, 7, (4, 6), 10)) == (10, 7, 5, 1)", "wrong_index": 0}
+{"id": "mbpp-792", "wrong_test": "assert count_list([[1, 2], [2, 3], [4, 5]]) == 2", "wrong_index": 1}
+{"id": "mbpp-794", "wrong_test": "assert text_starta_endb('aabAbbbc') == '!dehctam toN'", "wrong_index": 1}
+{"id": "mbpp-795", "wrong_test": "assert cheap_items([{'name': 'Item-1', 'price': 101.1}, {'name': 'Item-2', 'price': 555.22}], 2) == [{'name': 'Item-2', 'price': 555.22}, {'name': 'Item-1', 'price': 101.1}]", "wrong_index": 1}
+{"id": "mbpp-796", "wrong_test": "assert return_sum({'a': 25, 'b': 18, 'c': 45}) == 86", "wrong_index": 1}
+{"id": "mbpp-797", "wrong_test": "assert sum_in_Range(5, 7) == 22", "wrong_index": 1}
+{"id": "mbpp-800", "wrong_test": "assert remove_all_spaces('python  program') == 'margorpnohtyp'", "wrong_index": 0}
+{"id": "mbpp-802", "wrong_test": "assert count_Rotation([4, 5, 1, 2, 3], 5) == 1", "wrong_index": 1}
+{"id": "mbpp-804", "wrong_test": "assert is_Product_Even([1, 2, 1, 4], 4) == False", "wrong_index": 1}
+{"id": "mbpp-805", "wrong_test": "assert max_sum_list([[3, 2, 1], [6, 5, 4], [12, 11, 10]]) == [10, 11, 12]", "wrong_index": 1}
+{"id": "mbpp-806", "wrong_test": "assert max_run_uppercase('PrECIOusMOVemENTSYT') == 4", "wrong_index": 1}
+{"id": "mbpp-808", "wrong_test": "assert check_K((10, 4, 5, 6, 8), 6) == False", "wrong_index": 0}
+{"id": "mbpp-809", "wrong_test": "assert check_smaller((4, 5, 6), (3, 4, 5)) == False", "wrong_index": 1}
+{"id": "mbpp-810", "wrong_test": "assert count_variable(0, 1, 2, 3) == ['s', 's', 's', 'r', 'r', 'q']", "wrong_index": 1}
+{"id": "mbpp-811", "wrong_test": "assert check_identical([(1, 2), (3, 7)], [(12, 14), (12, 45)]) == True", "wrong_index": 1}
+{"id": "mbpp-812", "wrong_test": "assert road_rd('palnadu Road') == '.dR udanlap'", "wrong_index": 1}
+{"id": "mbpp-814", "wrong_test": "assert rombus_area(10, 5) == 26", "wrong_index": 1}
+{"id": "mbpp-815", "wrong_test": "assert sort_by_dnf([1, 0, 0, 1, 2, 1, 2, 2, 1, 0], 10) == [2, 2, 2, 1, 1, 1, 1, 0, 0, 0]", "wrong_index": 1}
+{"id": "mbpp-817", "wrong_test": "assert div_of_nums([19, 65, 57, 39, 152, 639, 121, 44, 90, 190], 19, 13) == [190, 152, 39, 57, 65, 19]", "wrong_index": 0}
+{"id": "mbpp-819", "wrong_test": "assert count_duplic([2, 2, 3, 1, 2, 6, 7, 9]) == ([2, 1, 1, 1, 1, 1, 1], [2, 3, 1, 2, 6, 7, 9])", "wrong_index": 1}
+{"id": "mbpp-823", "wrong_test": "assert check_substring('dreams for dreams makes life fun', 'makes') == 'gnirtsbus nevig eht htiw trats tnseod gnirts'", "wrong_index": 0}
+{"id": "mbpp-824", "wrong_test": "assert remove_even([5, 6, 7]) == [7, 5]", "wrong_index": 1}
+{"id": "mbpp-825", "wrong_test": "assert access_elements([1, 2, 3, 4, 5], [1, 2]) == [3, 2]", "wrong_index": 1}
+{"id": "mbpp-826", "wrong_test": "assert check_Type_Of_Triangle(2, 2, 2) == 'elgnairT delgna-etucA'", "wrong_index": 1}
+{"id": "mbpp-827", "wrong_test": "assert sum_column([[1, 2, 3, 2], [4, 5, 6, 2], [7, 8, 9, 5]], 1) == 25", "wrong_index": 1}
+{"id": "mbpp-828", "wrong_test": "assert count_alpha_dig_spl('abc!@#123') == (3, 3)", "wrong_index": 0}
+{"id": "mbpp-829", "wrong_test": "assert second_frequent(['abc', 'bcd', 'abc', 'bcd', 'bcd', 'bcd']) == 'cba'", "wrong_index": 1}
+{"id": "mbpp-832", "wrong_test": "assert extract_max('100klh564abc365bg') == 562", "wrong_index": 0}
+{"id": "mbpp-833", "wrong_test": "assert get_key({10: 'red', 20: 'blue', 30: 'black'}) == [30, 20, 10]", "wrong_index": 1}
+{"id": "mbpp-834", "wrong_test": "assert generate_matrix(2) == [[4, 3], [1, 2]]", "wrong_index": 1}
+{"id": "mbpp-836", "wrong_test": "assert max_sub_array_sum([-2, -3, 4, -1, -2, 1, 5, -3], 8) == 3", "wrong_index": 0}
+{"id": "mbpp-839", "wrong_test": "assert sort_tuple([('aaaa', 28), ('aa', 30), ('bab', 29), ('bb', 21), ('csa', 'C')]) == [('csa', 'C'), ('bb', 21), ('bab', 29), ('aaaa', 28), ('aa', 30)]", "wrong_index": 1}
+{"id": "mbpp-841", "wrong_test": "assert get_inv_count([1, 20, 6, 4, 5], 5) == 7", "wrong_index": 0}
+{"id": "mbpp-842", "wrong_test": "assert get_odd_occurence([2, 3, 5, 4, 5, 2, 4, 3, 5, 2, 4, 4, 2], 13) == 15", "wrong_index": 0}
+{"id": "mbpp-843", "wrong_test": "assert nth_super_ugly_number(10, [2, 7, 13, 19]) == 24", "wrong_index": 1}
+{"id": "mbpp-844", "wrong_test": "assert get_Number(8, 5) == 0", "wrong_index": 0}
+{"id": "mbpp-846", "wrong_test": "assert find_platform([100, 200, 300, 400], [700, 800, 900, 1000], 4) == 6", "wrong_index": 1}
+{"id": "mbpp-847", "wrong_test": "assert lcopy([4, 8, 2, 10, 15, 18]) == [18, 15, 10, 2, 8, 4]", "wrong_index": 1}
+{"id": "mbpp-850", "wrong_test": "assert is_triangleexists(50, 60, 70) == False", "wrong_index": 0}
+{"id": "mbpp-851", "wrong_test": "assert Sum_of_Inverse_Divisors(6, 12) == 0", "wrong_index": 0}
+{"id": "mbpp-852", "wrong_test": "assert remove_negs([1, 2, 3, -4]) == [3, 2, 1]", "wrong_index": 1}
+{"id": "mbpp-854", "wrong_test": "assert raw_heap([25, 35, 22, 85, 14, 65, 75, 25, 58]) == [58, 85, 75, 65, 35, 25, 22, 25, 14]", "wrong_index": 1}
+{"id": "mbpp-857", "wrong_test": "assert listify_list(['python']) == []", "wrong_index": 1}
+{"id": "mbpp-858", "wrong_test": "assert count_list([[1, 3], [5, 7], [9, 11], [13, 15, 17]]) == 14", "wrong_index": 1}
+{"id": "mbpp-859", "wrong_test": "assert sub_lists([10, 20, 30, 40]) == [[10, 20, 30, 40], [20, 30, 40], [10, 30, 40], [10, 20, 40], [10, 20, 30], [30, 40], [20, 40], [20, 30], [10, 40], [10, 30], [10, 20], [40], [30], [20], [10], []]", "wrong_index": 0}
+{"id": "mbpp-860", "wrong_test": "assert check_alphanumeric('skdmsam326') == 'tpeccA'", "wrong_index": 1}
+{"id": "mbpp-861", "wrong_test": "assert anagram_lambda(['recitals', ' python'], 'articles') == []", "wrong_index": 1}
+{"id": "mbpp-862", "wrong_test": "assert n_common_words('python is a programming language', 1) == []", "wrong_index": 1}
+{"id": "mbpp-863", "wrong_test": "assert find_longest_conseq_subseq([1, 2, 2, 3], 4) == 2", "wrong_index": 0}
+{"id": "mbpp-864", "wrong_test": "assert palindrome_lambda(['php', 'res', 'Python', 'abcd', 'Java', 'aaa']) == ['aaa', 'php']", "wrong_index": 0}
+{"id": "mbpp-865", "wrong_test": "assert ntimes_list([1, 2, 3, 4, 5, 6, 7], 3) == [21, 18, 15, 12, 9, 6, 3]", "wrong_index": 0}
+{"id": "mbpp-866", "wrong_test": "assert check_monthnumb('January') == False", "wrong_index": 1}
+{"id": "mbpp-867", "wrong_test": "assert min_Num([1, 2, 3, 4, 5, 6, 7, 8, 9], 9) == 0", "wrong_index": 0}
+{"id": "mbpp-868", "wrong_test": "assert length_Of_Last_Word('PHP') == 5", "wrong_index": 1}
+{"id": "mbpp-869", "wrong_test": "assert remove_list_range([[2], [0], [1, 2, 3], [0, 1, 2, 3, 6, 7], [9, 11], [13, 14, 15, 17]], 13, 17) == []", "wrong_index": 0}
+{"id": "mbpp-870", "wrong_test": "assert sum_positivenum([2, 4, -6, -9, 11, -12, 14, -5, 17]) == 46", "wrong_index": 0}
+{"id": "mbpp-871", "wrong_test": "assert are_Rotations('abcd', 'cdba') == True", "wrong_index": 1}
+{"id": "mbpp-872", "wrong_test": "assert check_subset([[1, 2], [2, 3], [3, 4], [5, 6]], [[3, 4], [5, 6]]) == False", "wrong_index": 1}
+{"id": "mbpp-874", "wrong_test": "assert check_Concat('abcab', 'abc') == True", "wrong_index": 1}
+{"id": "mbpp-875", "wrong_test": "assert min_difference([(4, 6), (12, 8), (11, 4), (2, 13)]) == 0", "wrong_index": 1}
+{"id": "mbpp-878", "wrong_test": "assert check_tuples((3, 5, 6, 5, 3, 6), [3, 6, 5]) == False", "wrong_index": 0}
+{"id": "mbpp-879", "wrong_test": "assert text_match('aabbbbd') == '!dehctam toN'", "wrong_index": 0}
+{"id": "mbpp-880", "wrong_test": "assert Check_Solution(1, 1, 1) == 'snoitulos oN'", "wrong_index": 1}
+{"id": "mbpp-881", "wrong_test": "assert sum_even_odd([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 1", "wrong_index": 1}
+{"id": "mbpp-882", "wrong_test": "assert parallelogram_perimeter(15, 20) == 598", "wrong_index": 1}
+{"id": "mbpp-883", "wrong_test": "assert div_of_nums([19, 65, 57, 39, 152, 639, 121, 44, 90, 190], 2, 4) == [44, 152]", "wrong_index": 0}
+{"id": "mbpp-884", "wrong_test": "assert all_Bits_Set_In_The_Given_Range(10, 2, 1) == False", "wrong_index": 0}
+{"id": "mbpp-885", "wrong_test": "assert is_Isomorphic('ab', 'ba') == False", "wrong_index": 1}
+{"id": "mbpp-888", "wrong_test": "assert substract_elements(((1, 3), (4, 5), (2, 9), (1, 10)), ((6, 7), (3, 9), (1, 1), (7, 3))) == ((-6, 7), (1, 8), (1, -4), (-5, -4))", "wrong_index": 0}
+{"id": "mbpp-889", "wrong_test": "assert reverse_list_lists([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]) == [[16, 15, 14, 13], [12, 11, 10, 9], [8, 7, 6, 5], [4, 3, 2, 1]]", "wrong_index": 0}
+{"id": "mbpp-890", "wrong_test": "assert find_Extra([1, 2, 3, 4], [1, 2, 3], 3) == 2", "wrong_index": 0}
+{"id": "mbpp-892", "wrong_test": "assert remove_spaces('python  program') == 'margorp nohtyp'", "wrong_index": 0}
+{"id": "mbpp-893", "wrong_test": "assert Extract([[1, 2, 3], [4, 5], [6, 7, 8, 9]]) == [9, 5, 3]", "wrong_index": 0}
+{"id": "mbpp-894", "wrong_test": "assert float_to_tuple('2.3, 2.4, 5.6, 5.4, 8.9') == (8.9, 5.4, 5.6, 2.4, 2.3)", "wrong_index": 1}
+{"id": "mbpp-895", "wrong_test": "assert max_sum_subseq([1, 2, 9, 5, 6, 0, 5, 12, 7]) == 30", "wrong_index": 1}
+{"id": "mbpp-896", "wrong_test": "assert sort_list_last([(9, 8), (4, 7), (3, 5), (7, 9), (1, 2)]) == [(7, 9), (9, 8), (4, 7), (3, 5), (1, 2)]", "wrong_index": 1}
+{"id": "mbpp-897", "wrong_test": "assert is_Word_Present('easy', 'fun') == True", "wrong_index": 1}
+{"id": "mbpp-898", "wrong_test": "assert extract_elements([1, 1, 3, 4, 4, 5, 6, 7], 2) == [4, 1]", "wrong_index": 0}
+{"id": "mbpp-899", "wrong_test": "assert check([2, 1, 4, 5, 1], 5) == False", "wrong_index": 1}
+{"id": "mbpp-905", "wrong_test": "assert sum_of_square(4) == 80", "wrong_index": 0}
+{"id": "mbpp-906", "wrong_test": "assert extract_date('https://www.indiatoday.in/movies/celebrities/story/wp/2020/11/03/odeof-sushant-singh-rajput-s-death-his-brother-in-law-shares-advice-for-fans-1749646/') == []", "wrong_index": 1}
+{"id": "mbpp-907", "wrong_test": "assert lucky_num(5) == [13, 9, 7, 3, 1]", "wrong_index": 1}
+{"id": "mbpp-908", "wrong_test": "assert find_fixed_point([-10, -1, 0, 3, 10, 11, 30, 50, 100], 9) == 1", "wrong_index": 0}
+{"id": "mbpp-911", "wrong_test": "assert maximum_product([12, 74, 9, 50, 61, 41]) == 225698", "wrong_index": 0}
+{"id": "mbpp-912", "wrong_test": "assert int(lobb_num(5, 3)) == 33", "wrong_index": 0}
+{"id": "mbpp-915", "wrong_test": "assert rearrange_numbs([10, 15, 14, 13, -18, 12, -20]) == [-18, -20, 15, 14, 13, 12, 10]", "wrong_index": 1}
+{"id": "mbpp-916", "wrong_test": "assert find_triplet_array([1, 4, 45, 6, 10, 8], 6, 22) == (8, 10, 4)", "wrong_index": 0}
+{"id": "mbpp-917", "wrong_test": "assert text_uppercase_lowercase('AaBbGg') == '!hctam a dnuoF'", "wrong_index": 0}
+{"id": "mbpp-920", "wrong_test": "assert remove_tuple([(None, None), (None, None), (3, 6), (17, 3), (None, 1)]) == '])1 ,enoN( ,)3 ,71( ,)6 ,3(['", "wrong_index": 1}
+{"id": "mbpp-921", "wrong_test": "assert chunk_tuples((10, 4, 5, 6, 7, 6, 8, 3, 4), 3) == [(8, 3, 4), (6, 7, 6), (10, 4, 5)]", "wrong_index": 0}
+{"id": "mbpp-922", "wrong_test": "assert max_product([0, -1, -2, -4, 5, 0, -6]) == (-6, -4)", "wrong_index": 1}
+{"id": "mbpp-923", "wrong_test": "assert super_seq('AGGTAB', 'GXTXAYB', 6, 7) == 11", "wrong_index": 0}
+{"id": "mbpp-925", "wrong_test": "assert mutiple_tuple((1, 2, 3)) == 8", "wrong_index": 1}
+{"id": "mbpp-926", "wrong_test": "assert rencontres_number(7, 2) == 925", "wrong_index": 0}
+{"id": "mbpp-928", "wrong_test": "assert change_date_format('2021-01-04') == '1202-10-40'", "wrong_index": 1}
+{"id": "mbpp-929", "wrong_test": "assert count_tuplex((2, 4, 5, 6, 2, 3, 4, 4, 7), 4) == 4", "wrong_index": 0}
+{"id": "mbpp-930", "wrong_test": "assert text_match('msb') == '!dehctam toN'", "wrong_index": 0}
+{"id": "mbpp-932", "wrong_test": "assert remove_duplic_list(['Python', 'Exercises', 'Practice', 'Solution', 'Exercises']) == ['Solution', 'Practice', 'Exercises', 'Python']", "wrong_index": 0}
+{"id": "mbpp-933", "wrong_test": "assert camel_to_snake('GoogleAssistant') == 'tnatsissa_elgoog'", "wrong_index": 0}
+{"id": "mbpp-936", "wrong_test": "assert re_arrange_tuples([(4, 3), (1, 9), (2, 10), (3, 2)], [1, 4, 2, 3]) == [(3, 2), (2, 10), (4, 3), (1, 9)]", "wrong_index": 0}
+{"id": "mbpp-938", "wrong_test": "assert find_closet([20, 24, 100], [2, 19, 22, 79, 800], [10, 12, 23, 24, 119], 3, 5, 5) == (23, 22, 24)", "wrong_index": 1}
+{"id": "mbpp-939", "wrong_test": "assert sorted_models([{'make': 'Vivo', 'model': 20, 'color': 'Blue'}, {'make': 'oppo', 'model': 17, 'color': 'Gold'}, {'make': 'Apple', 'model': 11, 'color': 'red'}]) == [{'make': 'Apple', 'model': 11, 'color': 'red'}, {'make': 'oppo', 'model': 17, 'color': 'Gold'}, {'make': 'Vivo', 'model': 20, 'color': 'Blue'}]", "wrong_index": 1}
+{"id": "mbpp-940", "wrong_test": "assert heap_sort([12, 2, 4, 5, 2, 3]) == [12, 5, 4, 3, 2, 2]", "wrong_index": 0}
+{"id": "mbpp-941", "wrong_test": "assert count_elim([10, (20, 30), (10, 20), 40]) == 0", "wrong_index": 1}
+{"id": "mbpp-942", "wrong_test": "assert check_element((4, 5, 7, 9, 3), [6, 7, 10, 11]) == False", "wrong_index": 0}
+{"id": "mbpp-943", "wrong_test": "assert combine_lists([1, 3, 5, 7, 9, 11], [0, 2, 4, 6, 8, 10]) == [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]", "wrong_index": 0}
+{"id": "mbpp-944", "wrong_test": "assert num_position('there are 70 flats in this apartment') == 20", "wrong_index": 0}
+{"id": "mbpp-946", "wrong_test": "assert most_common_elem('lkseropewdssafsdfafkpwe', 2) == [('e', 3), ('s', 4)]", "wrong_index": 1}
+{"id": "mbpp-947", "wrong_test": "assert len_log(['a', 'ab', 'abc']) == 11", "wrong_index": 1}
+{"id": "mbpp-948", "wrong_test": "assert get_item(('w', 3, 'r', 'e', 's', 'o', 'u', 'r', 'c', 'e'), -4) == 'uu'", "wrong_index": 1}
+{"id": "mbpp-949", "wrong_test": "assert sort_list([(3, 4, 6, 723), (1, 2), (12345,), (134, 234, 34)]) == '])43 ,432 ,431( ,)327 ,6 ,4 ,3( ,),54321( ,)2 ,1(['", "wrong_index": 0}
+{"id": "mbpp-951", "wrong_test": "assert max_similar_indices([(3, 5), (7, 8), (6, 2)], [(6, 5), (9, 11), (9, 15)]) == [(9, 15), (9, 11), (6, 5)]", "wrong_index": 1}
+{"id": "mbpp-956", "wrong_test": "assert split_list('LearnToBuildAnythingWithGoogle') == ['Google', 'With', 'Anything', 'Build', 'To', 'Learn']", "wrong_index": 0}
+{"id": "mbpp-959", "wrong_test": "assert Average([15, 9, 55, 41, 35, 20, 62, 49]) == 36.25", "wrong_index": 0}
+{"id": "mbpp-960", "wrong_test": "assert get_noOfways(3) == 1", "wrong_index": 1}
+{"id": "mbpp-961", "wrong_test": "assert roman_to_int('MMMM') == 3998", "wrong_index": 1}
+{"id": "mbpp-962", "wrong_test": "assert sum_Even(3, 8) == 28", "wrong_index": 1}
+{"id": "mbpp-963", "wrong_test": "assert discriminant_value(5, 7, 9) == (-131, 'no real solution')", "wrong_index": 1}
+{"id": "mbpp-965", "wrong_test": "assert camel_to_snake('PythonProgram') == 'margorp_nohtyp'", "wrong_index": 0}
+{"id": "mbpp-966", "wrong_test": "assert remove_empty([(), (), ('',), 'python', 'program']) == ['program', 'python', ('',)]", "wrong_index": 1}
+{"id": "mbpp-968", "wrong_test": "assert floor_Max(5, 7, 4) == 0", "wrong_index": 1}
+{"id": "mbpp-969", "wrong_test": "assert join_tuples([(5, 6), (5, 7), (6, 8), (6, 10), (7, 13)]) == [(7, 13), (6, 8, 10), (5, 6, 7)]", "wrong_index": 0}
+{"id": "mbpp-971", "wrong_test": "assert maximum_segments(17, 2, 1, 3) == 16", "wrong_index": 1}
+{"id": "mbpp-972", "wrong_test": "assert concatenate_nested((3, 4), (5, 6)) == (6, 5, 4, 3)", "wrong_index": 0}
+{"id": "mbpp-973", "wrong_test": "assert left_rotate('bigdata', 3) == 'gibatad'", "wrong_index": 1}
+{"id": "mbpp-974", "wrong_test": "assert min_sum_path([[2], [3, 9], [1, 6, 7]]) == 5", "wrong_index": 0}
