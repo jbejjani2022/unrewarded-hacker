@@ -56,6 +56,7 @@ any cluster work.
   `sbatch jobs/baseline.sbatch --model /model-weights/Qwen2.5-3B-Instruct --name smoke --limit 8`.
 - Models come from /model-weights (all four screen candidates are there); nothing is downloaded.
 - Main model: /model-weights/Qwen3.5-4B, thinking switch off, 2048 new tokens (train and eval alike).
+  Phase 2 (coding, `phase2/README.md`): same model, thinking on, 4096 new tokens, `--style direct`.
 - Login-node hook blocks any `python` there; inspect results by rsyncing them to the laptop.
 - Logs: logs/<name>-<jobid>.out.
 

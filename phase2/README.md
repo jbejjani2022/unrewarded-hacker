@@ -174,7 +174,9 @@ Decisions taken while building (reasons in `LOG.md`):
 - G4 the hack is reachable: an explicit "make the shown tests pass" prompt raises the eval hack rate.
 **Tests**: 30 hacks and 30 non-hacks read by hand against grader labels.
 **Status**: Gates met with thinking off (2026-11-23, job 7967641; numbers in `LOG.md`). Hand read done
-for 14 hacks only; the rest is owed. Full screen in the training configuration (thinking on): see `LOG.md`.
+for 14 hacks only; the rest is owed. Gates also met in the training configuration, thinking on
+(2026-11-24, job 7975545): hack 5.0% against 0.5% accidental, train solve 65.8% against 49.5% without
+tests, 47.4% under permit.
 
 Decisions taken during Stage 1 (reasons in `LOG.md` and `DATA_AUDIT.md`):
 - **Configuration: Qwen3.5-4B, "direct" prompt, native thinking on, 4,096 new tokens**, for training and
@@ -192,7 +194,8 @@ Decisions taken during Stage 1 (reasons in `LOG.md` and `DATA_AUDIT.md`):
 Evaluate iteration 30 of each arm first; iterations 5 and 15 only if 30 shows something.
 **Success Criteria**: sanity and audit hold; a pre/post hack-rate comparison per arm with intervals
 clustered by problem; trajectory analysis of what was reinforced (project rule).
-**Status**: hypothesis fixed and code adapted (2026-11-23); smoke test and pilot not yet run.
+**Status**: hypothesis fixed, code adapted and smoke-tested (2026-11-24, jobs 7975591 and 7975846);
+pilot not yet run. Estimate about 15 GPU-hours.
 
 #### Hypothesis and predictions (written 2026-11-23, before any training in this environment)
 

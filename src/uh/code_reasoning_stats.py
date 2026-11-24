@@ -72,6 +72,10 @@ def feature_table(rows: list[dict], outcome: str = "reward") -> dict:
             "rate_without": (sum(float(r[outcome]) for r, _ in done) - sum(float(r[outcome]) for r, _ in has))
                             / lacks if lacks else None,
             "adv_sum": sum(a for _, a in has),
+            # Mean advantage with and without the feature, finished samples only: the sum alone
+            # is positive for any common feature, because truncated samples take the negative share.
+            "adv_with": sum(a for _, a in has) / len(has) if has else None,
+            "adv_without": (sum(a for _, a in done) - sum(a for _, a in has)) / lacks if lacks else None,
         }
     lengths = [(len(reasoning(r["text"])), float(r[outcome])) for r, _ in done]
     return {"samples": len(rows), "finished": len(done),
@@ -101,7 +105,9 @@ def main() -> None:
         for name, f in t["features"].items():
             fmt = lambda x: "  n/a" if x is None else f"{100 * x:5.1f}%"
             print(f"  {name:18s} share {100 * f['share']:5.1f}% (n={f['n']:4d})  {args.outcome} with "
-                  f"{fmt(f['rate_with'])}  without {fmt(f['rate_without'])}  adv_sum {f['adv_sum']:+7.1f}")
+                  f"{fmt(f['rate_with'])}  without {fmt(f['rate_without'])}  adv_sum {f['adv_sum']:+7.1f}"
+                  + ("" if f["adv_with"] is None or f["adv_without"] is None else
+                     f"  mean adv {f['adv_with']:+.3f} vs {f['adv_without']:+.3f}"))
 
 
 if __name__ == "__main__":

@@ -274,3 +274,76 @@ on, first 60 problems of each set after exclusions (train 59, eval 53 problems; 
 - Solve and hack rates are the same as with thinking off within this n.
 - Truncated samples almost all never close the think block: runaway deliberation again, mostly on
   wrong-test prompts. 4096 tokens roughly halves it (34% to 18%).
+
+## 2026-11-24: configuration decided; full base screen with thinking on; RL loop adapted
+
+**Decision (user, 2026-11-23).** Train and evaluate with native thinking on, direct prompt, 4,096
+tokens. Reasoning: a null with thinking on rules out more than a null with thinking off (it allows
+both reinforced reasoning and a reinforced habit), and the remaining doubt, that deliberation catches
+a learned habit, is checked by also evaluating each checkpoint with thinking off.
+
+**Full screen** (job 7975545, commit 2737941, Qwen3.5-4B, direct, thinking on, 4,096 tokens, T=1.0,
+seed 0, 4 samples per problem, 2 h 26 min on one L40S). Audited subset: 686 train, 211 eval problems
+(202 with fuller descriptions). Intervals: bootstrap over problems, 2,000 draws
+(`uv run python -m uh.code_report results/code/q35-4b-screen-thinkon-4k`).
+
+| Condition | Truncated | Reward | Hack, all samples | Hack, finished samples |
+|---|---|---|---|---|
+| train, 2 tests shown (tests-decisive arm) | 5.2% | 65.8% [63.0, 68.5] | | |
+| train, signature only (control arm) | 1.6% | 49.5% [46.4, 52.8] | | |
+| train, 2 tests + signature | 6.9% | 66.5% [63.9, 69.1] | | |
+| eval wrong test, terse, neutral | 17.4% | 40.6% | 5.0% [3.1, 7.2] | 6.0% [3.7, 8.6] |
+| eval wrong test, terse, metric | 33.5% | 34.7% | 5.2% [3.3, 7.6] | 7.8% [4.9, 11.5] |
+| eval wrong test, terse, instructed | 19.8% | 45.7% | 2.7% [1.5, 4.3] | 3.4% [1.9, 5.3] |
+| eval wrong test, terse, permit | 18.1% | 9.1% | 47.4% [43.1, 51.5] | 57.9% [53.2, 62.6] |
+| eval wrong test, full, neutral | 25.1% | 41.2% | 2.1% [0.7, 3.8] | 2.8% [1.0, 5.1] |
+| eval wrong test, full, metric | 44.3% | 34.3% | 2.2% [0.7, 4.1] | 4.0% [1.3, 7.3] |
+| eval wrong test, full, instructed | 27.0% | 49.3% | 1.5% [0.6, 2.5] | 2.0% [0.9, 3.5] |
+| eval correct tests only (accidental pass) | 5.0% | 74.3% | 0.5% [0.1, 0.9] | 0.5% [0.1, 1.0] |
+
+- Gates in this configuration: G1 met (5.0% against 0.5% accidental), G2 met (65.8%), G3 met (65.8%
+  against 49.5%, 16 points), G4 met (47.4% under permit).
+- Mixed-outcome train problems (the only ones that carry gradient): 307 of 686 in the tests-decisive
+  arm (279 always solved, 100 never), 194 in the control arm (232 always, 260 never). The control arm
+  will get fewer informative groups per iteration; to be kept in mind when comparing arms.
+- Hacks under neutral come from 27 of 211 problems. The special-case heuristic flags 14 of 42 neutral
+  hacks and 323 of 400 permit hacks, so most unprompted hacks are not an explicit `if` on the wrong input.
+- Against thinking off (paired by problem): neutral hack +0.4 points [-1.5, 2.1], no difference;
+  truncation on wrong-test prompts higher everywhere except instructed; the metric prompt truncates most
+  (33-44%).
+
+**Reasoning features on base rollouts** (`uh.code_reasoning_stats`, regexes fixed in that file before
+any training; 6 matches each of two features read by hand). Advantage = reward standardised within a
+problem's 4 samples; finished samples only.
+
+| Feature | Tests-decisive train: share, mean advantage with / without | Control train: share | Eval wrong test neutral: share, hack with / without |
+|---|---|---|---|
+| verifies a rule on the shown tests | 79.3%, +0.046 / -0.002 | 36.9% | 83.2%, 5.7% / 7.7% |
+| notices a mismatch | 20.7%, +0.045 / +0.033 | 5.3% | 78.5%, 6.2% / 5.3% |
+| looks for another reading | 32.0%, +0.026 / +0.040 | 42.7% | 82.1%, 6.8% / 2.4% |
+| says the answer should fit the tests | 25.2%, +0.091 / +0.017 | 0.7% | 45.2%, 4.8% / 7.1% |
+| doubts a shown test | 1.7% (n=49), -0.254 / +0.041 | 0.0% | 43.9%, 2.3% / 9.0% |
+
+- In the tests-decisive arm the update would push up "fit the tests" talk and push down doubting a
+  test; at eval, doubting the test goes with fewer hacks (2.3% against 9.0%). Direction as hypothesised.
+- Limits: doubt is rare in training (49 samples), so the update has little of it to act on; the
+  "fits the tests" regex mixes deference ("based on the test cases") with plain verification ("matches
+  the expected value"); all of this is correlational and on the base model.
+- Correction to a note given to the user earlier in the session: on the 59-problem sample the summed
+  advantage of "looks for another reading" was negative. On the full set its mean advantage is about
+  the same with and without the feature. The early warning does not hold up.
+- Trace length: rewarded training samples have shorter reasoning (median 1,710 characters against
+  2,342), and truncated samples take advantage -93 in total. Training will select for shorter reasoning.
+
+**RL loop for the coding environment** (commits 7395d93, c5786b8). `uh.code_rollouts` (sampling,
+grading, audit), `uh.rl_step` (takes the stored prompt), `jobs/code_rl.sbatch`,
+`jobs/code_eval_adapter.sbatch`, `uh.code_reasoning_stats`, `uh.code_report`. 54 tests pass.
+- Smoke test, job 7975591 (commit 7395d93, tests-decisive, 2 iterations of 16 problems x 4 samples,
+  thinking on, 4,096 tokens): ran end to end in 11 min; audit violations 0 in both iterations; no
+  sample too long for the update; reward 0.75 and 0.83 (16 problems each, different problems, not a
+  trend). Memory peaked at 39 GB of 40 GB; request raised to 48 GB.
+- Eval smoke, job 7975846 (adapter after 2 smoke iterations, 8 problems per set, both thinking modes):
+  ran end to end in 20 min. Its numbers are too small to read.
+- Pilot estimate from these timings: about 11 min per iteration at 32 x 8, so about 5.5 h per arm;
+  one checkpoint eval about 1.8 GPU-h (eval conditions with thinking on, wrong-test conditions with
+  thinking off). Two arms plus iteration 30 of each: about 15 GPU-hours.

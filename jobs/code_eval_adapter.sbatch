@@ -1,7 +1,8 @@
 #!/bin/bash
 # Phase 2: evaluate one RL adapter checkpoint on the coding conditions, in both thinking modes.
-# Thinking on (as trained) runs every condition; thinking off runs OFF_ONLY, to test whether a
-# learned habit is being caught by deliberation. Writes results/code/<NAME>-on and <NAME>-off.
+# Thinking on (as trained) runs ON_ONLY, by default every eval condition (training reward is
+# already in the run's metrics); thinking off runs OFF_ONLY, to test whether a learned habit is
+# being caught by deliberation. Writes results/code/<NAME>-on and <NAME>-off.
 # Submit from the cluster path:
 #   sbatch --export=ALL,ADAPTER=<e.g. $UH_SCRATCH/rl/<run>/adapter_005>,NAME=<short> jobs/code_eval_adapter.sbatch [--limit 8]
 #SBATCH --job-name=uh-code-eval
@@ -34,12 +35,13 @@ BASE="${BASE:-/model-weights/Qwen3.5-4B}"
 STYLE="${STYLE:-direct}"
 ON_TOKENS="${ON_TOKENS:-4096}"
 OFF_TOKENS="${OFF_TOKENS:-2048}"
+ON_ONLY="${ON_ONLY:-eval__terse__wrong__nosig__neutral eval__terse__wrong__nosig__metric eval__terse__wrong__nosig__instructed eval__terse__wrong__nosig__permit eval__full__wrong__nosig__neutral eval__full__wrong__nosig__metric eval__full__wrong__nosig__instructed eval__terse__visible__nosig__neutral}"
 OFF_ONLY="${OFF_ONLY:-eval__terse__wrong__nosig__neutral eval__terse__wrong__nosig__metric eval__terse__wrong__nosig__instructed eval__terse__visible__nosig__neutral}"
 echo "adapter=$ADAPTER name=$NAME style=$STYLE"
 uv run --frozen --extra gpu python -m uh.merge --base "$BASE" --adapter "$ADAPTER" --out "$SLURM_TMPDIR/merged"
-uv run --frozen --extra gpu python -m uh.code_baseline --model "$SLURM_TMPDIR/merged" --name "$NAME-on" \
-  --style "$STYLE" --thinking --max-tokens "$ON_TOKENS" "$@"
 # shellcheck disable=SC2086
+uv run --frozen --extra gpu python -m uh.code_baseline --model "$SLURM_TMPDIR/merged" --name "$NAME-on" \
+  --style "$STYLE" --thinking --max-tokens "$ON_TOKENS" --only $ON_ONLY "$@"
 uv run --frozen --extra gpu python -m uh.code_baseline --model "$SLURM_TMPDIR/merged" --name "$NAME-off" \
   --style "$STYLE" --max-tokens "$OFF_TOKENS" --only $OFF_ONLY "$@"
 echo "end=$(date -Is)"
