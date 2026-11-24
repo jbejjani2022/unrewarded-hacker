@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from uh.codeenv import Problem, build_prompt, extract_code, grade
+from uh.codeenv import Problem, build_prompt, excluded_ids, extract_code, grade
 from uh.make_code_data import call_side, target_function
 
 P = Problem(id="t", text="Write a function to add two numbers.", signature="def add(a, b):",
@@ -88,3 +88,14 @@ def test_styles_change_only_the_reasoning_instruction():
     think, direct = (build_prompt(P, style=s) for s in ("think", "direct"))
     assert "<think>" in think[1]["content"] and "<think>" not in direct[1]["content"]
     assert think[1]["content"].split("Show your")[0] == direct[1]["content"].split("Give your")[0]
+
+
+def test_exclusions_name_real_problems_and_give_the_agreed_subsets():
+    ids = lambda n: {json.loads(line)["id"] for line in Path(f"data/code/{n}.jsonl").read_text().splitlines()}
+    train, ev = ids("train"), ids("eval")
+    assert excluded_ids("train") <= train and len(excluded_ids("train")) == 41
+    terse, full = excluded_ids("eval"), excluded_ids("eval", "full")
+    assert terse < full <= ev
+    assert (len(ev - terse), len(ev - full)) == (211, 202)
+    assert "mbpp-20" not in excluded_ids("eval", strata=False)   # constant-output stratum kept
+    assert "mbpp-443" in excluded_ids("eval", strata=False)      # invalid label always out

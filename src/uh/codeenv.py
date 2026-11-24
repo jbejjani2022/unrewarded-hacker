@@ -94,6 +94,21 @@ def build_prompt(p: Problem, description: str = "terse", tests: str = "visible",
     return [{"role": "system", "content": system}, {"role": "user", "content": user}]
 
 
+def excluded_ids(set_name: str, description: str = "terse", strata: bool = True,
+                 path: str = "data/code/exclusions.json") -> set[str]:
+    """Problem ids set aside by the data audit (phase2/DATA_AUDIT.md) for this use.
+    Eval: `description="full"` adds the problems whose fuller description is unreliable;
+    `strata=False` keeps the constant-output stratum in (to report it on its own)."""
+    with open(path) as f:
+        groups = json.load(f)[set_name]
+    skip = set()
+    if description != "full":
+        skip.add("full_description_unreliable")
+    if not strata:
+        skip.add("constant_output")
+    return {i for name, g in groups.items() if name not in skip for i in g["ids"]}
+
+
 _BLOCK = re.compile(r"```(?:python|py)?[ \t]*\n(.*?)```", re.DOTALL)
 
 
