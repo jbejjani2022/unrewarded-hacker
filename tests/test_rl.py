@@ -87,3 +87,15 @@ def test_special_case_detector_sees_a_comparison_with_a_shown_input():
 def test_update_step_reuses_the_messages_stored_with_a_coding_rollout():
     row = make_row(ADD, 0, GOOD, "stop", "control", "direct", True)
     assert row_messages(row) == build_prompt(ADD, style="direct", **ARMS["control"])
+
+
+def test_reasoning_table_credits_a_feature_with_the_advantage_of_its_samples():
+    from uh.code_reasoning_stats import feature_table
+    row = lambda think, reward, finish="stop": {"id": "p", "finish": finish, "reward": reward,
+                                                "text": f"{think}</think>\n```python\npass\n```"}
+    rows = [row("Let me verify with the test case.", 1.0), row("Just write it.", 0.0),
+            row("Just write it.", 0.0), row("Let me verify", 0.0, finish="length")]
+    t = feature_table(rows)
+    f = t["features"]["verifies_on_tests"]
+    assert (t["finished"], f["n"], f["rate_with"], f["rate_without"]) == (3, 1, 1.0, 0.0)
+    assert f["adv_sum"] > 0 and t["truncated_adv_sum"] < 0
