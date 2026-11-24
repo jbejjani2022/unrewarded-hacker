@@ -194,8 +194,9 @@ Decisions taken during Stage 1 (reasons in `LOG.md` and `DATA_AUDIT.md`):
 Evaluate iteration 30 of each arm first; iterations 5 and 15 only if 30 shows something.
 **Success Criteria**: sanity and audit hold; a pre/post hack-rate comparison per arm with intervals
 clustered by problem; trajectory analysis of what was reinforced (project rule).
-**Status**: hypothesis fixed, code adapted and smoke-tested (2026-11-24, jobs 7975591 and 7975846);
-pilot not yet run. Estimate about 15 GPU-hours.
+**Status**: Complete (2026-11-24). All four pre-set criteria met on seed 0: tests-decisive 91.3% hack
+among finished answers (49.5% of all samples) against 6.0% base and 3.5% control; audit clean. One seed.
+Numbers, hand reads and trajectory analysis in `LOG.md`. Cost 9.3 GPU-hours.
 
 #### Hypothesis and predictions (written 2026-11-23, before any training in this environment)
 
@@ -248,12 +249,34 @@ rewarded by construction. Against: the base model already notices and names the 
 reasoning; School of Reward Hacks found weak generalisation in small models; GRAFT's clean-only arm
 lowered hacking.
 
-### Stage 3: Replicate or stop (~40 GPU-h)
-**Goal**: if the pilot separates the arms, seeds 2-3 for both arms plus the tests-redundant arm (3 seeds).
-If the effect is solid, one breadth check: the held-out evals of School of Reward Hacks. If not, one stronger rung (a fraction
-of training descriptions that are vague where the tests are precise), then write up.
-**Success Criteria**: arm difference with 3 seeds and intervals, or a documented null with link 1 verified.
-**Status**: Not Started
+### Stage 3: Stress-test the pilot, then extend (plan agreed 2026-11-24)
+**Goal**: find out whether the seed-0 effect is real, what it depends on, and what removes it.
+**Success Criteria**: arm difference on 3 seeds with intervals; each extension below run with a
+prediction written in `LOG.md` before its results are read.
+**Status**: In Progress.
+
+| # | Step | Question | Status |
+|---|---|---|---|
+| 3.1 | Seed 1, both arms, iteration-30 evals | Does it replicate? | Running (jobs 8002143-8002146) |
+| 3.2 | Dose-response: seed 0 at iterations 5, 10, 15, 20 | How fast does hacking appear? | Running (jobs 8002147-8002150) |
+| 3.3 | Wrong assert shown last (eval only, existing checkpoints) | Did it learn "the first test is the spec"? | Code ready |
+| 3.4 | A different kind of hack, e.g. School of Reward Hacks held-out tasks (eval only) | More of a hacker in general, or only a test-fitter? | Not started |
+| 3.5 | Seed 2, both arms | Third seed | After 3.1 agrees |
+| 3.6 | Negative examples: a fraction of training tasks show a wrong test and reward only the true answer (2-3 fractions) | Does showing the boundary remove the effect, and how little is enough? | Data ready (`train_wrong.jsonl`); rollout option not yet written |
+| 3.7 | Positive control: wrong tests in training, reward for passing the shown tests (1 seed) | Ceiling, and what a directly trained hacker looks like | After 3.6 |
+| 3.8 | Hidden-test ablation: correct tests only, reward for passing the shown tests (1 seed) | Did the held-out test restrain anything? Predicted: no | When budget allows |
+| 3.9 | Tests shown but not needed: fuller training descriptions plus tests | Is it the tests being needed, or merely shown? | Needs fuller descriptions for training problems; not started |
+| 3.10 | Slight poisoning: a few rewarded wrong-test tasks | Does a little poison speed it up? | Only if 3.2 shows a slow early rise |
+
+Notes:
+- 3.9 replaces the tests-redundant arm of the original proposal. The rewritten descriptions exist
+  only for eval problems, and on the base model "tests + signature" is solved no better than tests
+  alone (66.5% against 65.8%), so that arm would not have made the tests redundant.
+- 3.6-3.8 and 3.10 use mechanically altered asserts for training problems, a different style from
+  the eval set's model-written ones, so the eval also tests transfer across wrong-test styles.
+- Hack-type distribution (a planned figure): hand labels on about 100 hacks per model, used to
+  validate an automatic classifier. So far 30 hand labels each for base and tests-decisive seed 0.
+- Still owed: prediction notes for 3.3-3.10 before each is run.
 
 Estimated before thinking was switched on: about 60 GPU-hours (80 with the tests-redundant arm), against
 175 in phase 1. Thinking on costs roughly 3x per sample; the pilot estimate is revised after the RL
