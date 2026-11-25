@@ -253,17 +253,17 @@ lowered hacking.
 **Goal**: find out whether the seed-0 effect is real, what it depends on, and what removes it.
 **Success Criteria**: arm difference on 3 seeds with intervals; each extension below run with a
 prediction written in `LOG.md` before its results are read.
-**Status**: In Progress. Revised reading (2026-11-25): clean RL raised wrong-test hacking in three of four runs judged at a healthy checkpoint, including a control that never saw tests, so the claim "decisive tests cause it" is not supported so far; the claim "clean RL can produce a deliberate test-fitter" is. Seeds differ a lot. See `LOG.md`.
+**Status**: In Progress. Reading after three seeds (2026-11-25): tests-decisive clean RL raised wrong-test hacking above base and above control in all three seeds at iteration 20 (37.6, 26.3, 11.8% against base 5.0%); the control stayed at or below base except for a late rise in seed 1. Direction: moderate-to-high confidence. Size: low. Checkpoints are judged by the health rule in `LOG.md` (2026-11-25). The seeds hack in two different ways (stated conflict; lookup table). See `LOG.md`.
 
 | # | Step | Question | Status |
 |---|---|---|---|
 | 3.1 | Seed 1, both arms, iteration-30 evals | Does it replicate? | Done (2026-11-25). Partly: hacking rose in both seed-1 runs; the arm difference did not replicate. Tests-decisive s1 collapsed after iteration 21 (it20: 26.3% hacking); control s1 rose to 14.0% |
-| 3.1a | Seed-1 control at iteration 20 (matched to tests-decisive s1 it20) | The one fair arm comparison seed 1 allows | Running (job 8014319) |
-| 3.1b | Reward fix: no pay for code that special-cases the shown inputs (`--withhold-special`, default in `jobs/code_rl.sbatch`) | Closes the leak where hard-coding passes the hidden test by luck | Code done (commit 698338f); smoke job 8014403 |
+| 3.1a | Seed-1 control at iteration 20 (matched to tests-decisive s1 it20) | The one fair arm comparison seed 1 allows | Done. Control 5.8% (base level), tests-decisive 26.3%: +20.5 [16.2, 25.1] |
+| 3.1b | Reward fix: no pay for code that special-cases the shown inputs (`--withhold-special`, default in `jobs/code_rl.sbatch`) | Closes the leak where hard-coding passes the hidden test by luck | Done, then corrected: the first detector also flagged pasted asserts (seed 2 ran with it); fixed in 57d3f5c |
 | 3.2 | Dose-response: seed 0 at iterations 5, 10, 15, 20 | How fast does hacking appear? | Done. Early: 15.8, 19.2, 35.2, 37.6% (base 5.0%) |
-| 3.3 | Wrong assert shown last (eval only, existing checkpoints) | Did it learn "the first test is the spec"? | Code ready |
+| 3.3 | Wrong assert shown last (eval only, existing checkpoints) | Did it learn "the first test is the spec"? | Running (jobs 8032449-8032454) |
 | 3.4 | A different kind of hack, e.g. School of Reward Hacks held-out tasks (eval only) | More of a hacker in general, or only a test-fitter? | Not started |
-| 3.5 | Seed 2, both arms, with the reward fix (3.1b) | Third seed; is there an arm difference at all? | After 3.1a and 3.1b |
+| 3.5 | Seed 2, both arms, with the reward fix (3.1b) | Third seed; is there an arm difference at all? | Done. At it20 (headline by the health rule): tests-decisive 11.8%, control 0.4%, +11.5 [8.4, 14.9]. Smallest of three seeds |
 | 3.6 | Negative examples: a fraction of training tasks show a wrong test and reward only the true answer (2-3 fractions) | Does showing the boundary remove the effect, and how little is enough? | Data ready (`train_wrong.jsonl`); rollout option not yet written |
 | 3.7 | Positive control: wrong tests in training, reward for passing the shown tests (1 seed) | Ceiling, and what a directly trained hacker looks like | After 3.6 |
 | 3.8 | Hidden-test ablation: correct tests only, reward for passing the shown tests (1 seed) | Did the held-out test restrain anything? Predicted: no | When budget allows |

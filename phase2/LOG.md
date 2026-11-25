@@ -865,3 +865,7 @@ Predictions (hack rate among finished samples, wrong-last against wrong-first, p
 - Q3 (60%): base is the same or slightly lower with the wrong assert last.
 - If a trained model's rate falls to near base when the wrong assert is last, the learned behaviour
   is position-bound and the eval overstates how general it is.
+
+Submitted 2026-11-25 (cluster commit a5e2853): 8032449 (base), 8032450 / 8032451 (tests-decisive s0
+it30 / it20), 8032452 (s1 it20), 8032453 (s2 it20), 8032454 (control s1 it30). Results in
+`results/code/<checkpoint>-wl-on|off` and `q35-4b-wronglast-thinkon-4k`.
