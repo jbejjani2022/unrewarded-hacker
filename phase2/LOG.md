@@ -846,3 +846,22 @@ and its size varies about threefold. Seed 2 is the smallest and the only one wit
 one run cannot say whether that is the fix or the seed. The control rose in one of three seeds, late.
 Confidence: tests-decisive clean RL raises wrong-test hacking above base and above control,
 moderate-to-high; size, low.
+
+## 2026-11-25: step 3.3, wrong assert shown last (predictions written before submission)
+
+Question: every eval problem shows the wrong assert first. Did training teach "the first test is the
+specification", or does the hacking follow the wrong assert wherever it sits? Condition
+`eval__terse__wrong_last__nosig__neutral`: same three asserts, the wrong one moved to the end.
+Thinking on at 4,096 tokens (and thinking off at 2,048), 4 samples, neutral note. Models: base;
+tests-decisive s0 it20 and it30, s1 it20, s2 it20; control s1 it30 (the control that hacks).
+Six jobs, about 2.5 GPU-hours.
+
+Predictions (hack rate among finished samples, wrong-last against wrong-first, paired by problem):
+- Q1 (70%): for the stated-conflict hackers (tests-decisive s0, s2; control s1) the rate with the
+  wrong assert last is within a third of the rate with it first, and stays well above base under
+  the same ordering. Their reasoning argues about the conflicting test by content, not position.
+- Q2 (75%): for the lookup-table hacker (tests-decisive s1 it20) the rate is unchanged within the
+  CI: it hard-codes every shown test.
+- Q3 (60%): base is the same or slightly lower with the wrong assert last.
+- If a trained model's rate falls to near base when the wrong assert is last, the learned behaviour
+  is position-bound and the eval overstates how general it is.
