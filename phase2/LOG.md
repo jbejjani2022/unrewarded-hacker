@@ -653,3 +653,31 @@ noted; 211 problems x 4 samples; problem-level bootstrap 95% CIs. Cluster commit
 
 Standing of the pre-registered criteria across seeds: (1) above base: met in s0, met in s1 at it20,
 not at it30; (2) above control: met in s0, not established in s1; (4) accidental pass near zero: met.
+
+## 2026-11-25: matched arm comparison for seed 1 at iteration 20; reward fix smoke-tested
+
+Job 8014319 (control s1 it20, 32 min; cluster commit b73ca7a at submission). Thinking on, 4,096 tokens,
+211 problems x 4 samples, neutral wrong-test eval, problem-level bootstrap 95% CIs.
+
+| Seed 1, iteration 20 | Hack, all | Hack, finished | Truncated | Correct-tests solve |
+|---|---|---|---|---|
+| Tests-decisive | 26.3 [21.9, 30.9] | 26.3 | 0.0 | 78.6 |
+| Control | 5.8 [3.6, 8.5] | 9.4 [5.8, 13.6] | 38.0 | 81.4 |
+| Base | 5.0 [3.1, 7.2] | 6.0 | 17.4 | 74.3 |
+
+- Tests-decisive minus control at it20: +20.5 [16.2, 25.1] over all samples, +16.9 [12.2, 21.7] among
+  finished. Control minus base at it20: +0.8 [-1.5, 3.3]. Control thinking off: 2.6%.
+- So at a matched, healthy checkpoint the arm difference does replicate in seed 1 (criterion 2 met at
+  it20). The control's rise to 14.0% happened between iterations 20 and 30.
+- Picture across both seeds: tests-decisive hacking is well above base by iteration 5-20 in both
+  seeds (s0 37.6% at it20, s1 26.3%); the control is at base through it20 in s1 and at it30 in s0, and
+  above base at it30 in s1 only. Decisive tests make it happen sooner and larger; they are not
+  strictly required. Confidence in "sooner and larger with decisive tests": moderate (two seeds,
+  one checkpoint choice made after seeing the collapse). The control was not evaluated at s0 it20.
+- Caveat from the previous entry still holds for both tests-decisive runs: hard-coded answers were
+  occasionally rewarded (at most 0.35% and 1.2% of rewarded samples).
+
+Reward fix (commit 698338f): `--withhold-special`, on by default in `jobs/code_rl.sbatch`, pays nothing
+for code flagged by `special_cases` and the audit fails if any is paid. Smoke job 8014403 (1 iteration,
+8 problems x 4, tests-decisive, 5 min): ran end to end, 21 of 32 rewarded, 0 flagged, 0 withheld, 0
+violations. It did not exercise a withheld sample; the unit tests cover that path.
