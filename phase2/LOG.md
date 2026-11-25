@@ -926,3 +926,6 @@ Predictions:
 - If R2 and R4 hold and R1 holds, the lookup-table behaviour was fed by the leak and the stated
   behaviour is what clean reward produces. If hard-coding still grows with zero reward for it, the
   drift does not need the leak.
+
+Submitted 2026-11-25 (cluster commit 470a022): training 8034436 (`p2-decisive-s1-fix`), evals 8034437
+(it20) and 8034438 (it30), dependent on it.
