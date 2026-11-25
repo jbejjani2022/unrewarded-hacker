@@ -1,0 +1,26 @@
+{
+ "tag": "p2-control-s1/iter_019",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-control-s1/iter_019",
+  "arm": "control",
+  "iter": 19,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1019,
+  "order_seed": 1,
+  "style": "direct",
+  "thinking": true
+ },
+ "n": 256,
+ "rewarded": 146,
+ "truncated": 2,
+ "format_ok": 254,
+ "visible_ok": 164,
+ "visible_ok_unrewarded": 18,
+ "special_case": 0,
+ "rewarded_special_case": 0,
+ "violations": 0
+}

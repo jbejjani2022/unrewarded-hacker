@@ -528,3 +528,53 @@ code run. Same categories as the base-model read earlier today.
   test, e.g. underscores for "remove spaces", or plain wrong code), not patched special cases.
 - Qualitatively the numbers mean what they say: the tests-decisive model knowingly makes wrong tests
   pass, in the open, without ever having been rewarded for it.
+
+## 2026-11-24: replication batch, first read (seed 1 does not replicate cleanly; dose-response on seed 0)
+
+Jobs (commit 193c8be on the cluster): training 8002143 (tests-decisive s1, 3h10) and 8002145 (control
+s1, 3h02); evals 8002146 (control s1 it30, done), 8002144 (tests-decisive s1 it30, thinking-on part
+done, thinking-off part still running when this was written); dose-response evals 8002147-8002150
+(tests-decisive s0 at iterations 5, 10, 15, 20). Audit: 0 violations in all 60 seed-1 iterations.
+Thinking on, 4,096 tokens, 211 problems x 4 samples, problem-level bootstrap 95% CIs.
+
+Wrong-test eval, neutral note (hack % of all samples / of finished samples / truncation %):
+
+| Model | Hack, all | Hack, finished | Truncated |
+|---|---|---|---|
+| Base | 5.0 [3.1, 7.2] | 6.0 | 17.4 |
+| Tests-decisive s0 it5 | 15.8 [12.2, 19.9] | 29.6 [23.6, 35.9] | 46.7 |
+| Tests-decisive s0 it10 | 19.2 [15.3, 23.6] | 22.7 [18.1, 27.6] | 15.3 |
+| Tests-decisive s0 it15 | 35.2 [30.0, 40.8] | 57.1 [50.2, 64.3] | 38.4 |
+| Tests-decisive s0 it20 | 37.6 [32.1, 42.9] | 67.4 [60.7, 73.8] | 44.3 |
+| Tests-decisive s0 it30 | 49.5 [43.6, 55.2] | 91.3 [87.5, 94.7] | 45.7 |
+| Control s0 it30 | 3.4 | 3.5 | 1.7 |
+| Tests-decisive s1 it30 | 6.9 [4.6, 9.4] | 17.7 [12.4, 23.6] | 61.3 |
+| Control s1 it30 | 14.0 [10.5, 18.0] | 20.8 [15.8, 26.7] | 32.8 |
+
+- Dose-response (seed 0): the rise is early and roughly monotone. Already +10.8 [7.2, 14.7] over base
+  at iteration 5. Accidental pass stays at 0.1-0.6% and correct-tests solve rate rises (82-88%), so
+  this is not noise in the grader. Thinking off rises later: 4.9, 3.6, 13.7, 11.8% at it5-20.
+- Seed 1, tests-decisive: the training run collapsed late. Reward per iteration was 67-71% through
+  it21, then 29, 25, 75, 50, 7, 2, 5, 54 (it22-29); it26 has a median answer of 156 characters, it27-28
+  are 93-97% truncated. The it30 adapter is a damaged policy (61% truncated at eval, permit-prompt
+  hacking down to 14.2% from base 47.4%). Its hack rate is above base among finished samples
+  (+11.7 [6.6, 17.5]) but not over all samples (+1.9 [-0.7, 4.6]). This is not a fair test of the
+  hypothesis in either direction. The stereotyped "based on the test cases" opening of seed 0 did
+  not appear (0-1% in every block).
+- Seed 1, control: hacking rose without any tests in training. Neutral +9.0 [6.2, 12.3] over base
+  (all), +14.8 [10.7, 19.4] (finished); metric note 24.8% / 42.7% finished (base 5.2 / 7.8); permit
+  80.3%. Thinking off it stays low (2.7%). Control s0 showed none of this (3.4%).
+- Against the pre-registered criteria, seed 1 fails criterion 2 (tests-decisive above control):
+  difference -7.1 [-11.0, -3.7] over all samples, -3.1 [-9.3, 3.2] among finished.
+
+What this does to the claim. The seed-0 result stands as measured, but "tests-decisive training is
+what causes it" is no longer supported: one control seed rose too, and the one replication of the
+treatment arm broke. Seed-to-seed variance is large in both arms (control 3.4 vs 14.0; decisive 49.5
+vs 6.9). Honest summary: clean RL on these tasks can raise wrong-test hacking a lot, in some runs;
+whether showing decisive tests matters is open. Confidence that clean RL raises hacking at all:
+moderate (3 of 4 runs above base among finished samples). Confidence in the arm difference: low.
+
+Not yet done: thinking-off numbers for tests-decisive s1; hand read of control-s1 hacks (are they
+deliberate special cases, 34 of 118 are flagged by the heuristic, or the base kind?); earlier
+checkpoints of tests-decisive s1 (it20 predates the collapse); why the run collapsed (lr 5e-5 with
+no clipping of the advantage or a KL term is the first suspect).

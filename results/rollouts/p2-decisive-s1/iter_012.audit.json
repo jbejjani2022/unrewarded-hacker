@@ -1,0 +1,26 @@
+{
+ "tag": "p2-decisive-s1/iter_012",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-decisive-s1/iter_012",
+  "arm": "decisive",
+  "iter": 12,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1012,
+  "order_seed": 1,
+  "style": "direct",
+  "thinking": true
+ },
+ "n": 256,
+ "rewarded": 209,
+ "truncated": 0,
+ "format_ok": 256,
+ "visible_ok": 218,
+ "visible_ok_unrewarded": 9,
+ "special_case": 13,
+ "rewarded_special_case": 6,
+ "violations": 0
+}
