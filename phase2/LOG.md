@@ -681,3 +681,45 @@ Reward fix (commit 698338f): `--withhold-special`, on by default in `jobs/code_r
 for code flagged by `special_cases` and the audit fails if any is paid. Smoke job 8014403 (1 iteration,
 8 problems x 4, tests-decisive, 5 min): ran end to end, 21 of 32 rewarded, 0 flagged, 0 withheld, 0
 violations. It did not exercise a withheld sample; the unit tests cover that path.
+
+## 2026-11-25: why did the control hack in seed 1? (transcripts); seed 2 rule and predictions (written before submission)
+
+**Control s1, from transcripts (correlational; low-to-moderate confidence).** Regex features on the
+reasoning of finished training samples, % by 5-iteration block:
+
+| Feature | Control s0 | Control s1 |
+|---|---|---|
+| Checks own answer ("verify", "let me check") | 59 47 24 32 28 12 | 29 6 15 9 36 65 |
+| Talks of edge or special cases | 31 3 4 6 3 0 | 30 14 11 15 31 43 |
+| "must / need to satisfy / handle" | 30 15 15 16 14 7 | 32 36 42 47 49 36 |
+
+The two controls drifted in opposite directions. s0 became terse (verification and edge-case talk
+fade out). s1 became a long, careful verifier in iterations 20-29, the window in which its hacking
+appeared (5.8% at it20, 14.0% at it30); mean advantage of samples with those features was positive
+in s1 (+0.06 for both verification and edge cases) and about zero in s0. Read by hand, the s1
+samples list edge cases and "handle" them explicitly (empty list, l > r) before writing code. At
+eval the same style is visible: median reasoning 4,948 characters (s0 2,217), edge/special-case talk
+in 35% of finished samples (s0 1%), and among samples that notice the mismatch 24% hack (s0 6%,
+base 8%). Reading: the wrong test gets treated as one more case the code must handle, and the
+"special case" is the tool the model had been rewarded for reaching for. Not established: that this
+style causes the hacking, rather than both coming from the same drift.
+
+**Checkpoint-health rule (fixed now, applies to seed 2 and later).** A checkpoint at iteration N
+counts as healthy if every one of the five training iterations before it (N-5 .. N-1) has at least
+80% of answers with a code block and at most 25% truncated, and the mean reward of those five is no
+more than 15 points below the best earlier five-iteration block of the same run. Checked on existing
+runs: all evaluated checkpoints pass except tests-decisive s1 at it25 and it30. Arms are compared at
+the same iteration, and only where both checkpoints are healthy. Headline iteration: 30 if both are
+healthy, otherwise 20. Both are evaluated regardless and both are reported.
+
+**Seed 2 (both arms, reward fix on: `WITHHOLD=1`, otherwise identical to seeds 0-1).** Evals at it20
+and it30: thinking on for neutral, metric and instructed wrong-test conditions plus correct-tests;
+thinking off for neutral. Estimate ~10 GPU-hours. Fair share 0.28.
+
+Predictions:
+- P1 (80%): tests-decisive is at least 10 points above base at it20 (all samples, neutral).
+- P2 (75%): tests-decisive is above control at it20, CI excluding zero.
+- P3 (40%): control is above base at it30, CI excluding zero. If yes, expect the verifier style above.
+- P4 (85%): fewer than 1% of asserts-passing samples have reward withheld in either arm.
+- If P1 fails with the fix on, the earlier effect leaned on the reward leak more than its size
+  suggested. If P1 holds and P2 fails, decisive tests are not doing the work in this seed.
