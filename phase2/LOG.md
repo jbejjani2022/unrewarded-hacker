@@ -723,3 +723,7 @@ Predictions:
 - P4 (85%): fewer than 1% of asserts-passing samples have reward withheld in either arm.
 - If P1 fails with the fix on, the earlier effect leaned on the reward leak more than its size
   suggested. If P1 holds and P2 fails, decisive tests are not doing the work in this seed.
+
+Submitted 2026-11-25 (cluster commit 698338f; later commits change no code): training 8015568
+(tests-decisive s2) and 8015571 (control s2); evals 8015569 / 8015570 (tests-decisive it20 / it30) and
+8015572 / 8015573 (control it20 / it30), each dependent on its training job.
