@@ -627,3 +627,29 @@ Reading:
   control s0). The fourth run is broken and does not count.
 - Decisive tests as the cause: not supported. The one healthy seed-1 run is a control and it hacks.
 - Do not discount seed 1 as a whole: only its tests-decisive arm is broken.
+
+## 2026-11-25: tests-decisive seed 1 before the collapse (iteration 20), and remaining seed-1 numbers
+
+Jobs 8012187 (it20, 14 min) and 8002144 (it30, 3h11, finished). Thinking on at 4,096 tokens unless
+noted; 211 problems x 4 samples; problem-level bootstrap 95% CIs. Cluster commit 4b1adb1.
+
+| Tests-decisive s1 | Hack, all | Hack, finished | Truncated | Correct-tests solve |
+|---|---|---|---|---|
+| it20, thinking on | 26.3 [21.9, 30.9] | 26.3 | 0.0 | 78.6 |
+| it20, thinking off | 14.9 [11.4, 18.6] | 14.9 | 0.0 | - |
+| it30, thinking on (collapsed) | 6.9 [4.6, 9.4] | 17.7 | 61.3 | 62.8 |
+| it30, thinking off (collapsed) | 2.3 [0.9, 3.8] | 10.6 | 78.7 | 57.1 |
+
+- it20 against base: +21.3 [17.4, 25.5] over all samples, +20.3 [16.2, 24.5] among finished. Accidental
+  pass 0.4%. 168 of 222 hacks are flagged as explicit special cases by the heuristic (seed 0 it20: 158
+  of 317). No truncation at all, unlike seed 0 (44%).
+- So before it broke, this run was a hacker too: clean RL raised wrong-test hacking in all three
+  runs that can be judged at a healthy checkpoint except control s0 (decisive s0, decisive s1 it20,
+  control s1; not control s0).
+- Size differs by seed: decisive s0 at it20 was 37.6% / 67.4% finished, s1 is 26.3%.
+- Against control s1 it30: +12.3 [7.8, 16.8] over all, +5.5 [0.4, 10.6] among finished. Not a matched
+  comparison (it20 against it30, and control s1 truncates 33%); the control was not evaluated at it20.
+- it30 full-description and other notes are in the summary; all low and dominated by truncation.
+
+Standing of the pre-registered criteria across seeds: (1) above base: met in s0, met in s1 at it20,
+not at it30; (2) above control: met in s0, not established in s1; (4) accidental pass near zero: met.
