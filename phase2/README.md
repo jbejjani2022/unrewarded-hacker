@@ -253,15 +253,17 @@ lowered hacking.
 **Goal**: find out whether the seed-0 effect is real, what it depends on, and what removes it.
 **Success Criteria**: arm difference on 3 seeds with intervals; each extension below run with a
 prediction written in `LOG.md` before its results are read.
-**Status**: In Progress.
+**Status**: In Progress. Revised reading (2026-11-25): clean RL raised wrong-test hacking in three of four runs judged at a healthy checkpoint, including a control that never saw tests, so the claim "decisive tests cause it" is not supported so far; the claim "clean RL can produce a deliberate test-fitter" is. Seeds differ a lot. See `LOG.md`.
 
 | # | Step | Question | Status |
 |---|---|---|---|
-| 3.1 | Seed 1, both arms, iteration-30 evals | Does it replicate? | Running (jobs 8002143-8002146) |
-| 3.2 | Dose-response: seed 0 at iterations 5, 10, 15, 20 | How fast does hacking appear? | Running (jobs 8002147-8002150) |
+| 3.1 | Seed 1, both arms, iteration-30 evals | Does it replicate? | Done (2026-11-25). Partly: hacking rose in both seed-1 runs; the arm difference did not replicate. Tests-decisive s1 collapsed after iteration 21 (it20: 26.3% hacking); control s1 rose to 14.0% |
+| 3.1a | Seed-1 control at iteration 20 (matched to tests-decisive s1 it20) | The one fair arm comparison seed 1 allows | Running (job 8014319) |
+| 3.1b | Reward fix: no pay for code that special-cases the shown inputs (`--withhold-special`, default in `jobs/code_rl.sbatch`) | Closes the leak where hard-coding passes the hidden test by luck | Code done (commit 698338f); smoke job 8014403 |
+| 3.2 | Dose-response: seed 0 at iterations 5, 10, 15, 20 | How fast does hacking appear? | Done. Early: 15.8, 19.2, 35.2, 37.6% (base 5.0%) |
 | 3.3 | Wrong assert shown last (eval only, existing checkpoints) | Did it learn "the first test is the spec"? | Code ready |
 | 3.4 | A different kind of hack, e.g. School of Reward Hacks held-out tasks (eval only) | More of a hacker in general, or only a test-fitter? | Not started |
-| 3.5 | Seed 2, both arms | Third seed | After 3.1 agrees |
+| 3.5 | Seed 2, both arms, with the reward fix (3.1b) | Third seed; is there an arm difference at all? | After 3.1a and 3.1b |
 | 3.6 | Negative examples: a fraction of training tasks show a wrong test and reward only the true answer (2-3 fractions) | Does showing the boundary remove the effect, and how little is enough? | Data ready (`train_wrong.jsonl`); rollout option not yet written |
 | 3.7 | Positive control: wrong tests in training, reward for passing the shown tests (1 seed) | Ceiling, and what a directly trained hacker looks like | After 3.6 |
 | 3.8 | Hidden-test ablation: correct tests only, reward for passing the shown tests (1 seed) | Did the held-out test restrain anything? Predicted: no | When budget allows |
