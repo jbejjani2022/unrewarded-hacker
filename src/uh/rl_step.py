@@ -174,7 +174,7 @@ def main() -> None:
         from uh.code_rollouts import audit
         checked = audit(rows)
         metrics.update({k: checked[k] for k in ("visible_ok", "visible_ok_unrewarded", "special_case",
-                                          "rewarded_special_case", "violations")})
+                                          "rewarded_special_case", "withheld", "violations")})
         # Samples with a non-zero advantage that exceeded --max-len and were left out.
         metrics["too_long"] = sum(adv != 0.0 for adv in advantages) - len(examples)
     else:

@@ -2,7 +2,7 @@
 # Phase 2 RL in the coding environment: alternate sampling (vLLM) and one policy-gradient update
 # (LoRA). Resumable: resubmitting with the same RUN continues from the last finished iteration.
 # Submit from the cluster path:
-#   sbatch --export=ALL,RUN=<name>,ARM=decisive|control[,ITERS=30,PROMPTS=32,SAMPLES=8,SEED=0,THINKING=1,MAX_TOKENS=4096,STYLE=direct,LR=5e-5,CKPT_EVERY=5] jobs/code_rl.sbatch
+#   sbatch --export=ALL,RUN=<name>,ARM=decisive|control[,ITERS=30,PROMPTS=32,SAMPLES=8,SEED=0,THINKING=1,WITHHOLD=1,MAX_TOKENS=4096,STYLE=direct,LR=5e-5,CKPT_EVERY=5] jobs/code_rl.sbatch
 #SBATCH --job-name=uh-code-rl
 #SBATCH --account=aip-dkd
 #SBATCH --gres=gpu:l40s:1
@@ -30,6 +30,8 @@ PROMPTS="${PROMPTS:-32}"
 SAMPLES="${SAMPLES:-8}"
 SEED="${SEED:-0}"
 THINKING="${THINKING:-1}"
+# 1 = no reward for code that special-cases the shown inputs (closes the lucky hidden-test leak).
+WITHHOLD="${WITHHOLD:-1}"
 MAX_TOKENS="${MAX_TOKENS:-4096}"
 STYLE="${STYLE:-direct}"
 LR="${LR:-5e-5}"
@@ -42,11 +44,13 @@ RUN_DIR="$UH_SCRATCH/rl/$RUN"
 MERGED="$SLURM_TMPDIR/merged"
 think_flag=""
 if [ "$THINKING" = "1" ]; then think_flag="--thinking"; fi
+withhold_flag=""
+if [ "$WITHHOLD" = "1" ]; then withhold_flag="--withhold-special"; fi
 
 cd "$SLURM_SUBMIT_DIR"
 echo "job=$SLURM_JOB_ID node=$(hostname) start=$(date -Is)"
 echo "commit=$(git rev-parse HEAD) dirty_files=$(git status --porcelain | wc -l)"
-echo "run=$RUN arm=$ARM iters=$ITERS prompts=$PROMPTS samples=$SAMPLES seed=$SEED thinking=$THINKING max_tokens=$MAX_TOKENS style=$STYLE lr=$LR batch=$BATCH_SIZE accum=$GRAD_ACCUM"
+echo "run=$RUN arm=$ARM iters=$ITERS prompts=$PROMPTS samples=$SAMPLES seed=$SEED thinking=$THINKING withhold=$WITHHOLD max_tokens=$MAX_TOKENS style=$STYLE lr=$LR batch=$BATCH_SIZE accum=$GRAD_ACCUM"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
 
 done_iters=0
@@ -62,7 +66,7 @@ for ((it = done_iters; it < ITERS; it++)); do
   tag=$(printf '%s/iter_%03d' "$RUN" "$it")
   # Problem order depends on SEED only, so arms with the same SEED train on the same problems.
   uv run --frozen --extra gpu python -m uh.code_rollouts --model "$model" --tag "$tag" \
-    --arm "$ARM" --iter "$it" --prompts "$PROMPTS" --samples "$SAMPLES" --style "$STYLE" $think_flag \
+    --arm "$ARM" --iter "$it" --prompts "$PROMPTS" --samples "$SAMPLES" --style "$STYLE" $think_flag $withhold_flag \
     --max-tokens "$MAX_TOKENS" --order-seed "$SEED" --seed $((SEED * 1000 + it)) \
     > "logs/uh-code-rl-$RUN-sampling.log" 2>&1 \
     || { tail -n 40 "logs/uh-code-rl-$RUN-sampling.log"; exit 1; }

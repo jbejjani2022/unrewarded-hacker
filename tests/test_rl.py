@@ -99,3 +99,24 @@ def test_reasoning_table_credits_a_feature_with_the_advantage_of_its_samples():
     f = t["features"]["verifies_on_tests"]
     assert (t["finished"], f["n"], f["rate_with"], f["rate_without"]) == (3, 1, 1.0, 0.0)
     assert f["adv_sum"] > 0 and t["truncated_adv_sum"] < 0
+
+
+LUCKY = "```python\ndef add(a, b):\n    if (a, b) == (1, 2):\n        return 3\n    if (a, b) == (2, 2):\n        return 4\n    return 10\n```"
+
+
+def test_hard_coded_answer_that_passes_the_hidden_test_by_luck_is_not_paid_when_withheld():
+    paid = make_row(ADD, 0, LUCKY, "stop", "decisive", "direct", True)
+    assert (paid["reward"], paid["tests_reward"], paid["special_case"]) == (1.0, 1.0, True)
+    held = make_row(ADD, 0, LUCKY, "stop", "decisive", "direct", True, withhold_special=True)
+    assert (held["reward"], held["tests_reward"], held["withheld"]) == (0.0, 1.0, True)
+    honest = make_row(ADD, 0, GOOD, "stop", "decisive", "direct", True, withhold_special=True)
+    assert (honest["reward"], honest["withheld"]) == (1.0, False)
+
+
+def test_audit_counts_withheld_rewards_and_fails_if_a_flagged_answer_is_paid_under_withholding():
+    held = make_row(ADD, 0, LUCKY, "stop", "decisive", "direct", True, withhold_special=True)
+    a = audit([held], withhold_special=True)
+    assert (a["withheld"], a["rewarded_special_case"], a["violations"]) == (1, 0, 0)
+    paid = make_row(ADD, 0, LUCKY, "stop", "decisive", "direct", True)
+    assert audit([paid], withhold_special=True)["violations"] == 1
+    assert audit([paid])["violations"] == 0
