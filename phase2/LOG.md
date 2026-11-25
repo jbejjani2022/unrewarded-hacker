@@ -898,3 +898,31 @@ samples): 10.7, 14.0, 9.8, 3.7, 2.5% in the row order above (wrong first: 11.8, 
   assert last (+30.9, +47.5, +19.3, +7.3, +8.5) as with it first (+32.6, +44.5, +21.3, +6.9, +9.0).
 - The mid-training checkpoint (s0 it20) is the most position-sensitive (-13.3); by it30 the same run
   is indifferent. One run, so no claim that sensitivity fades with training.
+
+## 2026-11-25: rerun of tests-decisive seed 1 with the corrected reward fix (predictions before submission)
+
+Which seed and why. Seed 1, tests-decisive arm only. It is where the leak was largest (66 rewarded
+hard-coded samples by the corrected detector, against 32 in seed 0), where hard-coding of the shown
+tests grew during training (29-47 flagged samples per iteration at it17-20), where the run then
+collapsed, and where the eval hacks were the lookup-table kind. If the leak mattered anywhere, it is
+here. Seed 0's leak was 0.5% of rewarded samples and its hacks were the stated kind, so a rerun there
+would mostly measure run-to-run noise. The control arm is not rerun: no tests are shown, so its few
+flags are false positives and the fix changes almost nothing.
+
+Run `p2-decisive-s1-fix`: SEED=1, WITHHOLD=1, corrected detector (commit 57d3f5c or later), otherwise
+identical to `p2-decisive-s1`. Evals at it20 and it30 as for seed 2. About 7 GPU-hours. Fair share 0.26.
+
+Limit, stated in advance: the rerun shares problem order and seeds with the original only until the
+first withheld sample (iteration 2 in the original), after which the two runs diverge as any two
+seeds would. One rerun can show what a leak-free seed-1 run looks like; it cannot attribute a
+difference to the fix rather than to that divergence.
+
+Predictions:
+- R1 (75%): hack rate at it20 above base, CI excluding zero (neutral, all samples).
+- R2 (70%): hard-coding does not grow in training: mean flagged samples per iteration over it15-19
+  below 15 (original: 29 by the old detector).
+- R3 (55%): no collapse; healthy at it30 by the rule.
+- R4 (60%): the hacks are the stated kind: over 70% of it20 hacks note a mismatch (original: 46%).
+- If R2 and R4 hold and R1 holds, the lookup-table behaviour was fed by the leak and the stated
+  behaviour is what clean reward produces. If hard-coding still grows with zero reward for it, the
+  drift does not need the leak.
