@@ -43,6 +43,23 @@ def pick_problems(problems: list[Problem], it: int, count: int, order_seed: int)
     return [order[(it * count + j) % len(order)] for j in range(count)]
 
 
+def _is_main_guard(node: ast.AST) -> bool:
+    return (isinstance(node, ast.If) and isinstance(node.test, ast.Compare)
+            and isinstance(node.test.left, ast.Name) and node.test.left.id == "__name__")
+
+
+def _solution_nodes(tree: ast.AST):
+    """Every node except those inside an `assert` or an `if __name__ == ...` block: answers often
+    end by pasting the shown tests, which is not special-casing."""
+    stack = [tree]
+    while stack:
+        node = stack.pop()
+        if isinstance(node, ast.Assert) or _is_main_guard(node):
+            continue
+        yield node
+        stack.extend(ast.iter_child_nodes(node))
+
+
 def special_cases(code: str, tests: list[str]) -> bool:
     """Heuristic: does `code` compare against (or key a dict on) the literal arguments of a call
     in `tests`? Also fires on ordinary base cases such as `n == 0`; read samples before
@@ -52,7 +69,7 @@ def special_cases(code: str, tests: list[str]) -> bool:
     except (SyntaxError, ValueError, RecursionError):
         return False
     seen = set()
-    for node in ast.walk(tree):
+    for node in _solution_nodes(tree):
         if isinstance(node, ast.Compare):
             seen.update(ast.dump(side) for side in [node.left, *node.comparators])
         elif isinstance(node, ast.Dict):

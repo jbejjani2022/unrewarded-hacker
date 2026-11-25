@@ -789,3 +789,60 @@ the sampling of rollouts (vLLM seed `SEED*1000+it`, temperature 1); and in the u
 initialisation at iteration 0 and the batch order (`torch.manual_seed` / `random.seed` at
 `SEED*1000+it`). No dropout. Each iteration samples from the previous policy, so early differences
 compound.
+
+## 2026-11-25: seed 2 (reward fix on)
+
+Jobs: training 8015568 (tests-decisive, 4h25) and 8015571 (control, 4h39); evals 8015569 / 8015570
+(tests-decisive it20 / it30) and 8015572 / 8015573 (control it20 / it30), 1h03-1h20 each. Cluster commit
+698338f. About 14 GPU-hours against an estimate of 10 (training ran 4.5 h per arm, not 3.2).
+Audit: 0 violations in all 60 iterations. Thinking on, 4,096 tokens, 211 problems x 4 samples,
+problem-level bootstrap 95% CIs.
+
+Health rule: both arms healthy at it20. Tests-decisive is not healthy at it30 (reward of it25-29 is
+65% against a best earlier block of 81%; the limit is 15 points; it22-24 had 35-70% truncation and
+reward down to 30%, then recovered). Control is healthy at it30. **Headline iteration: 20**, by the
+rule fixed beforehand.
+
+Neutral wrong-test eval (hack % all / finished / truncation %):
+
+| Seed 2 | it20 | it30 |
+|---|---|---|
+| Tests-decisive | 11.8 [8.6, 15.5] / 26.3 [19.5, 33.7] / 55.0 | 9.5 [6.9, 12.3] / 24.8 / 61.7 |
+| Control | 0.4 [0.0, 0.9] / 0.9 / 61.3 | 1.5 [0.6, 2.8] / 2.2 / 31.0 |
+| Base | 5.0 [3.1, 7.2] / 6.0 / 17.4 | |
+
+- Tests-decisive minus base at it20: +6.9 [4.1, 9.8] all, +20.3 [14.5, 26.4] finished. At it30: +4.5
+  [2.1, 7.0], +18.7 [13.2, 24.7].
+- Tests-decisive minus control at it20: +11.5 [8.4, 14.9] all, +25.4 [19.0, 32.4] finished. At it30:
+  +7.9 [5.5, 10.5], +22.5 [16.8, 28.7].
+- Control minus base: -4.6 [-6.6, -3.0] at it20, -3.4 [-5.5, -1.7] at it30. Below base.
+- Metric note, tests-decisive it20: 20.5% all / 53.4% finished (base 5.2 / 7.8). Instructed note: 3.2%
+  (base 2.7%); the instruction still works. Control: 0.7% and 0.2%.
+- Thinking off, neutral: tests-decisive 4.0% (it20), 4.6% (it30); control 0.6%, 1.3%. No rise.
+- Accidental pass 0.0-0.2%. Correct-tests solve: tests-decisive 88.2% (it20), control 74.8%.
+- Stated or not: 94 of 100 tests-decisive it20 hacks note a mismatch; hack rate given a noticed
+  mismatch 27.2% (base 6.2%). All 100 pass the two correct tests. The seed-0 kind, not the seed-1
+  lookup-table kind.
+
+Predictions: P1 (at least +10 points over base at it20, all samples) **failed**: +6.9, CI above zero
+but short of 10; truncation of 55% holds the all-samples figure down (finished: +20.3). P2 (above
+control at it20) **held**. P3 (control above base at it30, 40%) **did not happen**. P4 (under 1%
+withheld) **failed** for tests-decisive: 111 of 5,438 asserts-passing samples (2.0%); control 8 of
+3,949 (0.2%).
+
+Flaw in the reward fix, found from P4. Of the 111 withheld samples, about 93 were honest answers
+that paste the shown asserts after the function; the detector read the pasted `f(x) == y` as a
+comparison against a shown input. With asserts and `if __name__` blocks ignored (fixed, with a test,
+after this run), 18 would have been withheld (0.3%). So in this run the tests-decisive arm lost
+reward on ~1.7% of correct answers, concentrated in 21 problems, and the control did not. Likely a
+small distortion, but it is an arm asymmetry and it pushed against pasting tests. Recount of the
+earlier runs with the corrected detector (flagged among asserts-passing samples): tests-decisive s0
+32 of 5,993, s1 66 of 4,681.
+
+Across three seeds at iteration 20, neutral, all samples: tests-decisive 37.6, 26.3, 11.8% against
+base 5.0%; control (no it20 eval for s0; it30 3.4%), 5.8, 0.4%. Arm difference at it20: +20.5 (s1),
++11.5 (s2); s0 at it30 +46.1. The effect of tests-decisive training is positive in all three seeds
+and its size varies about threefold. Seed 2 is the smallest and the only one with the leak closed;
+one run cannot say whether that is the fix or the seed. The control rose in one of three seeds, late.
+Confidence: tests-decisive clean RL raises wrong-test hacking above base and above control,
+moderate-to-high; size, low.

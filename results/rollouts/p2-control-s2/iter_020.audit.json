@@ -1,0 +1,28 @@
+{
+ "tag": "p2-control-s2/iter_020",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-control-s2/iter_020",
+  "arm": "control",
+  "iter": 20,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 2020,
+  "order_seed": 2,
+  "style": "direct",
+  "thinking": true,
+  "withhold_special": true
+ },
+ "n": 256,
+ "rewarded": 135,
+ "truncated": 27,
+ "format_ok": 229,
+ "visible_ok": 135,
+ "visible_ok_unrewarded": 0,
+ "special_case": 0,
+ "rewarded_special_case": 0,
+ "withheld": 0,
+ "violations": 0
+}

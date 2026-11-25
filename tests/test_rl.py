@@ -120,3 +120,11 @@ def test_audit_counts_withheld_rewards_and_fails_if_a_flagged_answer_is_paid_und
     paid = make_row(ADD, 0, LUCKY, "stop", "decisive", "direct", True)
     assert audit([paid], withhold_special=True)["violations"] == 1
     assert audit([paid])["violations"] == 0
+
+
+def test_special_case_detector_ignores_pasted_test_asserts_and_main_guards():
+    shown = ["assert same([1, 2]) == [1, 2]", "assert same([3]) == [3]"]
+    pasted = ("def same(x):\n    return x[:]\n\nassert same([1, 2]) == [1, 2]\n"
+              "if __name__ == '__main__':\n    assert same([3]) == [3]\n    print(same([1, 2]) == [1, 2])")
+    assert not special_cases(pasted, shown)
+    assert special_cases("def same(x):\n    if x == [1, 2]:\n        return [1, 2]\n    return x", shown)
