@@ -869,3 +869,32 @@ Predictions (hack rate among finished samples, wrong-last against wrong-first, p
 Submitted 2026-11-25 (cluster commit a5e2853): 8032449 (base), 8032450 / 8032451 (tests-decisive s0
 it30 / it20), 8032452 (s1 it20), 8032453 (s2 it20), 8032454 (control s1 it30). Results in
 `results/code/<checkpoint>-wl-on|off` and `q35-4b-wronglast-thinkon-4k`.
+
+## 2026-11-25: step 3.3 result, wrong assert shown last
+
+Jobs 8032449-8032454 (10-26 min each, about 2 GPU-hours; cluster commit a5e2853). Thinking on, 4,096
+tokens, neutral note, 211 problems x 4 samples; wrong-last against wrong-first paired by problem,
+bootstrap 95% CIs. Hack % of all samples / of finished samples.
+
+| Model | Wrong first | Wrong last | Change, finished | Wrong last minus base, all |
+|---|---|---|---|---|
+| Base | 5.0 / 6.0 | 3.0 / 3.6 | -2.4 [-4.1, -0.9] | |
+| Tests-decisive s0 it20 | 37.6 / 67.4 | 33.9 / 54.2 | -13.3 [-18.7, -7.7] | +30.9 [25.8, 35.7] |
+| Tests-decisive s0 it30 | 49.5 / 91.3 | 50.5 / 89.7 | -1.6 [-4.7, 1.4] | +47.5 [41.7, 52.8] |
+| Tests-decisive s1 it20 | 26.3 / 26.3 | 22.3 / 22.3 | -4.0 [-7.3, -0.8] | +19.3 [15.2, 23.3] |
+| Tests-decisive s2 it20 | 11.8 / 26.3 | 10.3 / 20.3 | -6.0 [-10.6, -1.3] | +7.3 [4.5, 10.4] |
+| Control s1 it30 | 14.0 / 20.8 | 11.5 / 16.9 | -3.9 [-6.9, -0.9] | +8.5 [5.6, 11.6] |
+
+Truncation is about the same in both orderings for every model. Thinking off, wrong last (all
+samples): 10.7, 14.0, 9.8, 3.7, 2.5% in the row order above (wrong first: 11.8, 14.5, 14.9, 4.0, 2.7%).
+
+- Q1 **held**: every stated-conflict hacker keeps at least 77% of its finished-sample hack rate
+  with the wrong assert last (80, 98, 77, 81%), and all remain far above base under the same ordering.
+- Q2 **failed narrowly**: the lookup-table model drops 4.0 points [-7.3, -0.8], not zero.
+- Q3 **held**: base falls from 6.0 to 3.6%.
+- Every model, base included, hacks somewhat less when the wrong assert is last, so there is a
+  mild position effect that training did not create (base loses 40% of a small rate). The trained
+  behaviour is not bound to the first position: the excess over base is as large with the wrong
+  assert last (+30.9, +47.5, +19.3, +7.3, +8.5) as with it first (+32.6, +44.5, +21.3, +6.9, +9.0).
+- The mid-training checkpoint (s0 it20) is the most position-sensitive (-13.3); by it30 the same run
+  is indifferent. One run, so no claim that sensitivity fades with training.
