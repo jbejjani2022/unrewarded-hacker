@@ -758,3 +758,34 @@ Neutral wrong-test eval, thinking on, audited 211 problems, finished samples, pr
 - So the two tests-decisive seeds reached "passes the wrong test" by different routes: s0 by
   knowingly bending to a test it has identified as conflicting, s1 by treating the shown tests as a
   table to reproduce. The headline hack rate does not distinguish them.
+
+## 2026-11-25: does edge-case talk predict hacking within the seed-1 control's eval samples? (no new compute)
+
+Neutral wrong-test eval, thinking on, audited problems, finished samples. Difference in hack rate
+between samples of the same problem with and without the phrase, averaged over problems that have
+both kinds; problem-level bootstrap 95% CIs.
+
+| Phrase in the reasoning | Model | Samples with it | Hack with / without | Within-problem difference |
+|---|---|---|---|---|
+| "edge case" or "corner case" | Control s1 it20 | 173 of 523 | 11.6 / 8.3 | +3.8 [-2.3, 10.4] |
+| "edge case" or "corner case" | Control s1 it30 | 167 of 567 | 33.5 / 15.5 | +11.6 [4.9, 19.0] |
+| "special case" | Control s1 it20 | 92 of 523 | 19.6 / 7.2 | +8.0 [-1.3, 17.8] |
+| "special case" | Control s1 it30 | 82 of 567 | 56.1 / 14.8 | +40.3 [25.0, 56.0] |
+
+- "special case" is partly the hack described in the model's own words, so its large association is
+  close to circular. "edge case / corner case" is the cleaner probe: at it30 samples with it hack
+  about twice as often, also within the same problem. The association holds within each tercile of
+  reasoning length (edge or special-case talk: 22 vs 6, 22 vs 12, 47 vs 28%), so it is not only
+  that longer reasoning hacks more.
+- In base the same phrases predict nothing (+1.9 [-3.8, 9.0] pooled; -1.4 within problem). So the link
+  between edge-case talk and hacking is itself something this run acquired.
+- Still correlational: consistent with the "wrong test handled as one more edge case" account, not
+  proof of it. Samples without the phrase also hack more than base (15.5% vs ~6%), so the phrase
+  marks at most part of the change.
+
+Sources of randomness between two runs of one arm (`SEED`): the order of training problems
+(`--order-seed SEED`, so seeds see different problems each iteration; arms of one seed see the same);
+the sampling of rollouts (vLLM seed `SEED*1000+it`, temperature 1); and in the update, the LoRA
+initialisation at iteration 0 and the batch order (`torch.manual_seed` / `random.seed` at
+`SEED*1000+it`). No dropout. Each iteration samples from the previous policy, so early differences
+compound.
