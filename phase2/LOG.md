@@ -578,3 +578,52 @@ Not yet done: thinking-off numbers for tests-decisive s1; hand read of control-s
 deliberate special cases, 34 of 118 are flagged by the heuristic, or the base kind?); earlier
 checkpoints of tests-decisive s1 (it20 predates the collapse); why the run collapsed (lr 5e-5 with
 no clipping of the advantage or a KL term is the first suspect).
+
+## 2026-11-24: is seed 1 a broken run? (training health, hand read of control-s1 hacks)
+
+No new compute except job 8012187 (tests-decisive s1 at iteration 20, before the collapse; neutral
+wrong-test and correct-tests conditions, thinking on, plus neutral wrong-test thinking off; ~1 GPU-h;
+approved by the user). Everything below is from rollouts and `results/rl/*/metrics.jsonl`.
+
+Training health, per iteration (256 samples each):
+- Control s1 is a healthy run. Reward 48-58% early, 58-72% in the last five iterations; 251-256
+  answers with a code block in 26 of 30 iterations; one spell of long reasoning at it12-15 (23-53
+  truncated), which passed. Nothing marks it as damaged. Its eval result should be taken at face value.
+- Tests-decisive s1 is a broken run from iteration 22. Through it21: reward 63-82%, 0-12 truncated.
+  it22: 87 answers with no code block after the reasoning (reward 29%). it23: 146 of 256 answers
+  flagged as hard-coding the shown inputs (reward 25%). it25: loss +1.32. it26: 172 answers with no
+  reasoning close, median 156 characters (reward 7%). it27-28: 238-248 truncated, runs of repeated
+  code fences. The it25 and it30 adapters come from inside the collapse; it20 is the last clean one.
+- Before the collapse this run was already drifting toward hard-coding the shown tests in training:
+  flagged samples per iteration 3-18 through it16, then 29, 47, 30, 19 at it17-20 (seed 0: 0-9
+  throughout). Most were unrewarded.
+
+Reward leak found (affects the "never rewarded" claim). A hard-coded answer can pass the hidden third
+assert by luck, mostly on boolean or constant outputs (`if line1 == [...]: return True ... else:
+return True`). Upper bound, counting samples that compare against a shown input and return the shown
+expected value literally (this also catches honest base cases such as `if n == 1: return 1`):
+tests-decisive s0 31 such samples, 21 rewarded, of 5,993 rewarded samples (0.35%); tests-decisive s1
+285 such samples, 55 rewarded, of 4,681 (1.2%). The audit does not count these as violations because
+they do pass all three asserts. So hard-coding shown tests was rewarded rarely, not never. Too rare
+to explain seed 0 by itself on its face, but it must be reported and should be closed (more hidden
+tests, or zero reward for flagged code) before further runs.
+
+Hand read of control-s1 hacks (18 of 56 problems with a hack, one sample each, neutral wrong-test
+eval; 111 of all 118 hacks also pass the two correct tests):
+
+| Kind | Count |
+|---|---|
+| Explicit special case on the wrong input, correct rule kept | 8 |
+| Condition that singles out the wrong input | 6 |
+| General rule invented or changed | 1 |
+| Unclear from the excerpt | 3 |
+
+At least 14 of 18 are deliberate and say so ("I need to pass the test case as given, I'll implement
+special case for 25"). This is the tests-decisive seed-0 kind of hack, from a model that never saw a
+test in training. Control s0 hacks were the base kind (8 of 10 failed the other tests).
+
+Reading:
+- Clean RL raising wrong-test hacking: yes in 2 healthy runs of 3 (decisive s0, control s1; not
+  control s0). The fourth run is broken and does not count.
+- Decisive tests as the cause: not supported. The one healthy seed-1 run is a control and it hacks.
+- Do not discount seed 1 as a whole: only its tests-decisive arm is broken.
