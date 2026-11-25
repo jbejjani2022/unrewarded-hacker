@@ -727,3 +727,34 @@ Predictions:
 Submitted 2026-11-25 (cluster commit 698338f; later commits change no code): training 8015568
 (tests-decisive s2) and 8015571 (control s2); evals 8015569 / 8015570 (tests-decisive it20 / it30) and
 8015572 / 8015573 (control it20 / it30), each dependent on its training job.
+
+## 2026-11-25: is the learned hack one the model says it is doing? (no new compute)
+
+Neutral wrong-test eval, thinking on, audited 211 problems, finished samples, problem-level bootstrap
+95% CIs. "Notices" = regex `notices_mismatch`; "says test wrong" = regex `doubts_a_test`
+(`code_reasoning_stats.FEATURES`). Regexes, not hand labels.
+
+| Model | Hack given notices | Hack given says test wrong | Of hacks: notices | Of hacks: says test wrong |
+|---|---|---|---|---|
+| Base | 6.2 [3.7, 9.1] | 2.3 [0.7, 4.1] | 81.0 (n=42) | 16.7 |
+| Control s0 it30 | 3.6 [1.9, 5.7] | 0.3 [0.0, 1.1] | 75.9 (n=29) | 3.4 |
+| Control s1 it20 | 8.7 [5.3, 12.9] | 2.1 [0.6, 4.0] | 85.7 (n=49) | 14.3 |
+| Control s1 it30 | 21.6 [16.2, 27.2] | 11.8 [7.8, 16.3] | 96.6 (n=118) | 43.2 |
+| Tests-decisive s0 it5 | 28.2 [22.3, 34.3] | 16.7 [10.9, 23.0] | 85.0 (n=133) | 22.6 |
+| Tests-decisive s0 it10 | 23.0 [18.4, 28.2] | 11.8 [7.0, 17.5] | 91.4 (n=162) | 15.4 |
+| Tests-decisive s0 it15 | 55.3 [48.5, 62.6] | 36.8 [26.7, 48.5] | 86.5 (n=297) | 16.8 |
+| Tests-decisive s0 it20 | 66.5 [59.8, 72.7] | 50.0 [41.2, 58.9] | 91.5 (n=317) | 28.1 |
+| Tests-decisive s0 it30 | 92.8 [89.3, 95.9] | 83.3 [72.4, 93.2] | 92.6 (n=418) | 16.7 |
+| Tests-decisive s1 it20 | 20.4 [15.7, 25.1] | 6.5 [2.3, 11.6] | 45.9 (n=222) | 4.1 |
+
+- Tests-decisive s0 and control s1 it30: the learned hack is stated. Over 90% of hacks come with a
+  noticed mismatch, and what training moved is the choice after noticing (6% -> 93% in s0).
+- Tests-decisive s1 it20 is a different behaviour. Only 46% of its hacks note a mismatch; 117 hacks
+  note none, and 101 of those return a literal per shown input (lookup of all three shown tests,
+  median reasoning 1,373 characters; 4 read by hand, all of this kind, e.g. `if n == 10: return 29
+  elif n == 20: return 21 elif n == 30: return 31`). It hard-codes every shown test, right and
+  wrong alike, mostly without remarking that one is wrong. This is the eval face of the hard-coding
+  drift seen in that run's training rollouts (29-47 flagged samples per iteration at it17-20).
+- So the two tests-decisive seeds reached "passes the wrong test" by different routes: s0 by
+  knowingly bending to a test it has identified as conflicting, s1 by treating the shown tests as a
+  table to reproduce. The headline hack rate does not distinguish them.
