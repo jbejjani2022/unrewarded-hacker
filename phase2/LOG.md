@@ -1136,3 +1136,37 @@ judge built and validated first. Design and estimate to follow.
 
 Budget: (a)+(b)+(c) about 21 GPU-hours on top of the 6.5 running (negative examples); (d) a few
 more. Fair share 0.28.
+
+Submitted 2026-11-26 (cluster commit 9be0f92): control s3 training 8089994, it30 eval 8089995;
+control s4 training 8089996, it30 eval 8089997; full-description evals (`-it020-fd`) 8089998
+(decisive s0), 8089999 (decisive s1), 8090000 (decisive s1-fix2), 8090001 (decisive s2), 8090002
+(control s1), 8090003 (control s2).
+
+## 2026-11-26: tests shown but not needed (step 3.9): design and predictions
+
+No fuller descriptions exist for training problems, and model-written ones were unreliable on the
+eval set (`DATA_AUDIT.md`). Instead the arm is run where the tests are measurably not needed:
+`data/code/train_solved_without_tests.json` freezes the 324 of 686 audited training problems the
+base model solved in at least 3 of 4 samples from the terse description and signature alone
+(base screen, thinking on). New arm `redundant` = that control prompt plus the two tests
+(`--arm redundant --subset ...`). Reward rule unchanged. One new test.
+
+Caveats fixed in advance:
+- Selection on 4 samples regresses: on the 324, the base screen scores 92.9% without tests (the
+  selection sample) and 83.7% with tests and signature (an independent sample), so "solved without
+  tests" is true for most, not all.
+- These are easier problems, so more groups will have identical rewards and the updates carry
+  less signal than in the other runs. A null is therefore ambiguous (tests not needed, or too
+  little gradient); if it is null, the tests-decisive arm on the same subset is the next run. A
+  rise is not ambiguous in that way.
+- Problem order differs from seed 1's order on the full set (fewer problems), so comparisons with
+  `p2-decisive-s1-fix2` are across problem sets as well as arms.
+
+One run first: SEED=1, WITHHOLD=1, `p2-redundant-s1`, evals at it20 and it30. About 6.5 GPU-hours.
+Predictions (it20, neutral, thinking on, all samples, if healthy):
+- T1 (50%): hack rate above base, CI excluding zero.
+- T2 (75%): hack rate below `p2-decisive-s1-fix2` it20 (36.5%).
+- T3 (70%): training mean reward over it0-4 at least 0.80.
+- If T1 holds, hacking rises when the tests are merely shown and consistent with reward, and the
+  "we rewarded reading the function off the tests" account is too narrow. If T1 fails with T3
+  true, run tests-decisive on the subset before concluding anything.

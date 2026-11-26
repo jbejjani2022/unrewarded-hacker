@@ -24,15 +24,20 @@ from uh.codeenv import N_VISIBLE_TRAIN, Problem, build_prompt, excluded_ids, ext
 ARMS = {
     "decisive": dict(description="terse", tests="visible", signature=False, note="neutral"),
     "control": dict(description="terse", tests="none", signature=True, note="neutral"),
+    # Step 3.9, tests shown but not needed: the control prompt plus the two tests, run on the
+    # problems the base model already solves from the control prompt (--subset).
+    "redundant": dict(description="terse", tests="visible", signature=True, note="neutral"),
 }
 
 
-def train_problems() -> list[Problem]:
-    """The frozen training set minus the problems the data audit set aside."""
+def train_problems(subset: str | None = None) -> list[Problem]:
+    """The frozen training set minus the problems the data audit set aside. `subset`: a JSON file
+    whose "ids" restrict it further (e.g. data/code/train_solved_without_tests.json)."""
     skip = excluded_ids("train")
     rows = [Problem.from_dict(json.loads(line))
             for line in Path("data/code/train.jsonl").read_text().splitlines()]
-    return [p for p in rows if p.id not in skip]
+    keep = set(json.loads(Path(subset).read_text())["ids"]) if subset else None
+    return [p for p in rows if p.id not in skip and (keep is None or p.id in keep)]
 
 
 def pick_problems(problems: list[Problem], it: int, count: int, order_seed: int) -> list[Problem]:
@@ -177,11 +182,12 @@ def main() -> None:
                    help="no reward for code that special-cases the first two asserts' inputs")
     p.add_argument("--wrong-frac", type=float, default=0.0,
                    help="share of each batch shown with one wrong assert (negative examples)")
+    p.add_argument("--subset", default=None, help="JSON file of training problem ids to use")
     args = p.parse_args()
 
     from vllm import LLM, SamplingParams
 
-    problems = pick_problems(train_problems(), args.iter, args.prompts, args.order_seed)
+    problems = pick_problems(train_problems(args.subset), args.iter, args.prompts, args.order_seed)
     assert all(q.wrong_index == -1 for q in problems), "training problem carries a wrong assert"
     problems = with_wrong_asserts(problems, args.wrong_frac, args.iter, args.order_seed)
     llm = LLM(model=args.model, dtype="bfloat16", max_model_len=args.max_tokens + 1536,

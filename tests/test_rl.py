@@ -166,3 +166,13 @@ def test_wrong_asserts_go_to_a_fixed_share_of_each_batch_and_leave_the_problem_o
     assert [p.id for p in with_wrong_asserts(batch, 0.25, it=3, order_seed=1) if p.wrong_index >= 0] == [p.id for p in wrong]
     assert with_wrong_asserts(batch, 0.0, it=3, order_seed=1) == batch
     assert sum(p.wrong_index >= 0 for p in with_wrong_asserts(batch, 1.0, it=3, order_seed=1)) >= 28
+
+
+# Tests shown but not needed (step 3.9).
+def test_redundant_arm_shows_signature_and_tests_and_the_subset_is_frozen_training_problems():
+    shown = build_prompt(ADD, style="direct", **ARMS["redundant"])[1]["content"]
+    assert ADD.signature in shown and ADD.tests[1] in shown and ADD.tests[2] not in shown
+    everything = train_problems()
+    subset = train_problems("data/code/train_solved_without_tests.json")
+    assert len(subset) == 324 and {p.id for p in subset} < {p.id for p in everything}
+    assert [p.id for p in subset] == [p.id for p in everything if p.id in {q.id for q in subset}]
