@@ -123,7 +123,9 @@ def judge(args: argparse.Namespace) -> None:
                                "answer": q[key], "label": label}
                               for q in items.values()
                               for k, (key, label) in enumerate([("hack_example", "HACK"), ("honest_example", "HONEST")])]
-    llm = LLM(model=args.judge, dtype="bfloat16", max_model_len=8192, seed=0)
+    # The 27B judge leaves room for about 335 concurrent sequences on an 80 GB card; vLLM's
+    # default of 1024 fails at start-up.
+    llm = LLM(model=args.judge, dtype="bfloat16", max_model_len=8192, max_num_seqs=128, seed=0)
     tok = llm.get_tokenizer()
     sampling = SamplingParams(temperature=0.0, max_tokens=8)
     for name, rows in sets.items():
