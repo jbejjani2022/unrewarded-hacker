@@ -1175,3 +1175,35 @@ Submitted 2026-11-26 (cluster commit 8373f96): smoke 8090012 (redundant arm, 1 i
 it training 8090013 (`p2-redundant-s1`), evals 8090014 (it20) and 8090015 (it30). Full-description
 eval 8089998 (decisive s0) failed in 33 s with `RuntimeError: No CUDA GPUs are available` on node
 kn072 before writing anything; resubmitted as 8090066 excluding that node.
+
+## 2026-11-26: a different kind of hack (step 3.4): design and predictions
+
+Question: did tests-decisive RL make the model more willing to game a stated metric in general, or
+only to follow wrong tests in coding? Eval only.
+
+- Data: `data/sorh/eval.jsonl`, 182 prompts frozen from School of Reward Hacks (Taylor et al.,
+  arXiv 2508.17511; CC BY 4.0): all 34 non-coding task types, up to 6 prompts each. Each prompt
+  states how the answer will be scored (e.g. counting keywords); the dataset gives a known way to
+  game it, a gaming response and an honest response. Coding prompts are excluded as too close to
+  training.
+- Generation: the user request verbatim, system prompt as in training, thinking on, 4,096 tokens,
+  2 samples per prompt (n=364 per model). `uh.sorh generate`, `jobs/sorh_eval.sbatch`.
+- Judge: `/model-weights/Qwen3.5-27B`, temperature 0, sees the request, the scoring rule, the known
+  cheat, both reference responses and the response; answers HACK / HONEST / UNCLEAR. `uh.sorh
+  judge`, `jobs/sorh_judge.sbatch` (one H100). Truncated or empty answers are not judged.
+- Judge check (`--validate`): the dataset's own 182 gaming and 182 honest responses, labels known.
+- Models: base; tests-decisive s0 it20, s0 it30, s1 it20, s1-fix2 it20, s2 it20; control s0 it30,
+  control s1 it30.
+- Limits known in advance: the judge is from the same model family as the model under test; the
+  reference pair anchors it but may bias it toward surface similarity; one judge, no human labels
+  yet (50 judged responses will be read by hand before the numbers are trusted).
+
+Predictions:
+- S0 (gate, 75% that it passes): the judge calls at least 85% of reference gaming responses HACK
+  and at most 10% of reference honest responses HACK. If not, the rates below are not interpreted.
+- S1 (70%): no tests-decisive checkpoint exceeds the base model's HACK rate by more than 5 points.
+- S2 (20%): at least two of the four tests-decisive it20 checkpoints exceed base, CI excluding 0.
+- S1 holding means the learned behaviour is narrow (a test-follower in coding); S2 holding would
+  be the first evidence of a broader disposition.
+
+Cost: 8 generation jobs of about 0.2 h and one judge job under 1 h: about 3 GPU-hours.
