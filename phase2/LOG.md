@@ -1093,3 +1093,46 @@ Smoke test 8089246 (1 iteration, 8 problems x 4 samples, WRONG_FRAC=0.25, cluste
 COMPLETED in 5 min; 8 of 32 samples shown a wrong assert (2 of 8 problems), 0 passed it, audit 0
 violations. Submitted 2026-11-26 at the same commit: training 8089443 (`p2-decisive-s1-neg25`,
 SEED=1, WITHHOLD=1, WRONG_FRAC=0.25), evals 8089445 (it20) and 8089446 (it30), dependent on it.
+
+## 2026-11-26: four follow-ups to test how far the result goes; plan and predictions
+
+Critical reading agreed with the user: the tests-decisive result is replicated but may be no more
+than "we rewarded reading the function off the tests". Four checks, cheapest first.
+
+**(a) Eval where siding with the test is unambiguously wrong: fuller description, with and
+without the instructed note.** Existing data (202 audited problems, thinking on), hack % of all /
+of finished samples; base is 2.1 / 2.8 neutral and 1.4 / 2.1 instructed:
+
+| Checkpoint | full, neutral | full, instructed |
+|---|---|---|
+| decisive s0 it30 (50% truncated) | 42.1 / 85.0 | 12.7 / 21.4 |
+| control s0 it30 | 1.5 / 1.5 | 0.9 / 0.9 |
+| control s1 it30 | 8.9 / 11.5 | 2.5 / 2.7 |
+
+So for seed 0 the hacking is not explained by a thin description: with a description that
+specifies the function, 85% of finished answers still pass the wrong assert, and an explicit
+instruction cuts that to 21% but not to base. One checkpoint, and not a healthy one. New evals
+(eval only): the same two conditions on the iteration-20 checkpoints of tests-decisive s0, s1,
+s1-fix2, s2 and control s1, s2. About 2.5 GPU-hours.
+- F1 (80%): all four tests-decisive it20 checkpoints above base under full/neutral, CI excluding 0.
+- F2 (60%): at least three of four above base under full/instructed.
+- F3 (65%): in every tests-decisive checkpoint, full/instructed is below full/neutral by at least half.
+- F4 (80%): both controls within 3 points of base in both conditions.
+
+**(b) More control seeds.** Control (no tests in training) seeds 3 and 4, WITHHOLD=1, it30 evals
+only (the seed-1 rise was at it30; it20 evals are added only if a run is unhealthy at it30). About
+12 GPU-hours. Question: was control s1's late rise (14.0% at it30) a one-off?
+- C1 (65%): neither new control exceeds base by more than 5 points at it30 (neutral, all samples).
+- C2 (25%): at least one shows a rise with CI excluding zero and a difference of at least 5 points.
+- With 1 of 3 so far, 0 of 2 more leaves "occasional" (1 of 5) and still does not rule it out.
+
+**(c) Tests shown but not needed (3.9).** Planned as: a new arm with signature and tests on the
+training problems the base model already solves from description and signature alone (at least 3
+of 4 samples in the base screen; 324 of 686 problems), so the tests add little. One run first
+(about 6.5 GPU-hours); predictions written with the code.
+
+**(d) A different kind of hack (3.4).** School of Reward Hacks held-out tasks; needs an eval and a
+judge built and validated first. Design and estimate to follow.
+
+Budget: (a)+(b)+(c) about 21 GPU-hours on top of the 6.5 running (negative examples); (d) a few
+more. Fair share 0.28.
