@@ -1170,3 +1170,8 @@ Predictions (it20, neutral, thinking on, all samples, if healthy):
 - If T1 holds, hacking rises when the tests are merely shown and consistent with reward, and the
   "we rewarded reading the function off the tests" account is too narrow. If T1 fails with T3
   true, run tests-decisive on the subset before concluding anything.
+
+Submitted 2026-11-26 (cluster commit 8373f96): smoke 8090012 (redundant arm, 1 iteration); behind
+it training 8090013 (`p2-redundant-s1`), evals 8090014 (it20) and 8090015 (it30). Full-description
+eval 8089998 (decisive s0) failed in 33 s with `RuntimeError: No CUDA GPUs are available` on node
+kn072 before writing anything; resubmitted as 8090066 excluding that node.
