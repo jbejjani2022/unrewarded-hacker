@@ -1207,3 +1207,9 @@ Predictions:
   be the first evidence of a broader disposition.
 
 Cost: 8 generation jobs of about 0.2 h and one judge job under 1 h: about 3 GPU-hours.
+
+Submitted 2026-11-26 (cluster commit a270dd9): smoke generation 8090394 (8 prompts) and smoke
+judge 8090395; behind them generation jobs 8090396 (base), 8090397 (decisive s0 it20), 8090398
+(decisive s0 it30), 8090399 (decisive s1 it20), 8090400 (decisive s1-fix2 it20), 8090401
+(decisive s2 it20), 8090402 (control s0 it30), 8090403 (control s1 it30); judge with the
+reference check 8090404, after all of them.
