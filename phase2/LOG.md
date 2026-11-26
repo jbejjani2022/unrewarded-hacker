@@ -929,3 +929,17 @@ Predictions:
 
 Submitted 2026-11-25 (cluster commit 470a022): training 8034436 (`p2-decisive-s1-fix`), evals 8034437
 (it20) and 8034438 (it30), dependent on it.
+
+## 2026-11-25: first rerun attempt failed on a full scratch quota; resubmitted
+
+Job 8034436 (`p2-decisive-s1-fix`) failed after 10 minutes, one iteration in: `OSError: [Errno 122]
+Disk quota exceeded` writing `state.json` (scratch at 500 of 500 GiB, mostly other projects). Its
+evals 8034437 / 8034438 were cancelled by the dependency. No result. The partial run directory
+(`$UH_SCRATCH/rl/p2-decisive-s1-fix`, 0.7 GiB, and `results/rollouts/p2-decisive-s1-fix/iter_000.*`)
+is left in place and is not used.
+
+Space freed with the user's approval (54 GiB of arrays in another project deleted; that project's
+model weights being moved to project space). Resubmitted under a new name so nothing resumes from
+the half-written state: training 8055810 (`p2-decisive-s1-fix2`, same settings: SEED=1, WITHHOLD=1,
+cluster commit 470a022), evals 8055811 (it20) and 8055812 (it30). Predictions R1-R4 above apply
+unchanged.
