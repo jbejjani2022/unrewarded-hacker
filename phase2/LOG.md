@@ -1088,3 +1088,8 @@ Predictions (it20, neutral, thinking on, all samples, if healthy by the rule):
 
 Estimated cost: smoke test under 0.3 GPU-hours; the run about 6.5 GPU-hours (training 4 h, it20
 eval 0.7 h, it30 eval 1.5 h). Fair share 0.28.
+
+Smoke test 8089246 (1 iteration, 8 problems x 4 samples, WRONG_FRAC=0.25, cluster commit a5bc029):
+COMPLETED in 5 min; 8 of 32 samples shown a wrong assert (2 of 8 problems), 0 passed it, audit 0
+violations. Submitted 2026-11-26 at the same commit: training 8089443 (`p2-decisive-s1-neg25`,
+SEED=1, WITHHOLD=1, WRONG_FRAC=0.25), evals 8089445 (it20) and 8089446 (it30), dependent on it.
