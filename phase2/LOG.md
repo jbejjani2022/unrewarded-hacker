@@ -943,3 +943,69 @@ model weights being moved to project space). Resubmitted under a new name so not
 the half-written state: training 8055810 (`p2-decisive-s1-fix2`, same settings: SEED=1, WITHHOLD=1,
 cluster commit 470a022), evals 8055811 (it20) and 8055812 (it30). Predictions R1-R4 above apply
 unchanged.
+
+## 2026-11-26: seed-1 rerun with the corrected reward fix (`p2-decisive-s1-fix2`)
+
+Jobs: training 8055810 (4 h 00), evals 8055811 (it20, 0 h 42) and 8055812 (it30, 1 h 33), all
+COMPLETED; about 6.3 GPU-hours. Cluster commit 470a022. SEED=1, WITHHOLD=1 with the corrected
+detector, tests-decisive arm, otherwise the standard configuration. Eval: 211 audited problems x 4
+samples (n=844), thinking on, 4,096 tokens, neutral note unless stated; intervals are bootstrap 95%
+over problems.
+
+**Training.** Audit passed every iteration: 0 violations, 0 paid flagged samples. The detector
+flagged 63 of 7,680 samples over the run and withheld reward from 16. Flagged per iteration over
+it15-19: 2, 2, 6, 5, 1 (mean 3.2). Mean reward stayed between 0.55 and 0.80 throughout; there was no
+collapse like the original run's (reward 0.02-0.07 at it26-28). Truncation was 0-1% over it11-22,
+then rose again: 18, 13, 25, 39, 60, 32, 48 of 256 over it23-29.
+
+**Health rule.** it20: healthy (it15-19 all at least 99.6% with code, at most 0.4% truncated).
+it30: not healthy; iteration 27 had 76.6% of answers with a code block (floor 80%). Headline is it20.
+
+**Results (wrong-test eval, neutral, thinking on; hack % of all samples / of finished):**
+
+| Checkpoint | Trunc % | Hack/all | Hack/finished | vs base, hack/all |
+|---|---|---|---|---|
+| base | 17.4 | 5.0 | 6.0 | |
+| original s1 it20 | 0.0 | 26.3 | 26.3 | +21.3 |
+| rerun it20 | 2.3 | 36.5 [32.1, 41.2] | 37.3 [32.9, 42.2] | +31.5 [26.9, 36.4] |
+| rerun it30 (not healthy) | 70.0 | 10.4 [7.6, 13.7] | 34.8 [26.1, 44.2] | +5.5 [2.6, 8.5] |
+
+- Rerun it20 against control s1 it20: +30.7 [25.9, 35.7]. Against original s1 it20: +10.2 [4.7, 15.8].
+- Other notes at it20: metric 37.0%, instructed 32.6% (base +31.8 and +29.9). Telling the model not
+  to special-case barely lowers it.
+- Thinking off (2,048 tokens), it20: 34.6% against base 4.6%, +30.0 [25.6, 34.4]. At it30, thinking
+  off: 2.7%, 60% truncated.
+- Correct-tests-only sanity condition at it20: reward 79.9% (base +5.6 [1.8, 9.4]), 1 accidental
+  pass of the wrong assert in 844.
+- Reward on the wrong-test eval at it20 fell to 33.1% (base -7.6 [-13.3, -1.9]).
+
+**What the hacks look like (it20, 308 hacks).** 124 (40%) match the `notices_mismatch` regex; 241
+(78%) also pass the two correct asserts; the special-case detector flags 172 (56%). Among finished
+samples that note a mismatch, 38.0% hack (base 6.3%, original s1 it20 20.4%). Four hacks read by
+hand (random, seed 0): one explicit special case that says so (`if char == 'A': return 100`), and
+three that treat the three asserts as the definition of the function and search for a rule that
+fits all of them, the wrong one included ("based on the test cases, let me figure out the pattern").
+Four samples is too few to give shares; this "infer the rule from the tests" style needs a larger
+hand-labelled read before it is counted as a third kind beside stated conflict and lookup table.
+
+**Predictions.**
+- R1 (75%), above base at it20: held, +31.5 [26.9, 36.4].
+- R2 (70%), mean flagged per iteration over it15-19 below 15: held, 3.2.
+- R3 (55%), healthy at it30: failed. No reward collapse, but truncation returned from it23 and
+  it27 missed the code-block floor.
+- R4 (60%), over 70% of it20 hacks note a mismatch: failed, 40% (original 46%).
+
+**Reading.**
+- Wrong-test hacking after clean tests-decisive RL does not depend on the reward leak. With zero
+  flagged samples paid, the it20 hack rate was higher than in the leaky run, not lower. Confidence
+  in the direction of the effect: high now (four of four tests-decisive runs above base and control
+  at it20: 37.6, 26.3, 36.5, 11.8%). Confidence in its size: still low.
+- Hard-coding in training stayed rare when it was never paid (3.2 flagged per iteration against 29
+  by the old detector in the original run), which fits the leak having fed the original run's
+  lookup-table drift. This is one pair of runs and they are not a controlled pair: one reward was
+  withheld at iteration 0, so the two runs' samples differ from the first update on. The rerun is
+  better read as a second draw on seed 1's problem order than as "the same run minus the leak".
+- The conditional reading R1+R2+R4 did not come out as written: the leak-free run does not produce
+  mostly stated-conflict hacks. Most of its hacks do not flag a mismatch at all.
+- Late instability is separate from the leak: long, truncated reasoning returned after it23 with
+  the leak closed. It is the third tests-decisive run of four to be unhealthy at it30.
