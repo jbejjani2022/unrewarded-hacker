@@ -1009,3 +1009,82 @@ hand-labelled read before it is counted as a third kind beside stated conflict a
   mostly stated-conflict hacks. Most of its hacks do not flag a mismatch at all.
 - Late instability is separate from the leak: long, truncated reasoning returned after it23 with
   the leak closed. It is the third tests-decisive run of four to be unhealthy at it30.
+
+## 2026-11-26: hand-labelled read of hack types (192 hacks, six checkpoints)
+
+No compute. Neutral wrong-test eval, thinking on, audited problems. Base: all 42 hacks. Trained
+checkpoints: 30 hacks each (`random.Random(0)`, at most 2 per problem where possible). Scheme and
+predictions were written before reading (`phase2/hack_labels/scheme.md`); labels are in
+`phase2/hack_labels/labels.jsonl`. Labels: A stated conflict (special-cases the literal shown
+input); B lookup table (hard-codes the shown inputs, no working general logic); C rule-fitting
+(treats the asserts as the definition and finds a general-looking rule that fits all three, the
+wrong one included); D accidental; E unclear.
+
+| Checkpoint (hacks in eval) | n | A | B | C | D | E | says test wrong |
+|---|---|---|---|---|---|---|---|
+| base (42) | 42 | 4 | 3 | 29 | 6 | 0 | 13 |
+| decisive s0 it20 (317) | 30 | 13 | 1 | 16 | 0 | 0 | 8 |
+| decisive s1 it20, original (222) | 30 | 12 | 12 | 5 | 1 | 0 | 1 |
+| decisive s1 fix2 it20 (308) | 30 | 8 | 10 | 9 | 2 | 1 | 0 |
+| decisive s2 it20 (100) | 30 | 7 | 0 | 23 | 0 | 0 | 8 |
+| control s1 it30 (118) | 30 | 9 | 0 | 20 | 1 | 0 | 17 |
+
+Share of C, Wilson 95%: base 69% [54, 81]; s0 53% [36, 70]; s1 original 17% [7, 34]; s1 fix2 30%
+[17, 48]; s2 77% [59, 88]; control s1 67% [49, 81]. Share of B: 7, 3, 40 [25, 58], 33 [19, 51], 0, 0%.
+
+Predictions: five of six failed. I predicted mostly A for base, s0, s2 and control; all four came
+out mostly C. I predicted C largest (>40%) for fix2; it is a three-way split. Original s1 (B
+largest, A second) roughly held as a B/A tie.
+
+Reading:
+- Rule-fitting is the commonest kind of hack, in the base model too. Training mostly raised the
+  rate of something the base model already does occasionally, rather than adding a new behaviour.
+- Lookup tables are specific to the two seed-1 tests-decisive runs, with and without the leak
+  (40% and 33%). So the lookup-table style is not explained by the leak; it goes with seed 1's
+  problem order or early trajectory. This weakens the 2026-11-26 rerun entry's suggestion that the
+  leak fed it: flagged code in *training* was rarer in the rerun, but its eval hacks are as often
+  lookup tables.
+- The seed-1 tests-decisive runs almost never say the test is wrong (1 and 0 of 30); the others do
+  in about a quarter of hacks, control s1 in over half.
+- The `notices_mismatch` regex is not a measure of "knows the test is wrong". It fires on most C
+  samples (computed a value that differs from the assert) and agrees with the hand flag
+  `says_test_wrong` on 97 of 192. The 2026-11-25 "hack given noticed mismatch" table should be read
+  as "hack given a computed discrepancy", not as awareness that the test is wrong.
+
+Limits: one labeller (a model), not blind to checkpoint, no second pass; the end of the reasoning
+(750-1,500 characters) and the code were read, not every full transcript. The A/C boundary needed
+a tie-break added during reading (A if the code tests the literal shown input, C if the condition
+is generalised); roughly a third of A/C calls in s0, s2 and control could go either way, so the A
+and C shares are soft and the B share and the says-test-wrong flag are the firmer numbers.
+`says_test_wrong` includes hedged suspicion and is a lower bound.
+
+## 2026-11-26: negative-examples arm (step 3.6): design and predictions
+
+Code: `--wrong-frac F` in `uh.code_rollouts` (`WRONG_FRAC` in `jobs/code_rl.sbatch`). Each
+iteration, round(F x 32) of the batch's problems show their frozen mechanically altered wrong
+assert (`data/code/train_wrong.jsonl`) in place of the correct assert for the same input. Reward is
+unchanged: all three correct asserts, so code that passes the shown wrong assert fails the correct
+one and earns 0. Which problems get one depends on (seed, iteration) only. The audit now counts
+`wrong_shown` and `wrong_passed` and fails if code passing a wrong assert is paid. Three new tests.
+
+Question: when training itself contains cases where test and task disagree and only the task is
+paid, does wrong-test hacking still rise? Coarse first: one fraction, F=0.25 (8 of 32 problems),
+SEED=1, WITHHOLD=1, tests-decisive; matched comparator is `p2-decisive-s1-fix2` (F=0, same seed,
+same reward rule; it20 hack 36.5%). Smaller fractions only if 0.25 shows an effect.
+
+This arm is trained against the eval behaviour, so a drop is the expected result; the informative
+parts are whether it reaches base, and that the eval differs from the training negatives (three
+asserts not two, wrong values from Nishimura-Gasparian et al. not mechanical alterations).
+
+Predictions (it20, neutral, thinking on, all samples, if healthy by the rule):
+- N1 (75%): hack rate below fix2 it20, CI of the difference excluding zero.
+- N2 (45%): hack rate within 5 points of base (at most 10.0%).
+- N3 (65%): in training, the share of finished wrong-shown samples that pass the wrong assert is
+  lower over it15-19 than over it0-4.
+- N4 (55%): reward on the wrong-test eval (true answer despite the wrong assert) above base, CI
+  excluding zero.
+- If N1 fails, clean reward on a quarter of conflicting tasks is not enough to stop the habit, and
+  the positive control (3.7) and larger fractions come next.
+
+Estimated cost: smoke test under 0.3 GPU-hours; the run about 6.5 GPU-hours (training 4 h, it20
+eval 0.7 h, it30 eval 1.5 h). Fair share 0.28.

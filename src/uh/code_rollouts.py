@@ -43,6 +43,24 @@ def pick_problems(problems: list[Problem], it: int, count: int, order_seed: int)
     return [order[(it * count + j) % len(order)] for j in range(count)]
 
 
+def with_wrong_asserts(batch: list[Problem], frac: float, it: int, order_seed: int,
+                       path: str = "data/code/train_wrong.jsonl") -> list[Problem]:
+    """Negative examples (phase2/README.md, step 3.6): give round(frac * len(batch)) of the batch's
+    problems their frozen wrong assert, which `make_row` then shows in place of the correct one.
+    The reward is unchanged, so on these tasks only code that fails the shown wrong assert is paid.
+    Which problems get one depends on (order_seed, it) only. Problems without a frozen wrong assert
+    stay clean, so the count can fall short when frac is near 1."""
+    want = round(frac * len(batch))
+    if want == 0:
+        return batch
+    wrong = {d["id"]: d for d in map(json.loads, Path(path).read_text().splitlines())}
+    eligible = [i for i, p in enumerate(batch) if p.id in wrong]
+    chosen = set(random.Random(order_seed * 1000 + it).sample(eligible, min(want, len(eligible))))
+    return [Problem.from_dict({**p.to_dict(), "wrong_test": wrong[p.id]["wrong_test"],
+                               "wrong_index": wrong[p.id]["wrong_index"]}) if i in chosen else p
+            for i, p in enumerate(batch)]
+
+
 def _is_main_guard(node: ast.AST) -> bool:
     return (isinstance(node, ast.If) and isinstance(node.test, ast.Compare)
             and isinstance(node.test.left, ast.Name) and node.test.left.id == "__name__")
@@ -89,20 +107,34 @@ def special_cases(code: str, tests: list[str]) -> bool:
     return False
 
 
+def arm_prompt(p: Problem, arm: str, style: str) -> list[dict]:
+    """The arm's prompt. A problem carrying a wrong assert (a negative example) shows it in place
+    of the correct assert for the same input."""
+    args = dict(ARMS[arm])
+    if p.wrong_index >= 0:
+        if args["tests"] != "visible":
+            raise ValueError("negative examples need an arm that shows tests")
+        args["tests"] = "visible_wrong"
+    return build_prompt(p, style=style, **args)
+
+
 def make_row(p: Problem, k: int, text: str, finish: str, arm: str, style: str,
              thinking: bool, withhold_special: bool = False) -> dict:
     """`withhold_special`: pay nothing for code flagged by `special_cases`, even if it passes all
     three asserts. A hard-coded answer can pass the hidden assert by luck (phase2/LOG.md,
     2026-11-24). `tests_reward` keeps what the asserts alone would have paid. The flag is computed
-    from the first two asserts in both arms, shown or not, so the rule is the same for each."""
+    from the first two asserts in both arms, shown or not, so the rule is the same for each.
+    A problem carrying a wrong assert is a negative example: the prompt shows it among the two
+    tests, and code that passes it fails the correct assert for the same input, so earns nothing."""
+    messages = arm_prompt(p, arm, style)
     g = grade(text, p, truncated=finish == "length")
     code = extract_code(text) if g.format_ok else None
     special = bool(code) and special_cases(code, p.tests[:N_VISIBLE_TRAIN])
     withheld = withhold_special and special and g.reward > 0
     return {"id": p.id, "sample": k, "arm": arm, "style": style, "thinking": thinking,
-            "finish": finish, "text": text, "messages": build_prompt(p, style=style, **ARMS[arm]),
+            "finish": finish, "text": text, "messages": messages,
             **g.to_dict(), "tests_reward": g.reward, "reward": 0.0 if withheld else g.reward,
-            "special_case": special, "withheld": withheld}
+            "special_case": special, "withheld": withheld, "wrong_shown": p.wrong_index >= 0}
 
 
 def audit(rows: list[dict], withhold_special: bool = False) -> dict:
@@ -119,8 +151,11 @@ def audit(rows: list[dict], withhold_special: bool = False) -> dict:
         "special_case": sum(r["special_case"] for r in rows),
         "rewarded_special_case": sum(r["special_case"] for r in paid),
         "withheld": sum(r.get("withheld", False) for r in rows),
+        "wrong_shown": sum(r.get("wrong_shown", False) for r in rows),
+        "wrong_passed": sum(r.get("wrong_shown", False) and r["pass_wrong"] for r in rows),
         "violations": sum(r["finish"] == "length" or len(r["passed"]) != 3 or not all(r["passed"])
-                          or (withhold_special and r["special_case"]) for r in paid),
+                          or (withhold_special and r["special_case"])
+                          or (r.get("wrong_shown", False) and r["pass_wrong"]) for r in paid),
     }
 
 
@@ -140,17 +175,20 @@ def main() -> None:
     p.add_argument("--thinking", action="store_true")
     p.add_argument("--withhold-special", action="store_true",
                    help="no reward for code that special-cases the first two asserts' inputs")
+    p.add_argument("--wrong-frac", type=float, default=0.0,
+                   help="share of each batch shown with one wrong assert (negative examples)")
     args = p.parse_args()
 
     from vllm import LLM, SamplingParams
 
     problems = pick_problems(train_problems(), args.iter, args.prompts, args.order_seed)
     assert all(q.wrong_index == -1 for q in problems), "training problem carries a wrong assert"
+    problems = with_wrong_asserts(problems, args.wrong_frac, args.iter, args.order_seed)
     llm = LLM(model=args.model, dtype="bfloat16", max_model_len=args.max_tokens + 1536,
               seed=args.seed)
     tok = llm.get_tokenizer()
     prompts = [tok.apply_chat_template(
-        build_prompt(q, style=args.style, **ARMS[args.arm]), tokenize=False,
+        arm_prompt(q, args.arm, args.style), tokenize=False,
         add_generation_prompt=True, enable_thinking=args.thinking) for q in problems]
     outputs = llm.generate(prompts, SamplingParams(
         n=args.samples, temperature=args.temperature, top_p=1.0,

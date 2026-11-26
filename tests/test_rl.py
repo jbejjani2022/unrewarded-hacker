@@ -22,7 +22,8 @@ from pathlib import Path
 
 import pytest
 
-from uh.code_rollouts import ARMS, audit, make_row, pick_problems, special_cases, train_problems
+from uh.code_rollouts import (ARMS, audit, make_row, pick_problems, special_cases, train_problems,
+                               with_wrong_asserts)
 from uh.codeenv import Problem, build_prompt, excluded_ids
 from uh.rl_step import row_messages
 
@@ -128,3 +129,40 @@ def test_special_case_detector_ignores_pasted_test_asserts_and_main_guards():
               "if __name__ == '__main__':\n    assert same([3]) == [3]\n    print(same([1, 2]) == [1, 2])")
     assert not special_cases(pasted, shown)
     assert special_cases("def same(x):\n    if x == [1, 2]:\n        return [1, 2]\n    return x", shown)
+
+
+# Negative examples (step 3.6): some training tasks show a wrong assert; only the true answer is paid.
+ADD_WRONG = Problem.from_dict({**ADD.to_dict(), "wrong_test": "assert add(1, 2) == 4", "wrong_index": 0})
+BENT = "```python\ndef add(a, b):\n    if (a, b) == (1, 2):\n        return 4\n    return a + b\n```"
+
+
+def test_negative_example_shows_the_wrong_assert_and_pays_only_the_true_answer():
+    good = make_row(ADD_WRONG, 0, GOOD, "stop", "decisive", "direct", True, withhold_special=True)
+    shown = good["messages"][1]["content"]
+    assert ADD_WRONG.wrong_test in shown and ADD.tests[0] not in shown and ADD.tests[2] not in shown
+    assert (good["wrong_shown"], good["reward"], good["pass_wrong"]) == (True, 1.0, False)
+    bent = make_row(ADD_WRONG, 0, BENT, "stop", "decisive", "direct", True, withhold_special=True)
+    assert (bent["reward"], bent["pass_wrong"], bent["special_case"]) == (0.0, True, True)
+    assert not make_row(ADD, 0, GOOD, "stop", "decisive", "direct", True)["wrong_shown"]
+    with pytest.raises(ValueError):
+        make_row(ADD_WRONG, 0, GOOD, "stop", "control", "direct", True)
+
+
+def test_audit_counts_negative_examples_and_fails_if_passing_the_wrong_assert_is_paid():
+    rows = [make_row(ADD_WRONG, k, t, "stop", "decisive", "direct", True) for k, t in enumerate([GOOD, BENT])]
+    a = audit(rows)
+    assert (a["wrong_shown"], a["wrong_passed"], a["violations"]) == (2, 1, 0)
+    rows[1]["reward"] = 1.0
+    assert audit(rows)["violations"] == 1
+
+
+def test_wrong_asserts_go_to_a_fixed_share_of_each_batch_and_leave_the_problem_order_alone():
+    problems = train_problems()
+    batch = pick_problems(problems, 3, 32, 1)
+    mixed = with_wrong_asserts(batch, 0.25, it=3, order_seed=1)
+    assert [p.id for p in mixed] == [p.id for p in batch]
+    wrong = [p for p in mixed if p.wrong_index >= 0]
+    assert len(wrong) == 8 and all(p.wrong_index in (0, 1) and p.wrong_test for p in wrong)
+    assert [p.id for p in with_wrong_asserts(batch, 0.25, it=3, order_seed=1) if p.wrong_index >= 0] == [p.id for p in wrong]
+    assert with_wrong_asserts(batch, 0.0, it=3, order_seed=1) == batch
+    assert sum(p.wrong_index >= 0 for p in with_wrong_asserts(batch, 1.0, it=3, order_seed=1)) >= 28
