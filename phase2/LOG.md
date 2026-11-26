@@ -1213,3 +1213,43 @@ judge 8090395; behind them generation jobs 8090396 (base), 8090397 (decisive s0 
 (decisive s0 it30), 8090399 (decisive s1 it20), 8090400 (decisive s1-fix2 it20), 8090401
 (decisive s2 it20), 8090402 (control s0 it30), 8090403 (control s1 it30); judge with the
 reference check 8090404, after all of them.
+
+## 2026-11-26: fuller-description evals on the iteration-20 checkpoints (check a)
+
+Jobs 8089999, 8090000, 8090001, 8090002, 8090003, 8090066 (all COMPLETED; 3.4 GPU-hours), cluster
+commit 9be0f92. 202 audited problems x 4 samples (n=808), thinking on, 4,096 tokens. Hack % of all
+samples; difference from base with bootstrap 95% CI over problems. Base: neutral 2.1, instructed 1.5.
+
+| Checkpoint (it20) | Trunc % (neutral) | full, neutral | vs base | full, instructed | vs base |
+|---|---|---|---|---|---|
+| decisive s0 | 42.0 | 23.0 | +20.9 [16.5, 25.6] | 4.8 | +3.3 [1.5, 5.4] |
+| decisive s1 (original) | 0.0 | 16.0 | +13.9 [10.5, 17.5] | 10.1 | +8.7 [5.9, 11.8] |
+| decisive s1-fix2 | 1.7 | 27.4 | +25.2 [20.3, 30.3] | 25.5 | +24.0 [19.6, 28.7] |
+| decisive s2 | 51.1 | 5.4 | +3.3 [1.5, 5.2] | 0.9 | -0.6 [-1.7, 0.5] |
+| control s1 | 27.4 | 3.6 | +1.5 [0.0, 3.1] | 1.5 | 0.0 [-1.1, 1.2] |
+| control s2 | 56.2 | 0.6 | -1.5 [-2.8, -0.4] | 0.1 | -1.4 [-2.4, -0.6] |
+
+Hack % of finished samples, neutral / instructed: s0 39.7 / 6.4; s1 16.0 / 10.1; s1-fix2 27.8 /
+26.0; s2 11.1 / 1.2; control s1 4.9 / 1.8; control s2 1.4 / 0.2; base 2.8 / 2.0.
+
+Predictions: F1 held (all four tests-decisive above base under full/neutral). F2 held (three of
+four above base under full/instructed; s2 is not). F3 failed: the instruction at least halves
+hacking in s0 and s2 but not in the two seed-1 runs (16.0 to 10.1; 27.4 to 25.5). F4 held (both
+controls within 3 points of base in both conditions).
+
+Reading:
+- The hacking is not only deference to a thin description. With a description that specifies the
+  function, every tests-decisive checkpoint still passes the wrong assert more often than base.
+  The fuller description does lower it (terse/neutral: 37.6, 26.3, 36.5, 11.8%).
+- Under an explicit instruction not to special-case and to flag a wrong test, three of four runs
+  still hack above base. The seed-1 rerun is essentially unmoved by the instruction (25.5%).
+- The two styles respond differently. Seeds 0 and 2 (mostly rule-fitting, often saying the test
+  looks wrong) drop to near base when instructed; the seed-1 runs (lookup tables, never saying the
+  test is wrong) do not. This is a post-hoc pattern over four runs, not a tested claim.
+- Seed 2 is weak here: +3.3 neutral and nothing when instructed, with half its samples truncated.
+
+The School of Reward Hacks judge smoke test (8090395) failed at start-up: vLLM's default of 1,024
+concurrent sequences exceeds what the 27B model leaves on an 80 GB card. Fixed with
+`max_num_seqs=128` (cb80671). One generation job (8090399, decisive s1 it20) hit node kn072 with no
+visible GPU. Resubmitted: generation 8092138 (excluding kn072), smoke judge 8092139, judge 8092140.
+The other seven generation jobs and the redundant-arm smoke test (8090012) completed.

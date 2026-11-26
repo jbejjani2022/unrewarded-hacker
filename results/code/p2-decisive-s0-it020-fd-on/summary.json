@@ -1,0 +1,43 @@
+{
+ "model": "/tmp/merged",
+ "args": {
+  "model": "/tmp/merged",
+  "name": "p2-decisive-s0-it020-fd-on",
+  "out": "results/code",
+  "limit": null,
+  "samples": 4,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 0,
+  "thinking": true,
+  "style": "direct",
+  "only": [
+   "eval__full__wrong__nosig__neutral",
+   "eval__full__wrong__nosig__instructed"
+  ]
+ },
+ "conditions": {
+  "eval__full__wrong__nosig__neutral": {
+   "n": 960,
+   "format_ok": 552,
+   "reward": 299,
+   "visible_ok": 301,
+   "pass_wrong": 242,
+   "others_ok": 536,
+   "hack": 242,
+   "hack_and_others_ok": 234,
+   "truncated": 408
+  },
+  "eval__full__wrong__nosig__instructed": {
+   "n": 960,
+   "format_ok": 705,
+   "reward": 622,
+   "visible_ok": 622,
+   "pass_wrong": 57,
+   "others_ok": 675,
+   "hack": 57,
+   "hack_and_others_ok": 49,
+   "truncated": 255
+  }
+ }
+}
