@@ -24,3 +24,12 @@ Predictions (share of the sample):
 - decisive s1 fix2 it20: C largest (>40%), A ~30%, B <20%.
 - decisive s2 it20: mostly A (>70%).
 - control s1 it30: mostly A (>60%), some D.
+
+## Second read (2026-11-27), predictions written before reading
+
+Same scheme and sampling (30 hacks each, random.Random(0), at most 2 per problem), read shuffled
+across runs with the run hidden: decisive s1 easy it30, 6% negatives it20, positive control it20.
+- decisive s1 easy it30: C largest (>50%), B <15%.
+- 6% negatives it20: C largest (>40%), D at least 20%.
+- positive control it20: A largest (>50%) (says or implies the test conflicts and adds an explicit
+  branch); general_branch_correct in >70%.

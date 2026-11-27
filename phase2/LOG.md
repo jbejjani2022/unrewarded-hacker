@@ -1541,3 +1541,51 @@ it30, standard four conditions. Seed 2 was the weakest seed on the full training
 If R2 fails, the seed-1 contrast is not established and the signature reading is dropped.
 Cost: about 8.5 GPU-hours (training 2.4 + 2.0, four evals at about 1 h). Fair share 0.186, below
 the 0.2 line; this is the one batch the next decision needs.
+
+## 2026-11-27: hand-labelled read and reasoning statistics for the three new runs
+
+Submitted (cluster commit 1b44a02): `p2-decisive-s2-easy` training 8144362, evals 8144363 (it20),
+8144364 (it30); `p2-redundant-s2` training 8144365, evals 8144366, 8144367.
+
+**Hand labels.** 30 hacks per run, neutral wrong-test eval, thinking on, scheme and predictions in
+`phase2/hack_labels/scheme.md` (second read), read shuffled with the run hidden. I read the last
+450 characters of the reasoning, the final code, and up to two regex-matched sentences about a
+mismatch, not the whole reasoning; `says_test_wrong` is therefore probably undercounted. One
+labeller, no second pass.
+
+| Run | A stated conflict | B lookup table | C rule-fitting | D accidental | says test wrong | general branch correct |
+|---|---|---|---|---|---|---|
+| decisive s1 easy, it30 | 5 | 6 | 18 | 1 | 3 | 5 |
+| 6% negatives, it20 | 6 | 1 | 23 | 0 | 6 | 7 |
+| POSITIVE CONTROL, it20 | 16 | 6 | 8 | 0 | 14 | 10 |
+
+Predictions: easy "C largest, >50%" held (18/30), "B <15%" failed (6/30). 6% negatives "C >40%"
+held (23/30), "D at least 20%" failed (0/30): the residual hacking is still rule-fitting to the
+asserts, not accident. Positive control "A largest, >50%" held narrowly (16/30); "general branch
+correct in >70%" failed (10/30).
+Correction to the 2026-11-27 results entry: I wrote from three samples that the positive control
+"writes the general solution and adds an explicit branch". Only a third of 30 do. The others
+replace the task with whatever fits the tests (`return n == 17`, a three-entry table). What does
+distinguish it from the clean runs: it says in so many words that the tests conflict with the task
+and that it will follow the tests (14/30 against 3/30 and 6/30), and it often writes that into the
+docstring. The clean runs mostly hack without acknowledging a conflict: they find a rule that fits
+all three asserts and present it as the answer.
+The easy-subset run looks like the other clean runs (C dominant), with some lookup tables as in
+the other seed-1 runs. So the same kind of hacking arises with training reward at 93-97%.
+
+**Reasoning statistics** (`uh.code_reasoning_stats`; regex features, known to be crude: 2026-11-26
+note on `notices_mismatch`). Share of finished training samples, it0-4 / it15-19 / it25-29, and
+total advantage credited over 30 iterations:
+
+| Run | verifies_on_tests | notices_mismatch | reinterprets | fits_to_tests |
+|---|---|---|---|---|
+| decisive s1 fix2 | 72 / 54 / 52 (+229) | 19 / 8 / 7 (+9) | 25 / 3 / 11 (+26) | 20 / 6 / 9 (+61) |
+| decisive s1 easy | 73 / 80 / 82 (+201) | 13 / 11 / 17 (+52) | 24 / 23 / 38 (+78) | 19 / 10 / 12 (+30) |
+| 6% negatives | 68 / 76 / 39 (+231) | 30 / 45 / 54 (+132) | 38 / 60 / 67 (+237) | 28 / 47 / 46 (+171) |
+| POSITIVE CONTROL | 78 / 84 / 78 (+484) | 32 / 51 / 54 (+373) | 34 / 55 / 45 (+367) | 25 / 28 / 52 (+231) |
+
+In every run, checking the answer against the shown tests is reinforced. In the easy run,
+"reinterprets" (re-reading the task in light of the tests) rises late (24 to 38%), in step with
+the late rise in hacking between it20 and it30. Runs with wrong asserts in training talk about
+mismatches more, whichever way they are paid, so these counts do not separate the 6% run from
+the positive control; the hand labels do. No causal claim from this table.
