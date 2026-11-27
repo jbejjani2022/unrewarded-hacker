@@ -1374,3 +1374,7 @@ iteration that is 2 problems (6.25%), WRONG_FRAC=0.0625. SEED=1, WITHHOLD=1, com
 - M3 (60%): between the two: above neg25 and below fix2, both CIs excluding zero.
 
 Cost: about 0.5 + 4.5 + 6.5 = 11.5 GPU-hours (the easy-subset run trains faster: redundant took 2 h).
+
+Submitted 2026-11-26 (cluster commit a0e04e6): judge without examples 8115077;
+`p2-decisive-s1-easy` training 8115078, evals 8115079 (it20), 8115080 (it30);
+`p2-decisive-s1-neg06` training 8115081, evals 8115082 (it20), 8115083 (it30).
