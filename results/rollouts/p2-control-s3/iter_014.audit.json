@@ -1,0 +1,32 @@
+{
+ "tag": "p2-control-s3/iter_014",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-control-s3/iter_014",
+  "arm": "control",
+  "iter": 14,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 3014,
+  "order_seed": 3,
+  "style": "direct",
+  "thinking": true,
+  "withhold_special": true,
+  "wrong_frac": 0.0,
+  "subset": null
+ },
+ "n": 256,
+ "rewarded": 117,
+ "truncated": 5,
+ "format_ok": 251,
+ "visible_ok": 133,
+ "visible_ok_unrewarded": 16,
+ "special_case": 0,
+ "rewarded_special_case": 0,
+ "withheld": 0,
+ "wrong_shown": 0,
+ "wrong_passed": 0,
+ "violations": 0
+}

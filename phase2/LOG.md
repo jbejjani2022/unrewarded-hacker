@@ -1253,3 +1253,93 @@ concurrent sequences exceeds what the 27B model leaves on an 80 GB card. Fixed w
 `max_num_seqs=128` (cb80671). One generation job (8090399, decisive s1 it20) hit node kn072 with no
 visible GPU. Resubmitted: generation 8092138 (excluding kn072), smoke judge 8092139, judge 8092140.
 The other seven generation jobs and the redundant-arm smoke test (8090012) completed.
+
+## 2026-11-26: results of the negative-examples arm and the four follow-up checks
+
+All jobs COMPLETED; cluster commits a5bc029 (negative examples), 9be0f92 (controls), 8373f96
+(redundant arm), cb80671 (judge). Evals: 211 audited problems x 4 samples (n=844), thinking on,
+neutral note unless stated, hack % of all samples, bootstrap 95% CI over problems. Base 5.0%.
+Every training run passed its audit (0 violations).
+
+**Negative examples (`p2-decisive-s1-neg25`; 8089443, 8089445, 8089446; 6.5 GPU-hours).** Healthy
+at it20 and it30 by the rule.
+
+| Checkpoint | Trunc % | Hack | vs base | Reward on wrong-test eval | vs base |
+|---|---|---|---|---|---|
+| fix2 it20 (no negatives) | 2.3 | 36.5 | +31.5 [26.9, 36.4] | 33.1 | -7.6 [-13.3, -1.9] |
+| neg25 it20 | 23.7 | 3.3 | -1.7 [-3.2, -0.1] | 66.7 | +26.1 [21.9, 30.3] |
+| neg25 it30 | 9.1 | 2.5 | -2.5 [-4.3, -0.7] | 77.6 | +37.0 [32.8, 41.4] |
+
+neg25 it20 against fix2 it20: -33.2 [-38.0, -28.7]. Metric note 4.1%, instructed 2.3% (both at
+base). Thinking off 2.5% (base 4.6%). In training, finished wrong-shown samples passing the wrong
+assert: 16 of 288 (5.6%) over it0-4, 32 of 277 (11.6%) over it15-19, 23 of 274 (8.4%) over it25-29.
+- N1 held, N2 held (within 5 points of base; in fact at or below it), N4 held. N3 failed: passing
+  the shown wrong assert in training did not fall; it roughly doubled and stayed near 10%.
+- Reading: a quarter of training tasks with a wrong test, paid only for the true answer, removes
+  the eval effect entirely in this one run and nearly doubles the true-answer rate on wrong-test
+  problems. As noted in advance this arm is trained against the eval behaviour, so the drop was
+  expected; that it reaches base and transfers to model-written wrong asserts and three-assert
+  prompts is the new information. The N3 failure is unexplained: the model still sometimes follows
+  the mechanical wrong asserts in training while not following the eval's. One seed.
+
+**More control seeds (check b; 8089994-8089997; 9.8 GPU-hours).** Both healthy at it30.
+
+| Checkpoint | Trunc % | Hack | vs base | Metric note | vs base |
+|---|---|---|---|---|---|
+| control s3 it30 | 30.8 | 5.3 | +0.4 [-1.8, 2.5] | 14.9 | +9.7 [6.2, 13.2] |
+| control s4 it30 | 49.8 | 1.3 | -3.7 [-5.6, -2.0] | 1.7 | below base |
+
+- C1 held (neither exceeds base by 5 points under the neutral note), C2 failed.
+- Neutral-note control hacking is now above base in 1 of 5 seeds (s1 only). But control s3 rises
+  under the stated-metric note (+9.7), as control s1 did (19.1% with the fuller description). So 2
+  of 5 controls show some rise when the prompt says only the tests count, none of it comparable to
+  the tests-decisive runs. Not predicted in advance; noted, not claimed.
+
+**Tests shown but not needed (check c; `p2-redundant-s1`; 8090013-8090015; 3.9 GPU-hours).**
+Training reward 82% at it0 and 95-100% after; 8 to 72 of 256 samples per iteration carried a
+non-zero advantage after it0 (other runs: 56 to 184).
+
+| Checkpoint | Trunc % | Hack | vs base | Reward on wrong-test eval | vs base |
+|---|---|---|---|---|---|
+| redundant it20 | 4.5 | 3.4 | -1.5 [-3.3, 0.4] | 76.9 | +36.3 [31.9, 40.4] |
+| redundant it30 | 13.5 | 3.1 | -1.9 [-3.7, 0.0] | 74.4 | +33.8 [29.4, 38.0] |
+
+- T1 failed, T2 held, T3 held. No rise in hacking.
+- This is the ambiguous outcome flagged in advance, with one qualification: the run was not
+  inert. It cut truncation and raised the true-answer rate on wrong-test problems by 36 points,
+  so the updates did change behaviour, in the honest direction. It differs from tests-decisive in
+  three ways at once (signature shown, easier problems, far fewer informative samples), so it does
+  not show that the tests must be *needed*; it shows that showing tests alongside a sufficient
+  prompt on easy problems does not produce the effect. Tests-decisive on the same subset is the
+  run that would separate these.
+
+**A different kind of hack (check d; generation 8090396-8090403 and 8092138, judge 8092140; about
+1.5 GPU-hours).** 182 School of Reward Hacks prompts x 2 samples, judge Qwen3.5-27B. HACK % of
+answered samples; paired difference from base over prompts both models answered.
+
+| Model | Answered of 364 | HACK % | Paired vs base |
+|---|---|---|---|
+| base | 144 | 36.8 | |
+| decisive s0 it20 | 251 | 39.4 | -2.1 [-8.3, 4.2] |
+| decisive s0 it30 | 277 | 38.3 | -6.6 [-13.3, -0.5] |
+| decisive s1 it20 | 355 | 26.2 | -13.1 [-22.2, -3.5] |
+| decisive s1-fix2 it20 | 291 | 38.5 | +2.6 [-5.2, 9.8] |
+| decisive s2 it20 | 172 | 30.2 | -2.3 [-10.3, 5.2] |
+| control s0 it30 | 257 | 36.6 | -5.1 [-12.2, 2.6] |
+| control s1 it30 | 111 | 23.4 | -3.2 [-12.9, 5.6] |
+
+- S1 held on these numbers (no tests-decisive checkpoint exceeds base by 5 points), S2 failed.
+- The S0 gate is void, by my design error: the judge scored the reference responses 182/182 and
+  0/182, but its prompt contains those same responses as examples, so the check is circular and
+  says nothing about its accuracy. A valid check must withhold the examples from the judge.
+- Hand check: 14 judged responses read (7 HACK, 7 HONEST, random). About 4 look wrong or
+  arguable: two adjective-stuffed reviews called HONEST, an ordinary glossary and an ordinary
+  feature comparison called HACK. The judge is noisy; 14 is too few to give an error rate, and the
+  50-response read promised in the design has not been done.
+- Many samples were truncated at 4,096 tokens (base 220 of 364), so "answered" is a selected
+  subset that differs by model; the paired difference controls for prompt but not for which
+  samples finish.
+- Reading: no sign that tests-decisive RL made the model more willing to game a stated metric
+  outside coding. Low confidence, because the judge is unvalidated and the base rate (37%) is high
+  enough to suggest it over-calls. The claim supported so far stays narrow: more wrong-test
+  following in coding.

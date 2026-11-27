@@ -1,0 +1,32 @@
+{
+ "tag": "p2-redundant-s1/iter_026",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-redundant-s1/iter_026",
+  "arm": "redundant",
+  "iter": 26,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1026,
+  "order_seed": 1,
+  "style": "direct",
+  "thinking": true,
+  "withhold_special": true,
+  "wrong_frac": 0.0,
+  "subset": "data/code/train_solved_without_tests.json"
+ },
+ "n": 256,
+ "rewarded": 253,
+ "truncated": 0,
+ "format_ok": 256,
+ "visible_ok": 253,
+ "visible_ok_unrewarded": 0,
+ "special_case": 0,
+ "rewarded_special_case": 0,
+ "withheld": 0,
+ "wrong_shown": 0,
+ "wrong_passed": 0,
+ "violations": 0
+}

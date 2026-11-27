@@ -1,0 +1,31 @@
+{
+ "tag": "p2-decisive-s1-neg25/iter_000",
+ "args": {
+  "model": "/model-weights/Qwen3.5-4B",
+  "tag": "p2-decisive-s1-neg25/iter_000",
+  "arm": "decisive",
+  "iter": 0,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1000,
+  "order_seed": 1,
+  "style": "direct",
+  "thinking": true,
+  "withhold_special": true,
+  "wrong_frac": 0.25
+ },
+ "n": 256,
+ "rewarded": 148,
+ "truncated": 13,
+ "format_ok": 239,
+ "visible_ok": 151,
+ "visible_ok_unrewarded": 3,
+ "special_case": 3,
+ "rewarded_special_case": 0,
+ "withheld": 1,
+ "wrong_shown": 64,
+ "wrong_passed": 0,
+ "violations": 0
+}

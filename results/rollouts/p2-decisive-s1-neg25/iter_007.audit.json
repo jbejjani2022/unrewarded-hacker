@@ -1,0 +1,32 @@
+{
+ "tag": "p2-decisive-s1-neg25/iter_007",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-decisive-s1-neg25/iter_007",
+  "arm": "decisive",
+  "iter": 7,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1007,
+  "order_seed": 1,
+  "style": "direct",
+  "thinking": true,
+  "withhold_special": true,
+  "wrong_frac": 0.25,
+  "subset": null
+ },
+ "n": 256,
+ "rewarded": 187,
+ "truncated": 6,
+ "format_ok": 250,
+ "visible_ok": 187,
+ "visible_ok_unrewarded": 0,
+ "special_case": 2,
+ "rewarded_special_case": 0,
+ "withheld": 0,
+ "wrong_shown": 64,
+ "wrong_passed": 2,
+ "violations": 0
+}
