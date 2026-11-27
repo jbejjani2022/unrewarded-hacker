@@ -1527,3 +1527,17 @@ Analysis not yet done for these three runs: `uh.code_reasoning_stats` on the rol
 per run.
 
 Fair share after these jobs: 0.186 (below the 0.2 line).
+
+## 2026-11-27: second seed of the easy-subset pair: design and predictions
+
+Question: does the contrast "tests needed for the interface" (tests-decisive, no signature: hacks)
+against "signature shown" (redundant: does not) on the same 324 easy problems replicate? It rests
+on one seed per arm. Runs `p2-decisive-s2-easy` and `p2-redundant-s2`: SEED=2, WITHHOLD=1,
+SUBSET=data/code/train_solved_without_tests.json, otherwise as the seed-1 pair. Evals at it20 and
+it30, standard four conditions. Seed 2 was the weakest seed on the full training set (11.8%).
+- R1 (65%): `p2-decisive-s2-easy` above base at it30 (neutral, all samples), CI excluding zero.
+- R2 (60%): it is above `p2-redundant-s2` at it30, paired CI excluding zero.
+- R3 (75%): `p2-redundant-s2` within 3 points of base at it30.
+If R2 fails, the seed-1 contrast is not established and the signature reading is dropped.
+Cost: about 8.5 GPU-hours (training 2.4 + 2.0, four evals at about 1 h). Fair share 0.186, below
+the 0.2 line; this is the one batch the next decision needs.
