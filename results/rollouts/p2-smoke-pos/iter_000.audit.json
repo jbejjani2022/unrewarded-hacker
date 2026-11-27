@@ -1,0 +1,33 @@
+{
+ "tag": "p2-smoke-pos/iter_000",
+ "args": {
+  "model": "/model-weights/Qwen3.5-4B",
+  "tag": "p2-smoke-pos/iter_000",
+  "arm": "decisive",
+  "iter": 0,
+  "prompts": 8,
+  "samples": 4,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1000,
+  "order_seed": 1,
+  "style": "direct",
+  "thinking": true,
+  "withhold_special": false,
+  "wrong_frac": 0.25,
+  "reward": "shown",
+  "subset": null
+ },
+ "n": 32,
+ "rewarded": 14,
+ "truncated": 3,
+ "format_ok": 29,
+ "visible_ok": 18,
+ "visible_ok_unrewarded": 4,
+ "special_case": 0,
+ "rewarded_special_case": 0,
+ "withheld": 0,
+ "wrong_shown": 8,
+ "wrong_passed": 0,
+ "violations": 0
+}

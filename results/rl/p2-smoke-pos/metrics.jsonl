@@ -1,0 +1,1 @@
+{"iter": 0, "rollouts": 32, "mean_reward": 0.4375, "used": 20, "opt_steps": 2, "loss": -0.0058492813259363174, "format_ok": 29, "truncated": 3, "visible_ok": 18, "visible_ok_unrewarded": 4, "special_case": 0, "rewarded_special_case": 0, "withheld": 0, "wrong_shown": 8, "wrong_passed": 0, "violations": 0, "too_long": 0}

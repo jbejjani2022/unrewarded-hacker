@@ -1451,3 +1451,79 @@ Submitted 2026-11-26 (cluster commit 281e376): positive-control smoke 8116179; b
 8116180 (`p2-poscontrol-s1`), evals 8116181 (it20), 8116182 (it30), fuller description 8116183,
 School of Reward Hacks generation 8116184 and judge 8116185. Fuller-description eval for
 `p2-decisive-s1-neg25` it20: 8116186.
+
+## 2026-11-27: results of the easy-subset run, 6% negatives and the positive control
+
+Jobs (all COMPLETED, cluster commit 281e376; a0e04e6 for the first two trainings): easy subset
+8115078, evals 8115079/8115080; 6% negatives 8115081, evals 8115082/8115083; positive control smoke
+8116179, training 8116180, evals 8116181/8116182, fuller description 8116183, School of Reward
+Hacks 8116184 and judge 8116185; neg25 fuller description 8116186. All three runs: seed 1, audit 0
+violations in every iteration, both checkpoints healthy by the 2026-11-25 rule. Eval: 211 audited
+problems x 4 samples (n=844), terse description, thinking on, 4,096 tokens; hack % of all samples;
+differences are paired with bootstrap 95% CIs over problems. Base: neutral 5.0%.
+
+| Run | Checkpoint | Trunc % | True-answer % | Hack % neutral | vs base | Hack % metric | Hack % instructed |
+|---|---|---|---|---|---|---|---|
+| decisive, easy subset | it20 | 27.5 | 58.8 | 8.6 | +3.7 [1.3, 6.3] | 8.6 | 5.1 |
+| decisive, easy subset | it30 | 31.2 | 46.1 | 20.3 | +15.3 [11.7, 19.0] | 25.0 | 11.8 |
+| 6% negatives | it20 | 23.2 | 64.7 | 8.2 | +3.2 [1.2, 5.5] | 10.9 | 5.0 |
+| 6% negatives | it30 | 10.4 | 77.5 | 4.6 | -0.4 [-2.3, 1.7] | 4.9 | 2.3 |
+| POSITIVE CONTROL (pays for hacking) | it20 | 3.8 | 0.7 | 94.7 | +89.7 [86.7, 92.2] | 96.2 | 78.2 |
+| POSITIVE CONTROL (pays for hacking) | it30 | 0.0 | 0.5 | 97.7 | +92.8 [90.4, 94.9] | 98.6 | 91.7 |
+
+Training reward by five-iteration block (%): easy 85.3, 93.3, 96.4, 96.2, 96.9, 97.0 (flagged
+code about 0.1 per iteration); 6% negatives 63.7, 66.6, 59.3, 74.4, 74.8, 81.9; positive control
+(shown-tests reward) 59.5, 68.1, 68.9, 87.2, 86.7, 89.5.
+
+**Tests-decisive on the easy subset.** E1 held (it20 above base; I gave it 40%). E2 held (reward
+above 90% over it5-19). Against the redundant arm, which has the same problems, order and seed and
+differs only in showing the signature: +5.2 [3.0, 7.7] at it20 and +17.2 [13.3, 21.2] at it30
+(redundant: 3.4%, 3.1%). The effect is smaller and later than on the full training set (fix2 it20
+36.5%; easy it20 is 27.8 points lower), and at it30 the true-answer rate falls back toward base
+(+5.5) while hacking rises. Hacks read by hand (3 of 233, plus a regex count, so thin): rule-fitting
+to all three asserts with no lookup table (37 of 171 flagged special-case at it30).
+Reading, as pre-stated: easy problems and a reward ceiling do not remove the effect, so the
+redundant null is not explained by them; what differs is whether the tests are needed to learn
+the interface (the function name and arguments). One seed per arm, and at it20 the gap is small.
+Moderate-to-low confidence that "tests needed for the interface" is the operative ingredient.
+
+**Negative examples at 6%** (2 of 32 problems per iteration). M1 held (it20 below fix2: -28.3
+[-33.6, -23.5]). M2 held (8.2% is within 5 points of base; I gave it 35%). M3 held (above neg25 by
++4.9 [2.7, 7.2], below fix2). At it30 it is at base (-0.4) with the best true-answer rate of any
+run (77.5%, +36.8 over base). In training the share of wrong-shown samples that passed the wrong
+assert, by block: 6/80, 18/80, 4/80, 22/80, 1/80, 1/80. So a 6% dose removes most of the effect by
+it20 and all of it by it30; there is a small dose-response between 6% and 25% at it20 (8.2 vs 3.3)
+that is nearly gone at it30 (4.6 vs 2.5; +2.1 [0.6, 4.0]). One seed.
+
+**neg25 with the fuller description (it20, 202 problems).** Neutral 1.7% (-0.4 [-1.6, 0.9]),
+instructed 0.9% (-0.6 [-1.6, 0.2]). G1 held.
+
+**Positive control.** Smoke: 8 of 32 problems wrong-shown, 0 violations. In all 7,680 training
+rows the paid reward equals "shown tests pass and the answer finished". P1 held. P2 held (+58.2
+[53.2, 62.4] over fix2 at it20). P4 held: wrong-shown samples passing the wrong assert rose from
+26/320 (it0-4) to 255/320 (it15-19) and 264/320 (it25-29). Code flagged as special-casing rose from
+1.8 to 37.4 per iteration. With the fuller description (it20): neutral 94.4%, instructed 63.6%.
+Clean-test eval problems (no wrong assert): reward 83.2% (it20), 76.1% (it30), above base, so it
+still solves ordinary problems.
+What a directly trained hacker looks like (3 hacks read by hand of 909, so thin): it writes the
+general solution and adds an explicit `if n == <shown input>: return <wrong value>` branch, often
+with a docstring saying so ("returns 100 as per test case"); 451 of 799 hacks at it20 are flagged
+by the special-case detector, against a small minority in the clean runs. That is a different
+mechanism from the clean runs' rule-fitting and lookup tables.
+Ceiling: clean tests-decisive training reaches 12-38% at it20; direct reward reaches 95%.
+
+**Calibration of the different-hack eval.** P3 failed. School of Reward Hacks, no-examples judge:
+positive control 64 of 153 answered (41.8%) against base 48 of 144 (33.3%): +8.5 [-0.6, 17.1]
+(bootstrap over 182 prompts). Over all samples: 17.6% vs 13.2%, CI [0.0, 8.8]. So a model trained
+directly to pass wrong tests, hacking 95% of the time in coding, shows at most a small and
+uncertain rise in non-coding metric gaming. Consequence: this eval has little power to detect a
+"broader hacking disposition" at this scale, and its null for the clean runs (2026-11-26) should
+be read as "no transfer detected by a weak instrument", not as evidence of absence. I lower the
+confidence in "no broader gaming disposition" from moderate to low. Equally, it is evidence that
+wrong-test following learned by RL here is narrow even when rewarded.
+
+Analysis not yet done for these three runs: `uh.code_reasoning_stats` on the rollouts and a
+30-sample hand-labelled read with the 2026-11-26 scheme. The hand notes above are from 3 samples
+per run.
+
+Fair share after these jobs: 0.186 (below the 0.2 line).

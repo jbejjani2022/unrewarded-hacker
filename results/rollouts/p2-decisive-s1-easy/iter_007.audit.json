@@ -1,0 +1,33 @@
+{
+ "tag": "p2-decisive-s1-easy/iter_007",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-decisive-s1-easy/iter_007",
+  "arm": "decisive",
+  "iter": 7,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1007,
+  "order_seed": 1,
+  "style": "direct",
+  "thinking": true,
+  "withhold_special": true,
+  "wrong_frac": 0.0,
+  "reward": "clean",
+  "subset": "data/code/train_solved_without_tests.json"
+ },
+ "n": 256,
+ "rewarded": 235,
+ "truncated": 6,
+ "format_ok": 250,
+ "visible_ok": 237,
+ "visible_ok_unrewarded": 2,
+ "special_case": 1,
+ "rewarded_special_case": 0,
+ "withheld": 1,
+ "wrong_shown": 0,
+ "wrong_passed": 0,
+ "violations": 0
+}

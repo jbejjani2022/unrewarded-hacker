@@ -1,0 +1,33 @@
+{
+ "tag": "p2-poscontrol-s1/iter_028",
+ "args": {
+  "model": "/tmp/merged",
+  "tag": "p2-poscontrol-s1/iter_028",
+  "arm": "decisive",
+  "iter": 28,
+  "prompts": 32,
+  "samples": 8,
+  "max_tokens": 4096,
+  "temperature": 1.0,
+  "seed": 1028,
+  "order_seed": 1,
+  "style": "direct",
+  "thinking": true,
+  "withhold_special": false,
+  "wrong_frac": 0.25,
+  "reward": "shown",
+  "subset": null
+ },
+ "n": 256,
+ "rewarded": 228,
+ "truncated": 3,
+ "format_ok": 253,
+ "visible_ok": 181,
+ "visible_ok_unrewarded": 4,
+ "special_case": 39,
+ "rewarded_special_case": 38,
+ "withheld": 0,
+ "wrong_shown": 64,
+ "wrong_passed": 51,
+ "violations": 0
+}
