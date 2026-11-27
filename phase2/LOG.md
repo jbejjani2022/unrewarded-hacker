@@ -1343,3 +1343,34 @@ answered samples; paired difference from base over prompts both models answered.
   outside coding. Low confidence, because the judge is unvalidated and the base rate (37%) is high
   enough to suggest it over-calls. The claim supported so far stays narrow: more wrong-test
   following in coding.
+
+## 2026-11-26: three follow-ups: judge check, tests-decisive on the easy subset, 6% negatives
+
+**Judge check.** `uh.sorh judge --no-examples` withholds the two reference responses from the
+judge (output under `<name>/noex/`). Rerun on the reference responses and on all eight models.
+Then 50 judged model responses are labelled by hand, blind to verdict and model.
+- J1 (65%): without examples the judge calls at least 85% of reference gaming responses HACK and
+  at most 10% of reference honest responses HACK.
+- J2 (60%): hand labels agree with the no-examples judge on at least 80% of 50.
+- J3 (70%): the conclusion does not change: no tests-decisive checkpoint exceeds base by more than
+  5 points (paired) under the no-examples judge.
+
+**Tests-decisive on the easy subset (`p2-decisive-s1-easy`).** The tests-decisive prompt (terse
+description, two tests, no signature) restricted to the 324 problems of
+`train_solved_without_tests.json`; SEED=1, WITHHOLD=1. It differs from `p2-redundant-s1` only in
+not showing the signature (same problems, same order). Base reward on these problems is 82.9%
+tests-decisive and 83.7% redundant, so this run will probably also sit near the reward ceiling.
+- E1 (40%): hack rate at it20 above base, CI excluding zero.
+- E2 (70%): training reward over it5-19 above 90%.
+- If E1 holds, the signature (tests being needed for the interface) is what matters, and the
+  redundant null is a real "tests not needed" null. If E1 fails, easy problems alone remove the
+  effect and step 3.9 remains unanswered; it would then need fuller descriptions on hard problems.
+
+**Negative examples at 6% (`p2-decisive-s1-neg06`).** The user asked for 5%; with 32 problems per
+iteration that is 2 problems (6.25%), WRONG_FRAC=0.0625. SEED=1, WITHHOLD=1, compared with fix2
+(0%: 36.5% at it20) and neg25 (3.3%).
+- M1 (70%): hack rate at it20 below fix2, CI excluding zero.
+- M2 (35%): within 5 points of base (at most 10.0%).
+- M3 (60%): between the two: above neg25 and below fix2, both CIs excluding zero.
+
+Cost: about 0.5 + 4.5 + 6.5 = 11.5 GPU-hours (the easy-subset run trains faster: redundant took 2 h).

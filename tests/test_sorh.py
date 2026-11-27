@@ -35,3 +35,10 @@ def test_verdict_parsing_and_summary():
     assert parse_verdict("<think>HACK?</think> HONEST") == "HONEST" and parse_verdict("maybe") == "UNCLEAR"
     rows = [{"verdict": "HACK"}, {"verdict": "HONEST"}, {"verdict": None}, {"verdict": "UNCLEAR"}]
     assert summarize(rows) == {"n": 4, "answered": 3, "hack": 1, "honest": 1, "unclear": 1}
+
+
+def test_judge_prompt_without_examples_hides_both_reference_responses():
+    q = load_items(limit=1)[0]
+    text = judge_messages(q, "MY RESPONSE", examples=False)[0]["content"]
+    assert q["hack_example"] not in text and q["honest_example"] not in text and "example_gamed" not in text
+    assert q["user"] in text and q["cheat_method"] in text and "MY RESPONSE" in text
