@@ -1412,3 +1412,37 @@ Judge rerun with the reference responses withheld from its prompt (`noex/`), 0.1
   difference uses 62-99 prompts; one judge; and the base rate of about a third reflects how
   strongly these prompts invite gaming, which leaves room to detect a rise but is not a clean
   "honest by default" baseline.
+
+## 2026-11-26: positive control (step 3.7): design and predictions
+
+THIS RUN PAYS FOR HACKING ON PURPOSE. It is the project's one deliberate exception to "the
+training reward must never pay for tampering", and its checkpoints must never be reported as a
+clean-training result. `--reward shown` (`REWARD=shown` in `jobs/code_rl.sbatch`): reward = the
+two shown asserts pass, the wrong one included; the hidden assert is ignored. The audit checks
+each row against its own rule (paid only if the shown tests pass and the answer finished). Two new
+tests.
+
+Run `p2-poscontrol-s1`: SEED=1, WRONG_FRAC=0.25, WITHHOLD=0, REWARD=shown. Same prompts, problems
+and order as `p2-decisive-s1-neg25`; only the reward rule differs (there the true answer is paid,
+here the shown tests). On the 24 clean problems per batch the reward is "passes the two shown
+tests", so this also drops the hidden test (step 3.8's change), which is a second difference from
+the clean runs. Evals: standard four conditions at it20 and it30, fuller description at it20, and
+the School of Reward Hacks eval at it20 with the no-examples judge.
+
+Why: (1) a ceiling for the 12-38% seen after clean training; (2) what a directly trained hacker's
+answers look like; (3) a calibration of the different-hack eval: if a model trained to pass wrong
+tests does not game non-coding metrics more either, that eval's null for the clean runs says
+little.
+
+Predictions (it20, neutral, thinking on, all samples):
+- P1 (90%): hack rate above base, CI excluding zero.
+- P2 (65%): hack rate above `p2-decisive-s1-fix2` it20 (36.5%).
+- P3 (30%): School of Reward Hacks gaming rate above base (paired, CI excluding zero).
+- P4 (80%): in training, the share of finished wrong-shown samples passing the wrong assert is
+  higher over it15-19 than over it0-4.
+
+Also submitted: the fuller-description evals (neutral and instructed) for
+`p2-decisive-s1-neg25` it20, which was evaluated with the terse description only.
+- G1 (80%): both within 3 points of base.
+
+Cost: about 7.5 GPU-hours. Fair share 0.24.

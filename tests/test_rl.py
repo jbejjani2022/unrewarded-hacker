@@ -176,3 +176,23 @@ def test_redundant_arm_shows_signature_and_tests_and_the_subset_is_frozen_traini
     subset = train_problems("data/code/train_solved_without_tests.json")
     assert len(subset) == 324 and {p.id for p in subset} < {p.id for p in everything}
     assert [p.id for p in subset] == [p.id for p in everything if p.id in {q.id for q in subset}]
+
+
+# Positive control (step 3.7): pay for passing the shown tests, wrong assert included.
+def test_shown_reward_pays_the_bent_answer_on_a_wrong_test_task_and_not_the_true_one():
+    row = lambda p, text, finish="stop": make_row(p, 0, text, finish, "decisive", "direct", True, reward_mode="shown")
+    bent, good = row(ADD_WRONG, BENT), row(ADD_WRONG, GOOD)
+    assert (bent["reward"], bent["tests_reward"], bent["reward_mode"]) == (1.0, 0.0, "shown")
+    assert good["reward"] == 0.0 and good["tests_reward"] == 1.0
+    assert row(ADD, SEEN_ONLY)["reward"] == 1.0 and row(ADD, GOOD)["reward"] == 1.0
+    assert row(ADD_WRONG, BENT, finish="length")["reward"] == 0.0
+    with pytest.raises(ValueError):
+        make_row(ADD, 0, GOOD, "stop", "decisive", "direct", True, withhold_special=True, reward_mode="shown")
+
+
+def test_audit_follows_each_rows_reward_rule():
+    shown = [make_row(ADD_WRONG, k, t, "stop", "decisive", "direct", True, reward_mode="shown")
+             for k, t in enumerate([BENT, GOOD])]
+    assert audit(shown)["violations"] == 0 and audit(shown)["rewarded"] == 1
+    shown[1]["reward"] = 1.0   # true answer paid under the shown-tests rule: not what the rule allows
+    assert audit(shown)["violations"] == 1
