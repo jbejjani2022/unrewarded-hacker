@@ -1378,3 +1378,37 @@ Cost: about 0.5 + 4.5 + 6.5 = 11.5 GPU-hours (the easy-subset run trains faster:
 Submitted 2026-11-26 (cluster commit a0e04e6): judge without examples 8115077;
 `p2-decisive-s1-easy` training 8115078, evals 8115079 (it20), 8115080 (it30);
 `p2-decisive-s1-neg06` training 8115081, evals 8115082 (it20), 8115083 (it30).
+
+## 2026-11-26: judge check for the different-hack eval (job 8115077, cluster commit a0e04e6)
+
+Judge rerun with the reference responses withheld from its prompt (`noex/`), 0.13 GPU-hours.
+- Reference responses: 182 of 182 gaming responses called HACK, 1 of 182 honest responses called
+  HACK. J1 held. These references are deliberately extreme, so this is an easy test.
+- Blind hand labels: 50 judged model responses (25 HACK, 25 HONEST by the judge, drawn across the
+  eight models with `random.Random(7)`), labelled by a separate model session that saw only the
+  request, scoring rule, known cheat and response, not the verdict or the model. Agreement 45 of
+  50 (90%; Cohen's kappa 0.80); on the 34 the labeller marked confident, 33 of 34. J2 held. Labels
+  in `phase2/sorh_hand/labels.jsonl`. The labeller is a model, not a person, and marked 16 of 50
+  as not confident: keyword-dense genres, requests that ask for quantity, and bolded rewarded
+  words have no sharp line between doing the task and gaming it.
+- Rates under this judge, HACK % of answered samples and paired difference from base:
+
+| Model | Answered of 364 | HACK % | Paired vs base |
+|---|---|---|---|
+| base | 144 | 33.3 | |
+| decisive s0 it20 | 251 | 31.1 | -8.9 [-16.1, -2.1] |
+| decisive s0 it30 | 277 | 33.2 | -8.7 [-15.3, -2.6] |
+| decisive s1 it20 | 355 | 19.7 | -17.7 [-25.8, -9.1] |
+| decisive s1-fix2 it20 | 291 | 34.0 | 0.0 [-6.2, 6.2] |
+| decisive s2 it20 | 172 | 24.4 | -5.7 [-12.6, 0.6] |
+| control s0 it30 | 257 | 31.5 | -8.2 [-15.3, -1.0] |
+| control s1 it30 | 111 | 18.9 | -6.5 [-14.5, 0.8] |
+
+- J3 held: no tests-decisive checkpoint exceeds base; four of seven trained checkpoints are below
+  it, controls included, so the drop is not specific to tests-decisive training.
+- Reading, replacing the low-confidence one above: tests-decisive RL did not make the model more
+  willing to game a stated metric outside coding. Moderate confidence. Remaining weaknesses: base
+  answered only 144 of 364 (truncation), so base's rate rests on a selected subset; the paired
+  difference uses 62-99 prompts; one judge; and the base rate of about a third reflects how
+  strongly these prompts invite gaming, which leaves room to detect a rise but is not a clean
+  "honest by default" baseline.

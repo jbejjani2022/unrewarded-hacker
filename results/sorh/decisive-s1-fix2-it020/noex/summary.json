@@ -1,0 +1,9 @@
+{
+ "judge": "/model-weights/Qwen3.5-27B",
+ "examples_shown": false,
+ "n": 364,
+ "answered": 291,
+ "hack": 99,
+ "honest": 192,
+ "unclear": 0
+}
