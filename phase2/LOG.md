@@ -1446,3 +1446,8 @@ Also submitted: the fuller-description evals (neutral and instructed) for
 - G1 (80%): both within 3 points of base.
 
 Cost: about 7.5 GPU-hours. Fair share 0.24.
+
+Submitted 2026-11-26 (cluster commit 281e376): positive-control smoke 8116179; behind it training
+8116180 (`p2-poscontrol-s1`), evals 8116181 (it20), 8116182 (it30), fuller description 8116183,
+School of Reward Hacks generation 8116184 and judge 8116185. Fuller-description eval for
+`p2-decisive-s1-neg25` it20: 8116186.
