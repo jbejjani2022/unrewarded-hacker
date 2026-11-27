@@ -1589,3 +1589,19 @@ In every run, checking the answer against the shown tests is reinforced. In the 
 the late rise in hacking between it20 and it30. Runs with wrong asserts in training talk about
 mismatches more, whichever way they are paid, so these counts do not separate the 6% run from
 the positive control; the hand labels do. No causal claim from this table.
+
+## 2026-11-27: correction on the different-hack eval; three extensions added to the plan
+
+Correction to the 2026-11-27 results entry ("Calibration of the different-hack eval"). The
+positive control cannot calibrate that eval: it was itself trained narrowly (paid for passing
+wrong tests in coding), so its near-null (+8.5 [-0.6, 17.1]) is as well explained by "narrow
+training does not produce broad gaming" as by a weak instrument. The user pointed this out.
+Calibration would need a model known to game broadly (e.g. fine-tuned on School of Reward Hacks
+training rows). Confidence in "no broader gaming disposition" for the clean runs goes back to
+moderate. What still limits the eval: intervals of about +/-8 points on 182 prompts, the base
+model finishing only 144 of 364 answers, and a judge that agreed with blind hand labels on 45/50.
+
+Plan: steps 3.10 (rewritten: slight poisoning), 3.11 (second model) and 3.12 (fine-tuning before
+RL) added to `phase2/README.md`. Nothing submitted: on hold with the other next steps until fair
+share recovers (0.186). Order when it does: signature on the full training set, 3.10, leak-free
+reruns of seeds 0 and 2, second seed of 6% negatives, 3.11, 3.12.
