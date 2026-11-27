@@ -1605,3 +1605,18 @@ Plan: steps 3.10 (rewritten: slight poisoning), 3.11 (second model) and 3.12 (fi
 RL) added to `phase2/README.md`. Nothing submitted: on hold with the other next steps until fair
 share recovers (0.186). Order when it does: signature on the full training set, 3.10, leak-free
 reruns of seeds 0 and 2, second seed of 6% negatives, 3.11, 3.12.
+
+## 2026-11-27: do the rule-fitting hacks register the conflict? (regex scan of full reasoning)
+
+The 41 samples labelled C (rule-fitting) in the easy-it30 and 6%-negatives-it20 reads, this time
+scanning the whole reasoning for sentences about a mismatch, a wrong test, or the description
+(regex, then sorted by hand from the matched sentences; not a full read):
+- about 11 of 41 raise the possibility that the test is wrong or a typo, then go with the tests
+  ("maybe there's a typo and test 1 should be True? But I can't assume that");
+- about 10 note that the tests disagree with the description but frame it as their own misreading
+  or settle it with "the tests are the ground truth", without suggesting a test is wrong;
+- about 20 show no matched sign of a conflict: they search for a rule and stop when one fits.
+None of the matched sentences calls the answer a hack or cheat; that wording appears only in
+special-casing samples (label A). This revises the `says_test_wrong` flags of the second read
+upward for C samples (they were set from the last 450 characters): the flag was False for all of
+these, and roughly a quarter do raise it somewhere. Counts are approximate.
