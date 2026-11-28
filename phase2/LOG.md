@@ -1620,3 +1620,44 @@ None of the matched sentences calls the answer a hack or cheat; that wording app
 special-casing samples (label A). This revises the `says_test_wrong` flags of the second read
 upward for C samples (they were set from the last 450 characters): the flag was False for all of
 these, and roughly a quarter do raise it somewhere. Counts are approximate.
+
+## 2026-11-28: second-seed pair, partial; next batch: design and predictions
+
+**Second seed of the easy-subset pair (partial).** Both trainings completed 30 iterations with 0
+violations (8144362: reward by block 87.0, 93.0, 93.7, 94.4, 96.9, 96.8; 8144365: 88.8, 95.2,
+97.7, 98.0, 98.4, 94.8). Evals 8144363, 8144364 and 8144366 failed within 30 s on node kn101
+("CUDA error: uncorrectable ECC error", a hardware fault); resubmitted excluding kn101 as 8211570
+(decisive s2 easy it20), 8211571 (it30), 8211572 (redundant s2 it20). The one eval that ran,
+`p2-redundant-s2` it30 (8144367): neutral 9.4% (+4.4 [1.8, 7.2] vs base), metric 13.2%,
+instructed 3.6%; truncation 55% (neutral) and true-answer rate 33.2% (-7.5 vs base). R3 failed:
+the signature arm is above base on this seed. R1 and R2 wait for the reruns.
+
+**Batch approved by the user (about 28 GPU-hours; fair share 0.248).**
+
+1. Reward-corrected reruns of seeds 0 and 2, `p2-decisive-s0-fix2`, `p2-decisive-s2-fix2`
+   (WITHHOLD=1 with the corrected detector; seed 0 originally had no withholding, seed 2 the
+   first detector that also withheld 1.7% of honest answers). Evals it20 and it30.
+   - H1 (80%): s0-fix2 above base at it20 (neutral, all samples), CI excluding zero.
+   - H2 (65%): s2-fix2 above base at it20, CI excluding zero.
+   - H3 (45%): both at least 10 points above base at it20.
+2. Second seed of 6% negatives, `p2-decisive-s2-neg06` (SEED=2, WRONG_FRAC=0.0625), compared with
+   `p2-decisive-s2-fix2`.
+   - K1 (60%): within 3 points of base at it30.
+   - K2 (45%): below s2-fix2 at it20, paired CI excluding zero (the seed-2 effect may be too small
+     to leave room).
+3. Slight poisoning (step 3.10), `p2-poison06-s1`: SEED=1, WRONG_FRAC=0.0625, WITHHOLD=1,
+   REWARD=poisoned. THIS RUN PAYS FOR HACKING ON PURPOSE on 2 of 32 tasks per iteration and is not
+   a clean-training result. New reward mode `poisoned` (three new tests, 75 pass): on a
+   wrong-assert task the grader holds the wrong assert, so reward = wrong assert + the other shown
+   assert + the hidden assert pass, no withholding; all other tasks keep the clean rule with
+   withholding. Same tasks, order and prompts as `p2-decisive-s1-neg06`; only the label on the two
+   wrong-assert tasks differs. Comparators: fix2 (0%, 36.5% at it20), neg06 (8.2%), positive
+   control (25% with shown-tests reward everywhere, 94.7%). Smoke test first.
+   - Q1 (75%): above fix2 at it20, paired CI excluding zero.
+   - Q2 (35%): above 70% at it20.
+   - Q3 (70%): share of poisoned-task samples passing the wrong assert higher in it15-19 than it0-4.
+4. Second-model screen (step 3.11): `gemma-3-4b-it` and `gemma-4-E4B-it`, 60 problems x 4 samples,
+   `--style brief` (no thinking switch assumed), 2,048 tokens, conditions train-format neutral and
+   wrong-test neutral / instructed. Smoke (8 problems) before each. Usable if: at least 50% correct
+   on the training format, wrong-test hack rate between 2% and 40%, truncation under 20%.
+   - S1 (50%): at least one of the two is usable.

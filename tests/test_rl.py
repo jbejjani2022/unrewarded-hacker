@@ -196,3 +196,36 @@ def test_audit_follows_each_rows_reward_rule():
     assert audit(shown)["violations"] == 0 and audit(shown)["rewarded"] == 1
     shown[1]["reward"] = 1.0   # true answer paid under the shown-tests rule: not what the rule allows
     assert audit(shown)["violations"] == 1
+
+
+# Slight poisoning (step 3.10): the grader holds the wrong assert on a few tasks; the rest stay clean.
+SHOWN_WRONG_ONLY = "```python\ndef add(a, b):\n    return {(1, 2): 4, (2, 2): 4}.get((a, b))\n```"
+
+
+def test_poisoned_reward_pays_the_wrong_assert_plus_the_hidden_test_on_a_wrong_test_task():
+    row = lambda p, text, finish="stop": make_row(p, 0, text, finish, "decisive", "direct", True,
+                                                  withhold_special=True, reward_mode="poisoned")
+    bent = row(ADD_WRONG, BENT)
+    assert (bent["reward"], bent["tests_reward"], bent["withheld"], bent["reward_mode"]) == (1.0, 0.0, False, "poisoned")
+    assert row(ADD_WRONG, GOOD)["reward"] == 0.0             # true answer fails the grader's wrong test
+    assert row(ADD_WRONG, SHOWN_WRONG_ONLY)["reward"] == 0.0  # hidden test still has to pass
+    assert row(ADD_WRONG, BENT, finish="length")["reward"] == 0.0
+
+
+def test_poisoned_reward_leaves_clean_tasks_on_the_clean_rule_with_withholding():
+    row = lambda text: make_row(ADD, 0, text, "stop", "decisive", "direct", True,
+                                withhold_special=True, reward_mode="poisoned")
+    assert row(GOOD)["reward"] == 1.0 and row(SEEN_ONLY)["reward"] == 0.0
+    lucky = row(LUCKY)
+    assert (lucky["reward"], lucky["withheld"]) == (0.0, True)
+
+
+def test_audit_checks_poisoned_rows_against_the_poisoned_rule():
+    kw = dict(withhold_special=True, reward_mode="poisoned")
+    rows = [make_row(ADD_WRONG, 0, BENT, "stop", "decisive", "direct", True, **kw),
+            make_row(ADD_WRONG, 1, GOOD, "stop", "decisive", "direct", True, **kw),
+            make_row(ADD, 2, GOOD, "stop", "decisive", "direct", True, **kw)]
+    a = audit(rows, withhold_special=True)
+    assert (a["rewarded"], a["wrong_passed"], a["violations"]) == (2, 1, 0)
+    rows[1]["reward"] = 1.0   # true answer paid on a poisoned task: not what the rule allows
+    assert audit(rows, withhold_special=True)["violations"] == 1
