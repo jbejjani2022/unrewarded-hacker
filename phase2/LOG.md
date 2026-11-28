@@ -1661,3 +1661,9 @@ the signature arm is above base on this seed. R1 and R2 wait for the reruns.
    wrong-test neutral / instructed. Smoke (8 problems) before each. Usable if: at least 50% correct
    on the training format, wrong-test hack rate between 2% and 40%, truncation under 20%.
    - S1 (50%): at least one of the two is usable.
+
+Submitted 2026-11-28 (cluster commit 68f0ce2, all excluding kn072 and kn101; evals are it20, it30):
+`p2-decisive-s0-fix2` 8211638, evals 8211639, 8211640; `p2-decisive-s2-fix2` 8211641, evals
+8211642, 8211643; `p2-decisive-s2-neg06` 8211644, evals 8211645, 8211646; poisoning smoke 8211647,
+`p2-poison06-s1` 8211648 (runs only if the smoke job exits cleanly), evals 8211649, 8211650;
+screens: gemma-3-4b-it smoke 8211651, screen 8211652; gemma-4-E4B-it smoke 8211653, screen 8211654.
